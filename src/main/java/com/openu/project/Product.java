@@ -1,5 +1,5 @@
 package com.openu.project;
-
+//bla bla
 public class Product {
 
     private long id;
