@@ -17,8 +17,11 @@ public class Product {
     @Column(name = "prod_name")
     private String prod_name;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "quantity_ordered")
+    private int quantity_ordered;
+
+    @Column(name = "quantity_in_stock")
+    private int quantity_in_stock;
 
     @Column(name = "price_per_unit")
     private float price_per_unit;
@@ -53,12 +56,20 @@ public class Product {
         this.prod_name = prod_name;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getQuantity_ordered() {
+        return quantity_ordered;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuantity_ordered(int quantity_ordered) {
+        this.quantity_ordered = quantity_ordered;
+    }
+
+    public int getQuantity_in_stock() {
+        return quantity_in_stock;
+    }
+
+    public void setQuantity_in_stock(int quantity_in_stock) {
+        this.quantity_in_stock = quantity_in_stock;
     }
 
     public float getPrice_per_unit() {
@@ -85,3 +96,4 @@ public class Product {
         this.pic_url = pic_url;
     }
 }
+
