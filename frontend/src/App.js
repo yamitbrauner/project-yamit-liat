@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import AppHeader from './AppHeader';
-import Main from './Main';
-import Shop from './Shop';
-import Login from './Login';
+import AppHeader from './components/AppHeader';
+import Main from './components/Main';
+import Shop from './components/Shop';
+import Login from './components/Login';
 
 class App extends Component {
   state = {pageSelected:0};
