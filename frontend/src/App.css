@@ -2,9 +2,6 @@
   text-align: center;
   direction: rtl;
 }
-  .page{
-    margin-top: 20px;
-  }
   .menu-list-item{
     display: inline-block;
     margin-right: 15px;
@@ -30,9 +27,9 @@
     margin-right: 15px;
     margin-left: 15px;
   }
-  .product-img{
-    width: 300px;
-    height: 300px;
+  .margin-top-bottom{
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
   .product-name{
     font-weight: bold;

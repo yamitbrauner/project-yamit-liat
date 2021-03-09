@@ -6,7 +6,7 @@ import Shop from './components/Shop';
 import Login from './components/Login';
 
 class App extends Component {
-  state = {pageSelected:0};
+  state = {pageSelected:1};
 
   componentDidMount() {
     //setInterval(this.hello, 1000);
@@ -26,12 +26,18 @@ class App extends Component {
 
   render() {
     return (
-        <div className="App">
-          <AppHeader className="app-header" onSelectPage={this.handlePageSelection}/>
-          <div className="divider"/>
-            {this.state.pageSelected === 0 && <Main/>}
-            {this.state.pageSelected === 1 && <Shop/>}
-            {this.state.pageSelected === 2 && <Login/>}
+        <div className="App container">
+            <div className="col-xs-12">
+                <div className="row">
+                    <AppHeader className="app-header" onSelectPage={this.handlePageSelection}/>
+                </div>
+                <div className="divider row"/>
+                <div className="row margin-top-bottom">
+                    {this.state.pageSelected === 0 && <Main/>}
+                    {this.state.pageSelected === 1 && <Shop/>}
+                    {this.state.pageSelected === 2 && <Login/>}
+                </div>
+            </div>
         </div>
     );
   }

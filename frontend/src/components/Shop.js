@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SideMenu from './SideMenu';
 import Item from './Item';
 
 class Shop extends Component {
@@ -55,10 +56,24 @@ class Shop extends Component {
 
   render() {
     return (
-        <div className="page">
-            {this.state.items.map(item =>{
-                return <Item item={item}/>
-            })}
+        <div className="col">
+            <div className="row">
+                <div className="col">
+                    <div className="row">
+                        <SideMenu/>
+                    </div>
+                </div>
+                <div className="col-6">
+                    {this.state.items.map(item =>{
+                        return <div className="row margin-top-bottom">
+                            <Item item={item}/>
+                        </div>
+
+                    })}
+                </div>
+                <div className="col">
+                </div>
+            </div>
         </div>
     );
   }
