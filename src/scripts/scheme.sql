@@ -45,11 +45,11 @@ primary key (reservation_id),
 foreign key (user_id) references Users);
 
 
-create table Delivey
-(delivey_id integer,
+create table Delivery
+(delivery_id integer,
 type_of_delivery varchar(30),
 delivery_date Date,
-primary key (delivey_id));
+primary key (delivery_id));
 
 
 create table UserInformation
