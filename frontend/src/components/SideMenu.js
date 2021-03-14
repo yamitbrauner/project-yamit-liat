@@ -14,11 +14,11 @@ class SideMenu extends Component {
   render() {
     return (
         <div className="side-menu col">
-            {Object.keys(this.props.categories).map((category,i) =>{
+            {this.props.categories.map((category) =>{
                 return <>
-                    <a key={i} className="row margin-top-bottom" onClick={()=>this.selectCategory(category)}>
+                    <a className="row margin-top-bottom" onClick={()=>this.selectCategory(category)}>
                         <button className="btn col category-name">
-                            {this.props.categories[category].category_name}
+                            {category.category_name}
                         </button>
                     </a>
                     <div className="divider row margin-top-bottom"/>

@@ -15,7 +15,7 @@ class AppHeader extends Component {
 
   render() {
     return (
-        <div className="col">
+        <div className="col header">
             <ul className="menu-list row">
                 <li className="menu-list-item col" onClick={()=>this.selectPage(0)}>
                     <button className="btn menu-list-item-txt"> ראשי </button>

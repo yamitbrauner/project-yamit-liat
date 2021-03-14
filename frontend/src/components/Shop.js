@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import SideMenu from './SideMenu';
 import Item from './Item';
+import Cart from './Cart';
 
 class Shop extends Component {
-  state = { items:[],itemsFiltered:[], itemsToDisplay:[], categories: {}, categorySelected:2};
+  state = { items:[] ,itemsInCart:[], categories: [], categorySelected: null};
   constructor(props) {
       super(props);
-      this.filterByCategory = this.filterByCategory.bind(this);
+      this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount(){
@@ -50,37 +51,42 @@ class Shop extends Component {
                   pic_url : "https://medias.hashulchan.co.il/www/uploads/2015/11/500_65061-600x600.jpg"
               },
           ],
-          categories: {
-
-                  2: {
-                      category_name: "עוגות"
-                  },3:{
-                      category_name:"עוגיות"
-                  },4:{
-                      category_name:"ללא גלוטן"
-                  },5:{
-                      category_name:"פאי"
-                  },6:{
-                      category_name:"טבעוני"
-                  },7:{
-                      category_name:"שמרים"
-                  }
-
+          categories: [
+              {
+                  category_id : 1,
+                  category_name:"כללי"
+              },{
+                  category_id : 2,
+                  category_name:"עוגות"
+              },{
+                  category_id : 3,
+                  category_name:"עוגיות"
+              },{
+                  category_id : 4,
+                  category_name:"ללא גלוטן"
+              },{
+                  category_id : 5,
+                  category_name:"פאי"
+              },{
+                  category_id : 6,
+                  category_name:"טבעוני"
+              },{
+                  category_id : 7,
+                  category_name:"שמרים"
               },
-      },()=>this.handleCategorySelection(2));
+          ]
+      },()=>this.handleCategorySelection());
   }
-    filterByCategory = (category) =>{
-        var tempItemsFiltered = [];
-        this.state.items.map(item=>{
-            if(item.category_id == category){
-                tempItemsFiltered.push(item);
-            }
-        })
-        this.setState({itemsFiltered:tempItemsFiltered, itemsToDisplay:tempItemsFiltered})
-    }
+
     handleCategorySelection = (category) =>{
-        this.filterByCategory(category);
+      if(!category){
+            category = this.state.categories[0];
+      }
         this.setState({categorySelected : category})
+    }
+
+    addToCart = (item,amount) =>{
+      item.amount = amount;
     }
 
 
@@ -96,16 +102,19 @@ class Shop extends Component {
                 <div className="col-6">
                     <div className="row">
                         <span className="col title">
-                            {this.state.categories[this.state.categorySelected] ? this.state.categories[this.state.categorySelected].category_name: "כללי"}</span>
+                            {this.state.categorySelected ? this.state.categorySelected.category_name : "כללי"}</span>
                     </div>
-                    {this.state.itemsToDisplay.map(item =>{
-                        return <div className="row margin-top-bottom">
-                            <Item item={item}/>
-                        </div>
-
+                    {this.state.items.map(item =>{
+                        return this.state.categorySelected && item.category_id == this.state.categorySelected.category_id ?
+                            <div className="row margin-top-bottom">
+                                <Item item={item}/>
+                            </div> : ''
                     })}
                 </div>
                 <div className="col">
+                    <div className="row margin-top-bottom">
+                        <Cart itemsInCart={this.state.items} onSelectCategory={this.handleCategorySelection} onAddToCart={this.addToCart} categories={this.state.categories}/>
+                    </div>
                 </div>
             </div>
         </div>
