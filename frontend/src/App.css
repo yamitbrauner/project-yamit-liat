@@ -1,7 +1,10 @@
-.App {
-  text-align: center;
-  direction: rtl;
-}
+  .root{
+    background: beige;
+  }
+  .App {
+    text-align: center;
+    direction: rtl;
+  }
   .menu-list-item{
     display: inline-block;
     margin-right: 15px;
@@ -34,5 +37,18 @@
   .product-name{
     font-weight: bold;
     margin-left:10px;
+  }
+  .title{
+    font-size:18px;
+    font-weight: bold;
+  }
+  .category-name{
+    font-weight: 500;
+  }
+
+  .side-menu{
+    border-radius: 12px;
+    box-shadow: 0 5px 22px 0 rgb(161 166 192);
+    background: white;
   }
 
