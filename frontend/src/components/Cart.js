@@ -4,12 +4,8 @@ class Cart extends Component {
 
     constructor(props) {
         super(props);
-        this.selectCategory = this.selectCategory.bind(this);
     }
-
-    selectCategory = (category) => {
-        this.props.onSelectCategory(category);
-    };
+;
 
   render() {
     return (
@@ -17,14 +13,14 @@ class Cart extends Component {
             <div className="row cart-title"><span className="col cart-title-text">סיכום הזמנה</span></div>
             <div className="divider row margin-top-bottom"/>
             <div className="row">
-                {
-                    this.props.itemsInCart.length>0 ?
-                        <span> פריטים בעגלה</span>
-                        :
-                <span className="col empty-cart margin-top-bottom">
-                העגלה ריקה
-                </span>
-                }
+                <div className="col">
+                    {this.props.itemsInCart.map(item =>{
+                        return item.quantity >0 ?
+                            <div className="row margin-top-bottom">
+                                {item.prod_name} {item.quantity}
+                            </div> : ''
+                    })}
+                </div>
             </div>
         </div>
     );

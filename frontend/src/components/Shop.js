@@ -52,10 +52,7 @@ class Shop extends Component {
               },
           ],
           categories: [
-              {
-                  category_id : 1,
-                  category_name:"כללי"
-              },{
+             {
                   category_id : 2,
                   category_name:"עוגות"
               },{
@@ -85,8 +82,9 @@ class Shop extends Component {
         this.setState({categorySelected : category})
     }
 
-    addToCart = (item,amount) =>{
-      item.amount = amount;
+    addToCart = (itemIndex,quantity) =>{
+      this.state.items[itemIndex].quantity = quantity;
+      this.setState({items: this.state.items});
     }
 
 
@@ -104,16 +102,16 @@ class Shop extends Component {
                         <span className="col title">
                             {this.state.categorySelected ? this.state.categorySelected.category_name : "כללי"}</span>
                     </div>
-                    {this.state.items.map(item =>{
+                    {this.state.items.map((item,index) =>{
                         return this.state.categorySelected && item.category_id == this.state.categorySelected.category_id ?
-                            <div className="row margin-top-bottom">
-                                <Item item={item}/>
+                            <div className="row margin-top-bottom" key={index}>
+                                <Item item={item} itemIndex={index} onAddToCart={this.addToCart} />
                             </div> : ''
                     })}
                 </div>
                 <div className="col">
                     <div className="row margin-top-bottom">
-                        <Cart itemsInCart={this.state.items} onSelectCategory={this.handleCategorySelection} onAddToCart={this.addToCart} categories={this.state.categories}/>
+                        <Cart itemsInCart={this.state.items}/>
                     </div>
                 </div>
             </div>

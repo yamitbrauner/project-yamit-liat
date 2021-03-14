@@ -5,10 +5,17 @@
     text-align: center;
     direction: rtl;
   }
+  .header-position{
+    position: absolute;
+    width: 1145px;
+  }
   .header{
     border-radius: 12px;
     box-shadow: 0 5px 22px 0 rgb(161 166 192);
     background: white;
+  }
+  .header-img{
+    border-radius: 12px;
   }
   .menu-list-item{
     display: inline-block;
@@ -85,4 +92,6 @@
     min-height: 200px;
     color: gray;
   }
-
+  .input-to-cart{
+    text-align:center;
+  }
