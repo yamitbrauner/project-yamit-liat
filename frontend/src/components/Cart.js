@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-
+import ItemInCart from "./ItemInCart";
 class Cart extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-;
 
+    handleQuantity=(index, num)=>{
+        this.props.onAddToCart(index,num);
+    }
   render() {
     return (
         <div className="col cart">
@@ -14,11 +13,12 @@ class Cart extends Component {
             <div className="divider row margin-top-bottom"/>
             <div className="row">
                 <div className="col">
-                    {this.props.itemsInCart.map(item =>{
+                    {this.props.itemsInCart.map((item,index) =>{
                         return item.quantity >0 ?
-                            <div className="row margin-top-bottom">
-                                {item.prod_name} {item.quantity}
-                            </div> : ''
+                            <div className="row">
+                                <ItemInCart item={item} itemIndex={index} handleUpdateQuantity={this.handleQuantity}/>
+                            </div>
+                             : ''
                     })}
                 </div>
             </div>

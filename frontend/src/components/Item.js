@@ -1,26 +1,17 @@
 import React, { Component } from 'react';
-var MAX_CART = 10;
-var MIN_CART = 0;
+import PlusMinus from "./PlusMinus";
 
 class Item extends Component {
-  state = {quantity:MIN_CART, inCart:false};
+  state = {quantity:0, inCart:false};
   constructor(props) {
       super(props);
-      this.minusClicked = this.minusClicked.bind(this);
-      this.plusClicked = this.plusClicked.bind(this);
   }
-  plusClicked = ()=>{
-      if(this.state.quantity < MAX_CART){
-          this.setState({quantity: this.state.quantity + 1});
-      }
-  }
-  minusClicked = ()=>{
-      if(this.state.quantity > MIN_CART){
-          this.setState({quantity: this.state.quantity - 1});
-      }
-  }
+    handleQuantity=(num)=>{
+        this.setState({quantity:num});
+    }
+
   handleUpdateCart = ()=>{
-      this.setState({inCart : this.state.quantity > MIN_CART});
+      this.setState({inCart : this.state.quantity > 0});
       this.props.onAddToCart(this.props.itemIndex, this.state.quantity);
   }
 
@@ -29,7 +20,7 @@ class Item extends Component {
         <div className="col item">
             <div className="row">
                 <div className="col">
-                    <img className="img-thumbnail img-fluid" src={this.props.item.pic_url}/>
+                    <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={this.props.item.pic_url}/>
                 </div>
                 <div className="product-box col-6">
                     <div className="product-name margin-top-bottom">
@@ -37,23 +28,13 @@ class Item extends Component {
                     </div>
                 </div>
                 <div className="col margin-top-bottom">
-                    <div className="row">
-                        <button className="col btn btn-default btn-number" onClick={() => this.minusClicked()} disabled={this.state.quantity === MIN_CART}>
-                            <span className="glyphicon glyphicon-minus"></span>
-                        </button>
-                        <input type="text" name="quantity" className="col form-control input-number input-to-cart" defaultValue="1" value={this.state.quantity} min={MIN_CART} max={MAX_CART} readonly={true}/>
-                        <button type="button" className="col btn btn-default btn-number" onClick={() => this.plusClicked()} disabled={this.state.quantity === MAX_CART}>
-                            <span className="glyphicon glyphicon-plus"></span>
-                        </button>
-
-                    </div>
+                   <PlusMinus minCart={0} maxCart={10} handleQuantity={this.handleQuantity} quantity={this.state.quantity}/>
                     <div className="row">
                         <div className="col">
                             <button className="btn-default btn margin-top-bottom" onClick={this.handleUpdateCart}>
-                                <span>{this.state.inCart ? "עדכון": "הוספה לסל"}</span>
+                                <span className="category-name">{this.state.inCart ? "עדכון": "הוספה לסל"}</span>
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>

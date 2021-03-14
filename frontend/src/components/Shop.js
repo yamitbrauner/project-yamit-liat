@@ -83,10 +83,10 @@ class Shop extends Component {
     }
 
     addToCart = (itemIndex,quantity) =>{
-      this.state.items[itemIndex].quantity = quantity;
-      this.setState({items: this.state.items});
+      var tempItems = [...this.state.items];
+      tempItems[itemIndex].quantity = quantity;
+      this.setState({items: tempItems});
     }
-
 
   render() {
     return (
@@ -103,6 +103,7 @@ class Shop extends Component {
                             {this.state.categorySelected ? this.state.categorySelected.category_name : "כללי"}</span>
                     </div>
                     {this.state.items.map((item,index) =>{
+                        //eslint-disable-next-line
                         return this.state.categorySelected && item.category_id == this.state.categorySelected.category_id ?
                             <div className="row margin-top-bottom" key={index}>
                                 <Item item={item} itemIndex={index} onAddToCart={this.addToCart} />
@@ -111,7 +112,7 @@ class Shop extends Component {
                 </div>
                 <div className="col">
                     <div className="row margin-top-bottom">
-                        <Cart itemsInCart={this.state.items}/>
+                        <Cart itemsInCart={this.state.items} onAddToCart={this.addToCart}/>
                     </div>
                 </div>
             </div>

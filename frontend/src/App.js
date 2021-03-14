@@ -23,7 +23,7 @@ class App extends Component {
                     <AppHeader className="app-header" onSelectPage={this.handlePageSelection}/>
                 </div>
                 <div className="row">
-                    <img className="header-img" src={matokli} />
+                    <img className="header-img" alt="" src={matokli} />
 
                 </div>
                 <div className="row margin-top-bottom">
