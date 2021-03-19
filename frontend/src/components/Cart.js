@@ -20,6 +20,23 @@ class Cart extends Component {
                             </div>
                              : ''
                     })}
+                    {this.props.totalPrice > 0 ?
+                        <>
+                        <div className="row margin-top-bottom">
+                            <span className="col">סה"כ: {this.props.totalPrice}₪</span>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <button className="btn-default btn margin-top-bottom" onClick={this.handleUpdateCart}>
+                                    <span className="category-name">לתשלום</span>
+                                </button>
+                            </div>
+                        </div>
+                        </>:
+                        <div className="row margin-top-bottom">
+                            <span className="col">אין פריטים בעגלה</span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

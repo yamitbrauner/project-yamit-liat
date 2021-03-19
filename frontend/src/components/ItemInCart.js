@@ -3,18 +3,11 @@ import PlusMinus from "./PlusMinus";
 
 class ItemInCart extends Component {
 
-  constructor(props) {
-      super(props);
-  }
 
   handleQuantity=(num)=>{
       this.props.handleUpdateQuantity(this.props.itemIndex,num);
   }
 
-  handleUpdateCart = ()=>{
-      this.setState({inCart : this.state.quantity > 0});
-      this.props.onAddToCart(this.props.itemIndex, this.state.quantity);
-  }
 
   render() {
     return (
@@ -25,15 +18,13 @@ class ItemInCart extends Component {
                                 </span>
                 <span className="col">
                                     {this.props.item.quantity * this.props.item.price_per_unit}₪
-                                </span>
+                </span>
+                <span className="col">
+                    <button className="col btn btn-default btn-number" onClick={() => this.handleQuantity(0)}><span className="glyphicon glyphicon-remove"></span></button>
+                </span>
             </div>
             <div className="row">
                 <PlusMinus minCart={1} maxCart={10}  handleQuantity={this.handleQuantity} quantity={this.props.item.quantity}/>
-                <div className="col">
-                    <button className="btn-default btn margin-top-bottom" onClick={this.handleUpdateCart}>
-                        <span className="category-name">עדכון</span>
-                    </button>
-                </div>
             </div>
 
         </div>

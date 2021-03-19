@@ -3,9 +3,7 @@ import PlusMinus from "./PlusMinus";
 
 class Item extends Component {
   state = {quantity:0, inCart:false};
-  constructor(props) {
-      super(props);
-  }
+
     handleQuantity=(num)=>{
         this.setState({quantity:num});
     }

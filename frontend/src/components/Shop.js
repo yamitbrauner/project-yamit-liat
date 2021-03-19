@@ -4,7 +4,7 @@ import Item from './Item';
 import Cart from './Cart';
 
 class Shop extends Component {
-  state = { items:[] ,itemsInCart:[], categories: [], categorySelected: null};
+  state = { items:[] ,totalPrice:0, categories: [], categorySelected: null};
   constructor(props) {
       super(props);
       this.addToCart = this.addToCart.bind(this);
@@ -84,8 +84,13 @@ class Shop extends Component {
 
     addToCart = (itemIndex,quantity) =>{
       var tempItems = [...this.state.items];
+      var tempTotalPrice = this.state.totalPrice
+      if(quantity< tempItems[itemIndex].quantity){
+          tempTotalPrice = tempTotalPrice - (tempItems[itemIndex].quantity * tempItems[itemIndex].price_per_unit)
+      }
       tempItems[itemIndex].quantity = quantity;
-      this.setState({items: tempItems});
+      tempTotalPrice = tempTotalPrice + (tempItems[itemIndex].quantity * tempItems[itemIndex].price_per_unit)
+      this.setState({items: tempItems, totalPrice: tempTotalPrice });
     }
 
   render() {
@@ -112,7 +117,7 @@ class Shop extends Component {
                 </div>
                 <div className="col">
                     <div className="row margin-top-bottom">
-                        <Cart itemsInCart={this.state.items} onAddToCart={this.addToCart}/>
+                        <Cart itemsInCart={this.state.items} onAddToCart={this.addToCart} totalPrice={this.state.totalPrice}/>
                     </div>
                 </div>
             </div>
