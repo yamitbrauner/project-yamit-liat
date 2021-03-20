@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import SideMenu from './SideMenu';
 import Item from './Item';
 import Cart from './Cart';
+import Payment from './Payment';
 
 class Shop extends Component {
-  state = { items:[] ,totalPrice:0, categories: [], categorySelected: null};
+  state = { items:[] ,totalPrice:0, categories: [], categorySelected: null, isPayment: false};
   constructor(props) {
       super(props);
       this.addToCart = this.addToCart.bind(this);
@@ -92,32 +93,49 @@ class Shop extends Component {
       tempTotalPrice = tempTotalPrice + (tempItems[itemIndex].quantity * tempItems[itemIndex].price_per_unit)
       this.setState({items: tempItems, totalPrice: tempTotalPrice });
     }
+    switchPaymentOrItems = ()=>{
+        this.setState({isPayment: !this.state.isPayment})
+    }
 
   render() {
     return (
         <div className="col">
             <div className="row">
-                <div className="col">
-                    <div className="row">
-                        <SideMenu onSelectCategory={this.handleCategorySelection} categories={this.state.categories}/>
+                {!this.state.isPayment ?
+                    <>
+                        <div className="col">
+                            <div className="row">
+                                <SideMenu onSelectCategory={this.handleCategorySelection}
+                                          categories={this.state.categories}/>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="row">
+                            <span className="col title">
+                                {this.state.categorySelected ? this.state.categorySelected.category_name : "כללי"}</span>
+                            </div>
+                            {
+                                this.state.items.map((item, index) => {
+                                    //eslint-disable-next-line
+                                    return this.state.categorySelected && item.category_id == this.state.categorySelected.category_id ?
+                                        <div className="row margin-top-bottom" key={index}>
+                                            <Item item={item} itemIndex={index} onAddToCart={this.addToCart}/>
+                                        </div> : ''
+                                })}
+                        </div>
+                    </>
+                    :
+                    <div className="col-9">
+                        <div className="row">
+                            <Payment/>
+                        </div>
                     </div>
-                </div>
-                <div className="col-6">
-                    <div className="row">
-                        <span className="col title">
-                            {this.state.categorySelected ? this.state.categorySelected.category_name : "כללי"}</span>
-                    </div>
-                    {this.state.items.map((item,index) =>{
-                        //eslint-disable-next-line
-                        return this.state.categorySelected && item.category_id == this.state.categorySelected.category_id ?
-                            <div className="row margin-top-bottom" key={index}>
-                                <Item item={item} itemIndex={index} onAddToCart={this.addToCart} />
-                            </div> : ''
-                    })}
-                </div>
+                }
+
+
                 <div className="col">
                     <div className="row margin-top-bottom">
-                        <Cart itemsInCart={this.state.items} onAddToCart={this.addToCart} totalPrice={this.state.totalPrice}/>
+                        <Cart itemsInCart={this.state.items} onAddToCart={this.addToCart} totalPrice={this.state.totalPrice} handlePay={this.switchPaymentOrItems}/>
                     </div>
                 </div>
             </div>

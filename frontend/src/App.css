@@ -98,3 +98,11 @@
   .input-to-cart{
     text-align:center;
   }
+  .payment{
+    margin-right: 30px;
+    margin-left: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 22px 0 rgb(161 166 192);
+    background: white;
+    margin-top: 27px;
+  }
