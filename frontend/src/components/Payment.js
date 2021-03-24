@@ -11,7 +11,7 @@ class Payment extends Component {
     return (
         <div className="col payment">
             {!this.state.isFinish ?
-                <form className="margin-top-bottom">
+                <div className="margin-top-bottom">
                     <div className="form-row">
                         <div className="form-group col-md-6">
                             <label htmlFor="date">תאריך הזמנה</label>
@@ -38,15 +38,15 @@ class Payment extends Component {
                     <div className="form-row">
                         <div className="form-group col-md-6">
                             <label htmlFor="credit-card">מספר כרטיס אשראי</label>
-                            <input type="text" className="form-control" id="credit-card" placeholder="אנא הזמן מספר כרטיס אשראי"/>
+                            <input type="text" className="form-control" id="credit-card" placeholder="אנא הזן מספר כרטיס אשראי"/>
                         </div>
                         <div className="form-group col-md-6">
                             <label htmlFor="id">מספר תז</label>
                             <input type="text" className="form-control" id="id" placeholder="אנא הזן מספר תעודת זהות"/>
                         </div>
                     </div>
-                    <button onClick={()=>this.finishOrder} className="btn btn-primary">סיום</button>
-                </form>
+                    <button onClick={()=>this.finishOrder()} className="btn btn-primary">סיום</button>
+                </div>
                 :
                 <div>
                     ההזמנה הושלמה בהצלחה
