@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class AppHeader extends Component {
-  state = {menuList:[]};
 
   constructor(props) {
       super(props);

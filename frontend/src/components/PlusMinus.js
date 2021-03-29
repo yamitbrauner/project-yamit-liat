@@ -20,7 +20,7 @@ class PlusMinus extends Component {
         <div className="col margin-top-bottom">
             <div className="row">
                 <button className="col btn btn-default btn-number" onClick={() => this.minusClicked()} disabled={this.props.quantity === this.props.minCart}><span className="glyphicon glyphicon-minus"></span></button>
-                <input type="text" name="quantity" className="col form-control input-number input-to-cart" value={this.props.quantity} min={this.props.minCart} max={this.props.maxCart} readonly={true}/>
+                <input type="text" name="quantity" className="col form-control input-number input-to-cart" value={this.props.quantity} min={this.props.minCart} max={this.props.maxCart} readOnly={true}/>
                 <button type="button" className="col btn btn-default btn-number" onClick={() => this.plusClicked()} disabled={this.props.quantity === this.props.maxCart}><span className="glyphicon glyphicon-plus"></span></button>
             </div>
         </div>
