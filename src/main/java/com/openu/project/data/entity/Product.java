@@ -6,10 +6,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "product")
 public class Product {
+
     @Id
     @Column(name = "prod_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int prod_id;
+    @SequenceGenerator(name="seq_product",sequenceName="SEQ_PRODUCT", allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq_product")
+    private int prodId;
 
     @Column(name = "category_id")
     private int categoryId;
@@ -32,12 +34,12 @@ public class Product {
     @Column(name = "pic_url")
     private String pic_url;
 
-    public int getProd_id() {
-        return prod_id;
+    public int getProdId() {
+        return prodId;
     }
 
-    public void setProd_id(int prod_id) {
-        this.prod_id = prod_id;
+    public void setProdId(int prodId) {
+        this.prodId = prodId;
     }
 
     public int getCategoryId() {
