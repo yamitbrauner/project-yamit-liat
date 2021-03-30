@@ -12,7 +12,7 @@ public class Product {
     private int prod_id;
 
     @Column(name = "category_id")
-    private int category_id;
+    private int categoryId;
 
     @Column(name = "prod_name")
     private String prod_name;
@@ -21,7 +21,7 @@ public class Product {
     private int quantity_ordered;
 
     @Column(name = "quantity_in_stock")
-    private int quantity_in_stock;
+    private int quantityInStock;
 
     @Column(name = "price_per_unit")
     private float price_per_unit;
@@ -40,12 +40,12 @@ public class Product {
         this.prod_id = prod_id;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getProd_name() {
@@ -64,12 +64,12 @@ public class Product {
         this.quantity_ordered = quantity_ordered;
     }
 
-    public int getQuantity_in_stock() {
-        return quantity_in_stock;
+    public int getQuantityInStock() {
+        return quantityInStock;
     }
 
-    public void setQuantity_in_stock(int quantity_in_stock) {
-        this.quantity_in_stock = quantity_in_stock;
+    public void setQuantityInStock(int quantityInStock) {
+        this.quantityInStock = quantityInStock;
     }
 
     public float getPrice_per_unit() {

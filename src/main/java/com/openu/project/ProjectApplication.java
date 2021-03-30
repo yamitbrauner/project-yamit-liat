@@ -33,17 +33,4 @@ public class ProjectApplication {
 			}
 		};
 	}
-
-	@RestController
-	@RequestMapping("/categoryt")
-	public class Test {
-		@Autowired
-		private CategoryRepository categoryRepository;
-
-		@GetMapping
-		public Iterable<Category> getProducts() {
-
-			return this.categoryRepository.findAll();
-		}
-	}
 }

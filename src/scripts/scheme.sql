@@ -1,10 +1,11 @@
-create table Category
+
+create table public.Category
 (category_id integer,
 category_name varchar(30),
 primary key (category_id));
 
 
-create table Product
+create table public.Product
 (prod_id integer,
 category_id integer,
 prod_name varchar(30),
@@ -13,25 +14,25 @@ quantity_in_stock integer,
 price_per_unit numeric(5,0),
 description varchar(512),
 pic_url varchar(512),
-primary key (prod_id),
-foreign key (category_id) references Category);
+primary key (prod_id,category_id),
+foreign key (category_id) references public.Category);
 
 
-create table Role
+create table public.Role
 (role_id integer,
 role_name varchar(30),
 primary key (role_id));
 
-create table Users
+create table public.Users
 (user_id integer,
 user_name varchar(30),
 role_id integer,
 password varchar(15),
 primary key (user_id),
-foreign key (role_id) references Role);
+foreign key (role_id) references public.Role);
 
 
-create table Reservation
+create table public.Reservation
 (reservation_id integer,
 user_id integer,
 total numeric(5,0),
@@ -42,17 +43,17 @@ payment_approved integer,
 reservation_date DATE,
 status varchar(512),
 primary key (reservation_id),
-foreign key (user_id) references Users);
+foreign key (user_id) references public.Users);
 
 
-create table Delivery
+create table public.Delivery
 (delivery_id integer,
 type_of_delivery varchar(30),
 delivery_date Date,
 primary key (delivery_id));
 
 
-create table UserInformation
+create table public.UserInformation
 (info_id integer,
 user_id integer,
 first_name varchar(30),
@@ -61,4 +62,4 @@ email varchar(100),
 mobile varchar(100),
 address varchar(100),
 primary key (info_id),
-foreign key (user_id) references Users);
+foreign key (user_id) references public.Users);

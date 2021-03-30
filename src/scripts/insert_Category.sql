@@ -1,4 +1,4 @@
-insert into Category
+insert into public.Category
  values (1, 'general'),
  (2, 'Cakes'),
  (3, 'Cookies'),
