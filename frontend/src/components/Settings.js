@@ -1,31 +1,65 @@
 import React, { Component } from 'react';
-import AppHeader from "./AppHeader";
+import SideMenu from "./SideMenu";
+import Stock from "./Stock";
+import OrdersTable from "./OrdersTable";
+var STOCK = 2;
+var DETAILS = 3;
+var ORDERS = 4;
 
-class Login extends Component {
-  state = {isLoginPage: true};
 
-    switchPage = (val)=>{
-        this.setState({isLoginPage: val});
+class Settings extends Component {
+
+  state = {categorySelected: null, categories:[] };
+    constructor(props) {
+        super(props);
     }
-    finish = ()=>{
-        this.props.handleLog(true);
-        this.props.onSelectPage(1);
+
+  componentDidMount(){
+      this.setState({categories: [
+              {
+                  category_id : STOCK,
+                  category_name:"ניהול מלאי"
+              },{
+                  category_id : DETAILS,
+                  category_name:"ניהול פרטים אישיים"
+              },{
+                  category_id : ORDERS,
+                  category_name:"ההזמנות שלי"
+              }
+          ]},()=>this.handleCategorySelection())
+  }
+    handleCategorySelection = (category) =>{
+        if(!category){
+            category = this.state.categories[0];
+        }
+        this.setState({categorySelected : category})
     }
+
 
   render() {
     return (
         <div className="col">
             <div className="row">
-                <div className="col-3"/>
-                <div className="col-6 box">
-
+                <div className="col">
+                    <div className="row">
+                        <SideMenu onSelectCategory={this.handleCategorySelection}
+                                  categories={this.state.categories}/>
+                    </div>
+                </div>
+                <div className="col-6 box item">
                         <div className="row">
                             <div className="col">
+                                {this.state.categorySelected && this.state.categorySelected.category_id == STOCK &&
+                                <div className="margin-top-bottom">
+                                    <Stock/>
+                                </div>
+                                }
+                                {this.state.categorySelected && this.state.categorySelected.category_id == DETAILS &&
                                     <div className="margin-top-bottom">
                                         <div className="form-row">
                                             <span className="title col">
 
-                                            {this.state.isLoginPage? "התחברות" : "הרשמה"}
+                                            {this.state.isLogin? "התחברות" : "הרשמה"}
                                             </span>
                                         </div>
                                         <div className="form-row">
@@ -40,7 +74,7 @@ class Login extends Component {
                                                 <input type="password" className="form-control" id="password" placeholder="אנא הזן סיסמא"/>
                                             </div>
                                         </div>
-                                        {!this.state.isLoginPage?
+                                        {!this.state.isLogin?
                                         <>
                                             <div className="form-row">
                                                 <div className="form-group col-md-6">
@@ -71,15 +105,22 @@ class Login extends Component {
 
                                         <div className="form-row">
                                             <div className="form-group switch-text col-md-6">
-                                                {this.state.isLoginPage ?
-                                                <a onClick={()=>this.switchPage(false)}>להרשמה</a>
+                                                {this.state.isLogin ?
+                                                <a onClick={()=>this.sign(false)}>להרשמה</a>
                                                     :
-                                                <a onClick={()=>this.switchPage(true)}>להתחברות</a>
+                                                <a onClick={()=>this.sign(true)}>להתחברות</a>
                                                 }
                                             </div>
                                         </div>
                                         <button onClick={()=>this.finish()} className="btn btn-primary">סיום</button>
                                     </div>
+                                }
+                                {this.state.categorySelected && this.state.categorySelected.category_id == ORDERS &&
+                                <div className="margin-top-bottom">
+                                    <OrdersTable/>
+                                </div>
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -90,4 +131,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Settings;

@@ -14,7 +14,7 @@ class AppHeader extends Component {
 
   render() {
     return (
-        <div className="col header">
+        <div className="col box">
             <ul className="menu-list row">
                 <li className="menu-list-item col" onClick={()=>this.selectPage(0)}>
                     <button className="btn menu-list-item-txt"> ראשי </button>
@@ -24,9 +24,25 @@ class AppHeader extends Component {
                     <button className="btn menu-list-item-txt"> חנות </button>
                 </li>
 
-                <li className="menu-list-item col" onClick={()=>this.selectPage(2)}>
-                    <button className="btn menu-list-item-txt"> התחבר </button>
-                </li>
+                <li className="menu-list-item col">
+                    {this.props.isLogged ?
+                        <div>
+                            <button className="btn menu-list-item-txt default-cursor" disabled={true}>
+                                שלום ימית
+                            </button>
+                            <button className="btn menu-list-item-txt" onClick={()=>this.selectPage(3)}>
+                                נהל
+                            </button>
+                            <button className="btn menu-list-item-txt" onClick={()=>this.props.handleLog(false)}>
+                                התנתק
+                            </button>
+                        </div>
+                         :
+                        <button onClick={()=>this.selectPage(2)} className="btn menu-list-item-txt"> התחבר </button>
+
+                    }
+
+                    </li>
 
 
             </ul>

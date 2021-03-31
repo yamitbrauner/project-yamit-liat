@@ -10,11 +10,6 @@
     position: absolute;
     width: 1145px;
   }
-  .header{
-    border-radius: 12px;
-    box-shadow: 0 5px 22px 0 rgb(161 166 192);
-    background: white;
-  }
   .header-img{
     border-radius: 12px;
   }
@@ -64,24 +59,17 @@
     font-weight: 500;
     font-size: 18px;
   }
-
-  .side-menu{
-    border-radius: 12px;
-    box-shadow: 0 5px 22px 0 rgb(161 166 192);
-    background: white;
-  }
   .item{
     margin-right: 30px;
     margin-left: 30px;
+  }
+  .box{
     border-radius: 12px;
     box-shadow: 0 5px 22px 0 rgb(161 166 192);
     background: white;
   }
 
   .cart{
-    border-radius: 12px;
-    box-shadow: 0 5px 22px 0 rgb(161 166 192);
-    background: white;
     margin-top: 27px;
   }
   .cart-title{
@@ -101,8 +89,13 @@
   .payment{
     margin-right: 30px;
     margin-left: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 22px 0 rgb(161 166 192);
-    background: white;
     margin-top: 27px;
+  }
+  .switch-text{
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .default-cursor{
+    cursor: default;
   }

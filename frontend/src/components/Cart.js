@@ -12,7 +12,7 @@ class Cart extends Component {
     }
   render() {
     return (
-        <div className="col cart">
+        <div className="col cart box">
             <div className="row cart-title"><span className="col cart-title-text">סיכום הזמנה</span></div>
             <div className="divider row margin-top-bottom"/>
             <div className="row">

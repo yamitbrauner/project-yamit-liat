@@ -15,7 +15,7 @@ class Item extends Component {
 
   render() {
     return (
-        <div className="col item">
+        <div className="col item box">
             <div className="row">
                 <div className="col">
                     <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={this.props.item.pic_url}/>

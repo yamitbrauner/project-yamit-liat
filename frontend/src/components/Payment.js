@@ -9,7 +9,7 @@ class Payment extends Component {
 
   render() {
     return (
-        <div className="col payment">
+        <div className="col payment box">
             {!this.state.isFinish ?
                 <div className="margin-top-bottom">
                     <div className="form-row">

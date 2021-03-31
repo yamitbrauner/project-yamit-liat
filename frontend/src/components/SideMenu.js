@@ -13,7 +13,7 @@ class SideMenu extends Component {
 
   render() {
     return (
-        <div className="side-menu col">
+        <div className="box col">
             {this.props.categories.map((category,index) =>{
                 return <div key={index}>
                 <div className="row">
