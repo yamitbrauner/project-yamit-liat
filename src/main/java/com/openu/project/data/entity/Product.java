@@ -17,22 +17,22 @@ public class Product {
     private int categoryId;
 
     @Column(name = "prod_name")
-    private String prod_name;
+    private String prodName;
 
     @Column(name = "quantity_ordered")
-    private int quantity_ordered;
+    private int quantityOrdered;
 
     @Column(name = "quantity_in_stock")
     private int quantityInStock;
 
     @Column(name = "price_per_unit")
-    private float price_per_unit;
+    private float pricePerUnit;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "pic_url")
-    private String pic_url;
+    private String picUrl;
 
     public int getProdId() {
         return prodId;
@@ -50,20 +50,20 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    public String getProd_name() {
-        return prod_name;
+    public String getProdName() {
+        return prodName;
     }
 
-    public void setProd_name(String prod_name) {
-        this.prod_name = prod_name;
+    public void setProdName(String prodName) {
+        this.prodName = prodName;
     }
 
-    public int getQuantity_ordered() {
-        return quantity_ordered;
+    public int getQuantityOrdered() {
+        return quantityOrdered;
     }
 
-    public void setQuantity_ordered(int quantity_ordered) {
-        this.quantity_ordered = quantity_ordered;
+    public void setQuantityOrdered(int quantityOrdered) {
+        this.quantityOrdered = quantityOrdered;
     }
 
     public int getQuantityInStock() {
@@ -75,11 +75,11 @@ public class Product {
     }
 
     public float getPrice_per_unit() {
-        return price_per_unit;
+        return pricePerUnit;
     }
 
     public void setPrice_per_unit(float price_per_unit) {
-        this.price_per_unit = price_per_unit;
+        this.pricePerUnit = pricePerUnit;
     }
 
     public String getDescription() {
@@ -91,11 +91,11 @@ public class Product {
     }
 
     public String getPic_url() {
-        return pic_url;
+        return picUrl;
     }
 
     public void setPic_url(String pic_url) {
-        this.pic_url = pic_url;
+        this.picUrl = pic_url;
     }
 }
 

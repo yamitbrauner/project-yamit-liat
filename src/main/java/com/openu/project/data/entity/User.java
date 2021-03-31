@@ -3,44 +3,45 @@ package com.openu.project.data.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "Users")
 public class User {
     @Id
     @Column(name ="user_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int user_id;
+    @SequenceGenerator(name="seq_user",sequenceName="SEQ_USER", allocationSize=1)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq_user")
+    private int userId;
 
     @Column(name = "user_name")
-    private String user_name;
+    private String userName;
 
     @Column(name = "role_id")
-    private int role_id;
+    private int roleId;
 
     @Column(name = "password")
     private String password;
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public int getRole_id() {
-        return role_id;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getPassword() {

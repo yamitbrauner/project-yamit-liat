@@ -9,35 +9,35 @@ public class Delivery {
     @Id
     @Column(name = "delivery_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int delivery_id;
+    private int deliveryId;
 
     @Column(name = "type_of_delivery")
-    private String type_of_delivery;
+    private String typeOfDelivery;
 
     @Column(name = "delivery_date")
-    private Date delivery_date;
+    private Date deliveryDate;
 
-    public int getDelivery_id() {
-        return delivery_id;
+    public int getDeliveryId() {
+        return deliveryId;
     }
 
-    public void setDelivery_id(int delivery_id) {
-        this.delivery_id = delivery_id;
+    public void setDeliveryId(int deliveryId) {
+        this.deliveryId = deliveryId;
     }
 
-    public String getType_of_delivery() {
-        return type_of_delivery;
+    public String getTypeOfDelivery() {
+        return typeOfDelivery;
     }
 
-    public void setType_of_delivery(String type_of_delivery) {
-        this.type_of_delivery = type_of_delivery;
+    public void setTypeOfDelivery(String typeOfDelivery) {
+        this.typeOfDelivery = typeOfDelivery;
     }
 
-    public Date getDelivery_date() {
-        return delivery_date;
+    public Date getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public void setDelivery_date(Date delivery_date) {
-        this.delivery_date = delivery_date;
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

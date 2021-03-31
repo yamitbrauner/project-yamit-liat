@@ -11,7 +11,7 @@ public class Category {
     private int categoryId;
 
     @Column(name = "category_name")
-    private String category_name;
+    private String categoryName;
 
     public int getCategoryId() {
         return categoryId;
@@ -21,11 +21,11 @@ public class Category {
         this.categoryId = categoryId;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

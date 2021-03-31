@@ -9,46 +9,46 @@ public class Reservation {
     @Id
     @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int reservation_id;
+    private int reservationId;
 
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "total")
     private float total;
 
     @Column(name = "payment_details")
-    private String payment_details;
+    private String paymentDetails;
 
     @Column(name = "payment_method")
-    private String payment_method;
+    private String paymentMethod;
 
     @Column(name = "payment_id")
-    private int payment_id;
+    private int paymentId;
 
     @Column(name = "payment_approved")
-    private int payment_approved;
+    private int paymentApproved;
 
     @Column(name = "reservation_date")
-    private Date reservation_date;
+    private Date reservationDate;
 
     @Column(name = "status")
     private String status;
 
-    public int getReservation_id() {
-        return reservation_id;
+    public int getReservationId() {
+        return reservationId;
     }
 
-    public void setReservation_id(int reservation_id) {
-        this.reservation_id = reservation_id;
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public float getTotal() {
@@ -59,44 +59,44 @@ public class Reservation {
         this.total = total;
     }
 
-    public String getPayment_details() {
-        return payment_details;
+    public String getPaymentDetails() {
+        return paymentDetails;
     }
 
-    public void setPayment_details(String payment_details) {
-        this.payment_details = payment_details;
+    public void setPaymentDetails(String paymentDetails) {
+        this.paymentDetails = paymentDetails;
     }
 
-    public String getPayment_method() {
-        return payment_method;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPayment_method(String payment_method) {
-        this.payment_method = payment_method;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public int getPayment_id() {
-        return payment_id;
+        return paymentId;
     }
 
-    public void setPayment_id(int payment_id) {
-        this.payment_id = payment_id;
+    public void setPayment_id(int paymentId) {
+        this.paymentId = paymentId;
     }
 
-    public int getPayment_approved() {
-        return payment_approved;
+    public int getPaymentApproved() {
+        return paymentApproved;
     }
 
-    public void setPayment_approved(int payment_approved) {
-        this.payment_approved = payment_approved;
+    public void setPaymentApproved(int paymentApproved) {
+        this.paymentApproved = paymentApproved;
     }
 
-    public Date getReservation_date() {
-        return reservation_date;
+    public Date getReservationDate() {
+        return reservationDate;
     }
 
-    public void setReservation_date(Date reservation_date) {
-        this.reservation_date = reservation_date;
+    public void setReservation_date(Date reservationDate) {
+        this.reservationDate = reservationDate;
     }
 
     public String getStatus() {

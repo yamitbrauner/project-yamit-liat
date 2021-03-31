@@ -22,6 +22,10 @@ public class ProductService {
     public ProductService() {
     }
 
+    public Iterable<Product> getProducts() {
+        return productRepository.findAll();
+    }
+    
     public Iterable<Product> getProductInStock(){
         return this.productRepository.findByQuantityInStockGreaterThan(0);
 //        Iterable<Product> allProducts = this.productRepository.findAll();
@@ -60,11 +64,11 @@ public class ProductService {
 
     private void fillNewProductToOld(Product productOld, Product product) {
         productOld.setDescription(product.getDescription());
-        productOld.setProd_name(product.getProd_name());
+        productOld.setProdName(product.getProdName());
         productOld.setPrice_per_unit(product.getPrice_per_unit());
         productOld.setPic_url(product.getPic_url());
         productOld.setQuantityInStock(product.getQuantityInStock());
-        productOld.setQuantity_ordered(product.getQuantity_ordered());
+        productOld.setQuantityOrdered(product.getQuantityOrdered());
     }
 
     public void updateProductQuantity(Integer quantity, Integer productId) {
@@ -78,4 +82,5 @@ public class ProductService {
         Product prod = productRepository.findByProdId(productId);
         return prod.getQuantityInStock() > 0;
     }
+
 }

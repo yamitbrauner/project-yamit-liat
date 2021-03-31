@@ -11,8 +11,7 @@ import java.util.ArrayList;
 
 @RestController
 public class ProductController {
-    @Autowired
-    private ProductRepository productRepository;
+
     @Autowired
     private ProductService productService;
 
@@ -26,8 +25,8 @@ public class ProductController {
     }
 
     @GetMapping("/product")
-    public Iterable<Product> getProduct() {
-        return this.productRepository.findAll();
+    public Iterable<Product> getProducts() {
+        return this.productService.getProducts();
     }
 
     @GetMapping("/products_in_stock")
