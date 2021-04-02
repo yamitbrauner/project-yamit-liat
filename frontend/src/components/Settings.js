@@ -10,9 +10,6 @@ var ORDERS = 4;
 class Settings extends Component {
 
   state = {categorySelected: null, categories:[] };
-    constructor(props) {
-        super(props);
-    }
 
   componentDidMount(){
       this.setState({categories: [
@@ -46,15 +43,19 @@ class Settings extends Component {
                                   categories={this.state.categories}/>
                     </div>
                 </div>
-                <div className="col-6 box item">
+                <div className="col-9 box item">
                         <div className="row">
                             <div className="col">
-                                {this.state.categorySelected && this.state.categorySelected.category_id == STOCK &&
+                                {
+                                    // eslint-disable-next-line
+                                    this.state.categorySelected && this.state.categorySelected.category_id == STOCK &&
                                 <div className="margin-top-bottom">
                                     <Stock/>
                                 </div>
                                 }
-                                {this.state.categorySelected && this.state.categorySelected.category_id == DETAILS &&
+                                {
+                                    // eslint-disable-next-line
+                                    this.state.categorySelected && this.state.categorySelected.category_id == DETAILS &&
                                     <div className="margin-top-bottom">
                                         <div className="form-row">
                                             <span className="title col">
@@ -115,7 +116,9 @@ class Settings extends Component {
                                         <button onClick={()=>this.finish()} className="btn btn-primary">סיום</button>
                                     </div>
                                 }
-                                {this.state.categorySelected && this.state.categorySelected.category_id == ORDERS &&
+                                {
+                                    // eslint-disable-next-line
+                                    this.state.categorySelected && this.state.categorySelected.category_id == ORDERS &&
                                 <div className="margin-top-bottom">
                                     <OrdersTable/>
                                 </div>
@@ -124,7 +127,6 @@ class Settings extends Component {
                             </div>
                         </div>
                     </div>
-                <div className="col-3"/>
             </div>
         </div>
     );
