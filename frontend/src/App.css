@@ -13,6 +13,10 @@
   .header-img{
     border-radius: 12px;
   }
+  .stock-input{
+    width: 65px;
+    text-align: center;
+  }
   .menu-list-item{
     display: inline-block;
     margin-right: 15px;
@@ -61,6 +65,9 @@
   }
   .item{
     margin-right: 30px;
+    margin-left: 30px;
+  }
+  .margin-l{
     margin-left: 30px;
   }
   .box{

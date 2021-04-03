@@ -37,13 +37,13 @@ class Settings extends Component {
     return (
         <div className="col">
             <div className="row">
-                <div className="col">
+                <div className="col margin-l">
                     <div className="row">
                         <SideMenu onSelectCategory={this.handleCategorySelection}
                                   categories={this.state.categories}/>
                     </div>
                 </div>
-                <div className="col-9 box item">
+                <div className="col-9 box">
                         <div className="row">
                             <div className="col">
                                 {

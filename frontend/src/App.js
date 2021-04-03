@@ -27,7 +27,7 @@ class App extends Component {
                 <div className="row">
                     <img className="header-img" alt="" src={matokli} />
                 </div>
-                <div className="row margin-top-bottom">
+                <div className="row margin-top-bottom header-position">
                     {this.state.pageSelected === 0 && <Main/>}
                     {this.state.pageSelected === 1 && <Shop/>}
                     {this.state.pageSelected === 2 && <Login handleLog={this.handleLog} isLogged ={this.state.isLogged} onSelectPage={this.handlePageSelection}/>}
