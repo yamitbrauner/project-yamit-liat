@@ -13,7 +13,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/category")
-    public Iterable<Category> getCategory(){
+    public Iterable<Category> getCategory() {
         return this.categoryService.findAll();
     }
 }

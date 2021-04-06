@@ -6,7 +6,6 @@ import com.openu.project.data.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.ArrayList;
 
 @RestController
@@ -30,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping("/products_in_stock")
-    public Iterable<Product> getProductInStock(){
+    public Iterable<Product> getProductInStock() {
         return this.productService.getProductInStock();
         //return productInStockService.getProductInStock();
     }

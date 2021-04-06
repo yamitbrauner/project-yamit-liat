@@ -11,6 +11,5 @@ public class ReservationService {
     ReservationRepository reservationRepository;
     public Iterable<Reservation> findAll() {
         return reservationRepository.findAll();
-
     }
 }
