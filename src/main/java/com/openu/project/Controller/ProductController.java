@@ -40,8 +40,8 @@ public class ProductController {
         return this.productService.getProductByCategory(categoryId);
     }
 
-    @GetMapping("/products/{productId}")
-    public Product getProductByProductId(@PathVariable("productId") Integer productId){
+    @GetMapping("/products")
+    public Product getProductByProductId(@RequestParam Integer productId){
         return  this.productService.getProductByProduct(productId);
     }
 
