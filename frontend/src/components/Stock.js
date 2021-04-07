@@ -3,9 +3,7 @@ import StockRow from "./StockRow";
 class Stock extends Component {
 
     state = {items:[]};
-    constructor(props) {
-        super(props);
-    }
+
     componentDidMount(){
         this.setState({
             items: [
@@ -48,8 +46,19 @@ class Stock extends Component {
                 },
             ]})
     }
-    switchEditMode = ()=>{
-        this.setState({ editMode: !this.state.editMode});
+
+    onOkClicked = (index,newItem)=>{
+        var items = [...this.state.items];
+        items[index].quantity_in_stock = newItem.quantity_in_stock
+        items[index].price_per_unit = newItem.price_per_unit;
+        items[index].description = newItem.description;
+        this.setState({ items: items});
+    }
+
+    onDeleteClicked = (index)=>{
+        var items = [...this.state.items];
+        items.splice(index,1);
+        this.setState({ items: items});
     }
 
   render() {
@@ -71,8 +80,8 @@ class Stock extends Component {
                  </tr>
                 </thead>
                 <tbody>
-                {this.state.items.length > 0 && this.state.items.map((item)=>{
-                    return <StockRow item={item}/>
+                {this.state.items.length > 0 && this.state.items.map((item,index)=>{
+                    return <StockRow item={item} index={index} onDeleteClicked={this.onDeleteClicked} onOkClicked={this.onOkClicked}/>
                 })}
                 </tbody>
             </table>
