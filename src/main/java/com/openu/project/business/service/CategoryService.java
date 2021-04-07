@@ -8,14 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryService {
-
+    @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    public CategoryService(CategoryRepository categoryRepository)
-    {
-        this.categoryRepository = categoryRepository;
-    }
     public Iterable<Category> findAll() {
         return categoryRepository.findAll();
     }
