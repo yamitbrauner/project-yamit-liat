@@ -5,7 +5,7 @@ class StockRow extends Component {
     state = {editMode : false};
     constructor(props) {
         super(props);
-        this.state = {quantity_in_stock: '' ,price_per_unit: '',  description: ''};
+        this.state = {quantityInStock: '' ,price_per_unit: '',  description: ''};
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onOkClicked = this.onOkClicked.bind(this);
     }
@@ -15,7 +15,7 @@ class StockRow extends Component {
 
     resetValues=()=>{
         this.setState(
-            {quantity_in_stock: this.props.item.quantity_in_stock,
+            {quantityInStock: this.props.item.quantityInStock,
                 price_per_unit: this.props.item.price_per_unit,
                 description: this.props.item.description});
     }
@@ -59,13 +59,13 @@ class StockRow extends Component {
                     <button className="col btn btn-default btn-number" onClick={() => this.switchEditMode()}><span className="glyphicon glyphicon-pencil"/></button>
                     }
                 </td>
-                <td>{this.props.item.product_id}</td>
-                <td>{this.props.item.category_id}</td>
-                <td>{this.props.item.prod_name}</td>
-                <td>{this.props.item.quantity_ordered}</td>
+                <td>{this.props.item.prodId}</td>
+                <td>{this.props.categories[this.props.item.categoryId]}</td>
+                <td>{this.props.item.prodName}</td>
+                <td>{this.props.item.quantityOrdered}</td>
                 <td>{this.state.editMode ?
-                    <input type="text" className="stock-input" name="quantity_in_stock" value={this.state.quantity_in_stock} onChange={this.handleInputChange}/> :
-                    this.state.quantity_in_stock}
+                    <input type="text" className="stock-input" name="quantityInStock" value={this.state.quantityInStock} onChange={this.handleInputChange}/> :
+                    this.state.quantityInStock}
                 </td>
                 <td>{this.state.editMode ?
                     <input type="text" className="stock-input" name="price_per_unit" value={this.state.price_per_unit} onChange={this.handleInputChange}/> :
@@ -74,9 +74,6 @@ class StockRow extends Component {
                 <td>{this.state.editMode ?
                     <textarea className="" name="description" value={this.state.description} onChange={this.handleInputChange}/> :
                     this.state.description} </td>
-                <td>
-                    <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={this.props.item.pic_url}/>
-                </td>
     </tr>);
   }
 }

@@ -72,9 +72,9 @@ class Login extends Component {
                                         <div className="form-row">
                                             <div className="form-group switch-text col-md-6">
                                                 {this.state.isLoginPage ?
-                                                <a onClick={()=>this.switchPage(false)}>להרשמה</a>
+                                                <a onClick={()=>this.switchPage(false)}>משתמש חדש ? להרשמה לחץ כאן</a>
                                                     :
-                                                <a onClick={()=>this.switchPage(true)}>להתחברות</a>
+                                                <a onClick={()=>this.switchPage(true)}>משתמש קיים? להתחברות לחץ כאן</a>
                                                 }
                                             </div>
                                         </div>

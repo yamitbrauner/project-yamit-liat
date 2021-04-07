@@ -18,11 +18,14 @@ class Item extends Component {
         <div className="col item box">
             <div className="row">
                 <div className="col">
-                    <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={this.props.item.pic_url}/>
+                    <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={"images/" + this.props.item.pic_url}/>
                 </div>
                 <div className="product-box col-6">
-                    <div className="product-name margin-top-bottom">
-                        {this.props.item.prod_name} {this.props.item.price_per_unit}₪
+                    <div className="product-name row margin-top-bottom">
+                        {this.props.item.prodName} {this.props.item.price_per_unit}₪
+                    </div>
+                    <div className="product-description row">
+                        {this.props.item.description}
                     </div>
                 </div>
                 <div className="col margin-top-bottom">

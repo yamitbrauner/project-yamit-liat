@@ -5,6 +5,7 @@ import Main from './components/Main';
 import Shop from './components/Shop';
 import Login from './components/Login';
 import Settings from './components/Settings';
+import Error from './components/Error';
 import matokli from './matokli.png'
 class App extends Component {
   state = {pageSelected:1, isLogged: true};
@@ -29,9 +30,10 @@ class App extends Component {
                 </div>
                 <div className="row margin-top-bottom header-position">
                     {this.state.pageSelected === 0 && <Main/>}
-                    {this.state.pageSelected === 1 && <Shop/>}
+                    {this.state.pageSelected === 1 && <Shop onSelectPage={this.handlePageSelection}/>}
                     {this.state.pageSelected === 2 && <Login handleLog={this.handleLog} isLogged ={this.state.isLogged} onSelectPage={this.handlePageSelection}/>}
-                    {this.state.pageSelected === 3 && <Settings/>}
+                    {this.state.pageSelected === 3 && <Settings onSelectPage={this.handlePageSelection}/>}
+                    {this.state.pageSelected === 404 && <Error/>}
                 </div>
             </div>
         </div>

@@ -31,6 +31,9 @@ class Settings extends Component {
         }
         this.setState({categorySelected : category})
     }
+    onSelectPage=(val)=>{
+      this.props.onSelectPage(val);
+    }
 
 
   render() {
@@ -50,7 +53,7 @@ class Settings extends Component {
                                     // eslint-disable-next-line
                                     this.state.categorySelected && this.state.categorySelected.category_id == STOCK &&
                                 <div className="margin-top-bottom">
-                                    <Stock/>
+                                    <Stock onSelectPage={this.onSelectPage}/>
                                 </div>
                                 }
                                 {

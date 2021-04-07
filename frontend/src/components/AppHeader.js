@@ -31,7 +31,7 @@ class AppHeader extends Component {
                                 שלום ימית
                             </button>
                             <button className="btn menu-list-item-txt" onClick={()=>this.selectPage(3)}>
-                                נהל
+                                איזור אישי
                             </button>
                             <button className="btn menu-list-item-txt" onClick={()=>this.props.handleLog(false)}>
                                 התנתק

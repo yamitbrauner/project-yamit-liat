@@ -1,51 +1,52 @@
 import React, { Component } from 'react';
 import StockRow from "./StockRow";
+import ReactPaginate from 'react-paginate';
+const PER_PAGE = 5;
+
 class Stock extends Component {
 
-    state = {items:[]};
+    state = {items:[],itemsToShow:[], categories:{}, offset: 0};
 
     componentDidMount(){
-        this.setState({
-            items: [
-                {
-                    prod_id : 1,
-                    category_id:7,
-                    prod_name:"קוראסון",
-                    quantity_ordered : 10,
-                    quantity_in_stock : 20,
-                    price_per_unit : 2,
-                    description : "קוראסון שוקולד",
-                    pic_url : "https://www.foodisgood.co.il/wp-content/uploads/2015/11/rugelach.jpg"
-                },{
-                    prod_id : 1,
-                    category_id:3,
-                    prod_name:"עוגיית שוקולד צ'יפס",
-                    quantity_ordered : 10,
-                    quantity_in_stock : 20,
-                    price_per_unit : 5,
-                    description : "עוגיית שוקולד צ'יפס",
-                    pic_url : "https://www.foodisgood.co.il/wp-content/uploads/2015/07/Simple-chocolate-chip-cookies-2-862x614.jpg"
-                },{
-                    prod_id : 1,
-                    category_id:2,
-                    prod_name:"מוס שוקולד",
-                    quantity_ordered : 10,
-                    quantity_in_stock : 20,
-                    price_per_unit : 6,
-                    description : "מוס שוקולד",
-                    pic_url : "https://www.krutit.co.il/wp-content/uploads/2019/09/KRT_2786.jpg"
-                },{
-                    prod_id : 1,
-                    category_id:2,
-                    prod_name:"עוגת גבינה ופירות יער",
-                    quantity_ordered : 10,
-                    quantity_in_stock : 20,
-                    price_per_unit : 10,
-                    description : "עוגת גבינה ופירות יער",
-                    pic_url : "https://medias.hashulchan.co.il/www/uploads/2015/11/500_65061-600x600.jpg"
+        fetch("/category")
+            .then(res => res.json())
+            .then(
+                (resCategories) => {
+                    fetch("/product")
+                        .then(res => res.json())
+                        .then(
+                            (resProducts) => {
+                                this.setState({
+                                    items: resProducts,
+                                    itemsToShow : resProducts.slice(this.state.offset,PER_PAGE),
+                                    categories: this.organizeCategories(resCategories),
+                                    pageCount: Math.ceil(resProducts.length / PER_PAGE)
+                                });
+                            },
+                            (error) => {
+                                this.props.onSelectPage(404);
+                            }
+                        )
                 },
-            ]})
+                (error) => {
+                    this.props.onSelectPage(404);
+                }
+            )
     }
+
+    organizeCategories = (categories)=>{
+        var tempCategories = {};
+        categories.map(category =>{
+            tempCategories[category.categoryId] = category.categoryName;
+        })
+        return tempCategories;
+    }
+
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        let offset = Math.ceil(selected * PER_PAGE);
+        this.setState({ offset: offset,  itemsToShow : this.state.items.slice(offset, offset + PER_PAGE) });
+    };
 
     onOkClicked = (index,newItem)=>{
         var items = [...this.state.items];
@@ -76,15 +77,26 @@ class Stock extends Component {
                     <th scope="col">כמות במלאי</th>
                     <th scope="col">מחיר</th>
                     <th scope="col">תיאור</th>
-                    <th scope="col">תמונה</th>
                  </tr>
                 </thead>
                 <tbody>
-                {this.state.items.length > 0 && this.state.items.map((item,index)=>{
-                    return <StockRow item={item} index={index} onDeleteClicked={this.onDeleteClicked} onOkClicked={this.onOkClicked}/>
+                {this.state.itemsToShow.length > 0 && this.state.itemsToShow.map((item,index)=>{
+                    return <StockRow item={item} categories={this.state.categories} key={index} index={index} onDeleteClicked={this.onDeleteClicked} onOkClicked={this.onOkClicked}/>
                 })}
                 </tbody>
             </table>
+            <ReactPaginate
+                previousLabel={'הקודם'}
+                nextLabel={'הבא'}
+                breakLabel={'...'}
+                breakClassName={'break-me'}
+                pageCount={this.state.pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={this.handlePageClick}
+                containerClassName={'pagination'}
+                activeClassName={'active'}
+            />
         </div>
     );
   }

@@ -19,7 +19,7 @@ class SideMenu extends Component {
                 <div className="row">
                     <div className="col margin-top-bottom" onClick={()=>this.selectCategory(category)}>
                         <button className="btn btn-default col category-name row">
-                            {category.category_name}
+                            {category.categoryName}
                         </button>
                     </div>
                 </div>
