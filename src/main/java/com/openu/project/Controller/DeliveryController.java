@@ -1,5 +1,6 @@
 package com.openu.project.Controller;
 
+import com.openu.project.business.service.DeliveryService;
 import com.openu.project.data.entity.Delivery;
 import com.openu.project.data.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DeliveryController {
     @Autowired
-    private DeliveryRepository deliveryRepository;
+    private DeliveryService deliveryService;
 
    @GetMapping("/delivery")
    public Iterable<Delivery> getDelivery() {
-       return this.deliveryRepository.findAll();
+       return this.deliveryService.findAll();
    }
 }

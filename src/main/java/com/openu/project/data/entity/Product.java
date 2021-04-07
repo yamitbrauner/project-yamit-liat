@@ -98,4 +98,3 @@ public class Product {
         this.picUrl = pic_url;
     }
 }
-

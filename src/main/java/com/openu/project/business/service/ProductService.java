@@ -33,11 +33,9 @@ public class ProductService {
 //
 //        Iterator<Product> iter = allProducts.iterator();
 //
-//        while (iter.hasNext())
-//        {
+//        while (iter.hasNext()) {
 //            Product currProd = iter.next();
-//            if (currProd.getQuantityInStock() > 0)
-//            {
+//            if (currProd.getQuantityInStock() > 0) {
 //                productsInStock.add(currProd);
 //            }
 //        }
@@ -52,9 +50,15 @@ public class ProductService {
         return this.productRepository.findByProdId(productId);
     }
 
-    public void createProduct(Product product){
-         this.productRepository.save(product);
+    // TODO: add check for product post
+    public void createProduct(Product product) {
+        if (product.getProdName().length() == 0) {
+            // empty product name
+            return;
+        }
+        this.productRepository.save(product);
     }
+
 
     public void updateProduct(Product product, Integer productId) {
         Product productOld = productRepository.findByProdId(productId);
@@ -82,5 +86,4 @@ public class ProductService {
         Product prod = productRepository.findByProdId(productId);
         return prod.getQuantityInStock() > 0;
     }
-
 }

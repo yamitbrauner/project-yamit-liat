@@ -1,6 +1,5 @@
 package com.openu.project.data.entity;
 
-
 import javax.persistence.*;
 
 @Entity
