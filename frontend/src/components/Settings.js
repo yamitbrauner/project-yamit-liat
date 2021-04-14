@@ -14,14 +14,14 @@ class Settings extends Component {
   componentDidMount(){
       this.setState({categories: [
               {
-                  category_id : STOCK,
-                  category_name:"ניהול מלאי"
+                  categoryId : STOCK,
+                  categoryName:"ניהול מלאי"
               },{
-                  category_id : DETAILS,
-                  category_name:"ניהול פרטים אישיים"
+                  categoryId : DETAILS,
+                  categoryName:"ניהול פרטים אישיים"
               },{
-                  category_id : ORDERS,
-                  category_name:"ההזמנות שלי"
+                  categoryId : ORDERS,
+                  categoryName:"ההזמנות שלי"
               }
           ]},()=>this.handleCategorySelection())
   }
@@ -51,14 +51,14 @@ class Settings extends Component {
                             <div className="col">
                                 {
                                     // eslint-disable-next-line
-                                    this.state.categorySelected && this.state.categorySelected.category_id == STOCK &&
+                                    this.state.categorySelected && this.state.categorySelected.categoryId == STOCK &&
                                 <div className="margin-top-bottom">
                                     <Stock onSelectPage={this.onSelectPage}/>
                                 </div>
                                 }
                                 {
                                     // eslint-disable-next-line
-                                    this.state.categorySelected && this.state.categorySelected.category_id == DETAILS &&
+                                    this.state.categorySelected && this.state.categorySelected.categoryId == DETAILS &&
                                     <div className="margin-top-bottom">
                                         <div className="form-row">
                                             <span className="title col">
@@ -121,7 +121,7 @@ class Settings extends Component {
                                 }
                                 {
                                     // eslint-disable-next-line
-                                    this.state.categorySelected && this.state.categorySelected.category_id == ORDERS &&
+                                    this.state.categorySelected && this.state.categorySelected.categoryId == ORDERS &&
                                 <div className="margin-top-bottom">
                                     <OrdersTable/>
                                 </div>

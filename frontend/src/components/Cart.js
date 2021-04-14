@@ -3,8 +3,11 @@ import ItemInCart from "./ItemInCart";
 class Cart extends Component {
     state={inShop : true};
 
-    handleQuantity=(index, num)=>{
-        this.props.onAddToCart(index,num);
+    removeItemFromCart=(itemToRemove)=>{
+        this.props.removeItemFromCart(itemToRemove);
+    }
+    handleQuantity=(prodID, num)=> {
+        this.props.handleQuantity(prodID, num);
     }
     handlePay=()=>{
         this.setState({inShop: false});
@@ -17,13 +20,26 @@ class Cart extends Component {
             <div className="divider row margin-top-bottom"/>
             <div className="row">
                 <div className="col">
-                    {this.props.itemsInCart.map((item,index) =>{
-                        return item.quantity >0 ?
-                            <div className="row">
-                                <ItemInCart item={item} itemIndex={index} handleUpdateQuantity={this.handleQuantity}/>
-                            </div>
-                             : ''
-                    })}
+                    <table className="table table-striped">
+                        <thead>
+                        <tr>
+                            <th/>
+                            <th scope="col">מוצר</th>
+                            <th scope="col">מחיר ליח'</th>
+                            <th scope="col">כמות</th>
+                            <th scope="col">סה"כ</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {Object.keys(this.props.itemsInCart).map((prodID,index) =>{
+                            return this.props.itemsInCart[prodID].quantity >0 ?
+                                <ItemInCart item={this.props.itemsInCart[prodID]} key={index} itemIndex={prodID} removeItemFromCart={this.removeItemFromCart}
+                                            handleQuantity = {this.handleQuantity}/>
+                                : ''
+                        })}
+                        </tbody>
+                    </table>
+
                     {this.props.totalPrice > 0 ?
                         <>
                         <div className="row margin-top-bottom">

@@ -5,31 +5,20 @@ import Cart from './Cart';
 import Payment from './Payment';
 
 class Shop extends Component {
-  state = { items:[] ,totalPrice:0, categories: [], categorySelected: null, isPayment: false};
+  state = { items:{}, itemsInCart:{} ,totalPrice:0, categories: [], categorySelected: null, isPayment: false};
   constructor(props) {
       super(props);
-      this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount(){
-    fetch("/product")
+    fetch("/category")
         .then(res => res.json())
         .then(
-            (resProduct) => {
-                fetch("/category")
-                    .then(res => res.json())
-                    .then(
-                        (resCategories) => {
-                           this.setState({
-                                items: resProduct,
-                                categories: resCategories
-
-                            },()=>this.handleCategorySelection());
-                        },
-                        (error) => {
-                            this.props.onSelectPage(404);
-                        }
-                    )},
+            (resCategories) => {
+                this.setState({
+                    categories: resCategories,
+                },()=>this.handleCategorySelection());
+            },
             (error) => {
                 this.props.onSelectPage(404);
             }
@@ -40,19 +29,64 @@ class Shop extends Component {
       if(!category){
             category = this.state.categories[0];
       }
-        this.setState({categorySelected : category})
+
+      if(this.state.items[category.categoryId] && this.state.items[category.categoryId].length > 0){
+          this.setState({
+              categorySelected : category
+          });
+      }else{
+          fetch("/products/category/"+category.categoryId)
+              .then(res => res.json())
+              .then(
+                  (resProducts) => {
+                      var tempItems = {... this.state.items}
+                      tempItems[category.categoryId] = resProducts;
+                      this.setState({
+                          items: tempItems,
+                          categorySelected : category
+                      });
+                  },
+                  (error) => {
+                      this.props.onSelectPage(404);
+                  }
+              )
+      }
+
     }
 
-    addToCart = (itemIndex,quantity) =>{
-      var tempItems = [...this.state.items];
-      var tempTotalPrice = this.state.totalPrice
-      if(quantity< tempItems[itemIndex].quantity){
-          tempTotalPrice = tempTotalPrice - (tempItems[itemIndex].quantity * tempItems[itemIndex].price_per_unit)
-      }
-      tempItems[itemIndex].quantity = quantity;
-      tempTotalPrice = tempTotalPrice + (tempItems[itemIndex].quantity * tempItems[itemIndex].price_per_unit)
-      this.setState({items: tempItems, totalPrice: tempTotalPrice });
+    removeItemFromCart=(itemToRemove)=>{
+      var tempItemsInCart = {...this.state.itemsInCart};
+      delete tempItemsInCart[itemToRemove.prodId]
+      this.setState({itemsInCart: tempItemsInCart}, ()=>this.updateTotalPrice());
     }
+
+    handleCart = (itemIndex) =>{
+      var tempItemsInCart = {...this.state.itemsInCart};
+      var selectedItem = this.state.items[this.state.categorySelected.categoryId][itemIndex];
+      if(tempItemsInCart[selectedItem.prodId]){
+          this.removeItemFromCart(selectedItem);
+      }else{
+          selectedItem.quantity = 1;
+          tempItemsInCart[selectedItem.prodId]=selectedItem;
+          this.setState({itemsInCart: tempItemsInCart}, ()=>this.updateTotalPrice())
+      }
+    }
+
+    handleQuantity = (prodId, num)=>{
+        var tempItemsInCart = {...this.state.itemsInCart};
+        tempItemsInCart[prodId].quantity = num;
+        this.setState({itemsInCart: tempItemsInCart}, ()=>this.updateTotalPrice());
+    }
+
+    updateTotalPrice=()=>{
+        var tempTotalPrice = 0;
+        Object.keys(this.state.itemsInCart).map((itemKey,index) => {
+         tempTotalPrice = tempTotalPrice + this.state.itemsInCart[itemKey].quantity * this.state.itemsInCart[itemKey].price_per_unit;
+        });
+
+        this.setState({totalPrice: tempTotalPrice });
+    }
+
     switchPaymentOrItems = ()=>{
         this.setState({isPayment: !this.state.isPayment})
     }
@@ -74,12 +108,12 @@ class Shop extends Component {
                         <span className="col title">
                             {this.state.categorySelected ? this.state.categorySelected.categoryName : "כללי"}</span>
                             </div>
-                            {
-                                this.state.items.map((item, index) => {
+                            {this.state.categorySelected &&
+                                this.state.items[this.state.categorySelected.categoryId].map((item, index) => {
                                     //eslint-disable-next-line
                                     return this.state.categorySelected && item.categoryId == this.state.categorySelected.categoryId ?
                                         <div className="row margin-top-bottom" key={index}>
-                                            <Item item={item} itemIndex={index} onAddToCart={this.addToCart}/>
+                                            <Item item={item} itemIndex={index} handleCart={this.handleCart} itemsInCart={this.state.itemsInCart}/>
                                         </div> : ''
                                 })}
                         </div>
@@ -95,7 +129,9 @@ class Shop extends Component {
 
                 <div className="col">
                     <div className="row margin-top-bottom">
-                        <Cart itemsInCart={this.state.items} onAddToCart={this.addToCart} totalPrice={this.state.totalPrice} handlePay={this.switchPaymentOrItems}/>
+                        <Cart itemsInCart={this.state.itemsInCart} removeItemFromCart={this.removeItemFromCart}
+                              handleQuantity={this.handleQuantity}
+                              totalPrice={this.state.totalPrice} handlePay={this.switchPaymentOrItems}/>
                     </div>
                 </div>
             </div>

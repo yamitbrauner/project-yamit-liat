@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
-import PlusMinus from "./PlusMinus";
 
 class Item extends Component {
-  state = {quantity:0, inCart:false};
-
-    handleQuantity=(num)=>{
-        this.setState({quantity:num});
-    }
 
   handleUpdateCart = ()=>{
-      this.setState({inCart : this.state.quantity > 0});
-      this.props.onAddToCart(this.props.itemIndex, this.state.quantity);
+      this.props.handleCart(this.props.itemIndex);
   }
 
   render() {
-    return (
+    var inCart = this.props.itemsInCart[this.props.item.prodId] && this.props.itemsInCart[this.props.item.prodId].quantity >0;
+            return (
         <div className="col item box">
             <div className="row">
                 <div className="col">
-                    <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={"images/" + this.props.item.pic_url}/>
+                    <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={"http://localhost:8080/image?name=" + this.props.item.pic_url+"&&category="+this.props.item.categoryId}/>
                 </div>
                 <div className="product-box col-6">
                     <div className="product-name row margin-top-bottom">
@@ -29,11 +23,10 @@ class Item extends Component {
                     </div>
                 </div>
                 <div className="col margin-top-bottom">
-                   <PlusMinus minCart={0} maxCart={10} handleQuantity={this.handleQuantity} quantity={this.state.quantity}/>
                     <div className="row">
                         <div className="col">
                             <button className="btn-default btn margin-top-bottom" onClick={this.handleUpdateCart}>
-                                <span className="category-name">{this.state.inCart ? "עדכון": "הוספה לסל"}</span>
+                                <span className="category-name">{inCart ? "הסרה מהסל": "הוספה לסל"}</span>
                             </button>
                         </div>
                     </div>

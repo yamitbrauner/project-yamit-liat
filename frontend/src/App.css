@@ -59,6 +59,9 @@
     font-size: 16px;
     text-align: right;
   }
+  .selectedCategory{
+    text-decoration: underline;
+  }
   .title{
     font-size:18px;
     font-weight: bold;
@@ -112,4 +115,15 @@
   }
   .display-block{
     display: block;
+  }
+  .glyphicon-size{
+    font-size: 10px;
+  }
+  .glyphicon-plus-align{
+    margin-top: 7px;
+    margin-right: 5px;
+  }
+  .glyphicon-minus-align{
+       margin-top: 7px;
+       margin-left: 5px;
   }

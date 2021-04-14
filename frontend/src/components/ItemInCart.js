@@ -5,30 +5,23 @@ class ItemInCart extends Component {
 
 
   handleQuantity=(num)=>{
-      this.props.handleUpdateQuantity(this.props.itemIndex,num);
+      this.props.handleQuantity(this.props.itemIndex,num);
   }
-
+  removeItemFromCart=()=>{
+      this.props.removeItemFromCart(this.props.item);
+  }
 
   render() {
     return (
-        <div className="col">
-            <div className="row margin-top-bottom">
-                                <span className="col">
-                                    {this.props.item.prod_name}
-                                </span>
-                <span className="col">
-                                    {this.props.item.quantity * this.props.item.price_per_unit}₪
-                </span>
-                <span className="col">
-                    <button className="col btn btn-default btn-number" onClick={() => this.handleQuantity(0)}><span className="glyphicon glyphicon-remove"></span></button>
-                </span>
-            </div>
-            <div className="row">
+        <tr>
+            <td><button className="col btn btn-default btn-number" onClick={() => this.removeItemFromCart()}><span className="glyphicon glyphicon-remove"></span></button></td>
+            <td>{this.props.item.prodName}</td>
+            <td>{this.props.item.price_per_unit}₪</td>
+            <td>
                 <PlusMinus minCart={1} maxCart={10}  handleQuantity={this.handleQuantity} quantity={this.props.item.quantity}/>
-            </div>
-
-        </div>
-
+            </td>
+            <td>{this.props.item.quantity * this.props.item.price_per_unit}₪</td>
+        </tr>
     );
   }
 }
