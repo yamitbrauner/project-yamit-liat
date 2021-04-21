@@ -69,10 +69,10 @@ public class ProductService {
     private void fillNewProductToOld(Product productOld, Product product) {
         productOld.setDescription(product.getDescription());
         productOld.setProdName(product.getProdName());
-        productOld.setPrice_per_unit(product.getPrice_per_unit());
-        productOld.setPic_url(product.getPic_url());
+        productOld.setPricePerUnit(product.getPricePerUnit());
+        productOld.setPicUrl(product.getPicUrl());
         productOld.setQuantityInStock(product.getQuantityInStock());
-        productOld.setQuantityOrdered(product.getQuantityOrdered());
+        //productOld.setQuantityOrdered(product.getQuantityOrdered());
     }
 
     public void updateProductQuantity(Integer quantity, Integer productId) {
