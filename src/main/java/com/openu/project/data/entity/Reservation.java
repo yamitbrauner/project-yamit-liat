@@ -7,30 +7,24 @@ import java.util.Date;
 @Table(name = "reservation")
 public class Reservation {
     @Id
-    @Column(name = "reservation_id")
+    @Column(name = "reservationId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int reservationId;
 
-    @Column(name = "user_id")
+    @Column(name = "userId")
     private int userId;
 
     @Column(name = "total")
     private float total;
 
-    @Column(name = "payment_details")
+    @Column(name = "paymentId")
     private String paymentDetails;
 
-    @Column(name = "payment_method")
-    private String paymentMethod;
-
-    @Column(name = "payment_id")
-    private int paymentId;
-
-    @Column(name = "payment_approved")
-    private int paymentApproved;
-
-    @Column(name = "reservation_date")
+    @Column(name = "reservationDate")
     private Date reservationDate;
+
+    @Column(name = "deliveryDate")
+    private Date deliveryDate;
 
     @Column(name = "status")
     private String status;
@@ -67,36 +61,20 @@ public class Reservation {
         this.paymentDetails = paymentDetails;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public int getPayment_id() {
-        return paymentId;
-    }
-
-    public void setPayment_id(int paymentId) {
-        this.paymentId = paymentId;
-    }
-
-    public int getPaymentApproved() {
-        return paymentApproved;
-    }
-
-    public void setPaymentApproved(int paymentApproved) {
-        this.paymentApproved = paymentApproved;
-    }
-
     public Date getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservation_date(Date reservationDate) {
+    public void setReservationDate(Date reservationDate) {
         this.reservationDate = reservationDate;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     public String getStatus() {

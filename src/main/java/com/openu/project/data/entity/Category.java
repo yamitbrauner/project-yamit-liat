@@ -6,11 +6,11 @@ import javax.persistence.*;
 @Table(name = "category")
 public class Category {
     @Id
-    @Column(name = "category_id")
+    @Column(name = "categoryId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int categoryId;
 
-    @Column(name = "category_name")
+    @Column(name = "categoryName")
     private String categoryName;
 
     public int getCategoryId() {

@@ -1,65 +1,60 @@
 
 create table public.Category
-(category_id integer,
-category_name varchar(30),
-primary key (category_id));
+(categoryId integer,
+categoryName varchar(30),
+primary key (categoryId));
 
 
 create table public.Product
-(prod_id integer,
-category_id integer,
-prod_name varchar(30),
-quantity_ordered integer,
-quantity_in_stock integer,
-price_per_unit numeric(5,0),
+(prodId integer,
+categoryId integer,
+prodName varchar(30),
+quantityInStock integer,
+pricePerUnit numeric(5,0),
 description varchar(512),
-pic_url varchar(512),
-primary key (prod_id,category_id),
-foreign key (category_id) references public.Category);
+picUrl varchar(512),
+primary key (prodId,categoryId),
+foreign key (categoryId) references public.Category);
 
 
 create table public.Role
-(role_id integer,
-role_name varchar(30),
-primary key (role_id));
+(roleId integer,
+roleName varchar(30),
+primary key (roleId));
+
 
 create table public.Users
-(user_id integer,
-user_name varchar(30),
-role_id integer,
-password varchar(15),
-primary key (user_id),
-foreign key (role_id) references public.Role);
+(userId integer,
+firstName varchar(30),
+lastName varchar(30),
+phone varchar(100),
+address varchar(100),
+mail varchar(30),
+hashedPassword integer,
+tempHash integer,
+roleId integer,
+primary key (userId),
+foreign key (roleId) references public.Role);
 
 
 create table public.Reservation
-(reservation_id integer,
-user_id integer,
+(reservationId integer,
+userId integer,
 total numeric(5,0),
-payment_details varchar(512),
-payment_method varchar(20),
-payment_id integer,
-payment_approved integer,
-reservation_date DATE,
+paymentId integer,
+reservationDate DATE,
+deliveryDate DATE,
 status varchar(512),
-primary key (reservation_id),
-foreign key (user_id) references public.Users);
+primary key (reservationId),
+foreign key (userId) references public.Users);
 
 
-create table public.Delivery
-(delivery_id integer,
-type_of_delivery varchar(30),
-delivery_date Date,
-primary key (delivery_id));
-
-
-create table public.UserInformation
-(info_id integer,
-user_id integer,
-first_name varchar(30),
-last_name varchar(30), 
-email varchar(100),
-mobile varchar(100),
-address varchar(100),
-primary key (info_id),
-foreign key (user_id) references public.Users);
+create table public.Purchase
+(purchaseId integer,
+prodId integer,
+categoryId integer,
+reservationId integer,
+quantity integer,
+primary key (prodId,reservationId,categoryId),
+foreign key (prodId,categoryId) references public.Product(prodId,categoryId),
+foreign key (reservationId) references public.Reservation(reservationId));

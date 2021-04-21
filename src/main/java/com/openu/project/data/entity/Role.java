@@ -6,11 +6,11 @@ import javax.persistence.*;
 @Table(name = "role")
 public class Role {
     @Id
-    @Column(name = "role_id")
+    @Column(name = "roleId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int roleId;
 
-    @Column(name = "role_name")
+    @Column(name = "roleName")
     private String roleName;
 
     public int getRoleId() {
