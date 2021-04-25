@@ -42,6 +42,7 @@ public class ProductService {
 //        return productsInStock;
     }
 
+
     public Iterable<Product> getProductByCategory(int categoryId) {
         return this.productRepository.findByCategoryId(categoryId);
     }

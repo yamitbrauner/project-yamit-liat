@@ -7,23 +7,23 @@ import java.util.Date;
 @Table(name = "reservation")
 public class Reservation {
     @Id
-    @Column(name = "reservationId")
+    @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int reservationId;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private int userId;
 
     @Column(name = "total")
     private float total;
 
-    @Column(name = "paymentId")
+    @Column(name = "payment_id")
     private String paymentDetails;
 
-    @Column(name = "reservationDate")
+    @Column(name = "reservation_date")
     private Date reservationDate;
 
-    @Column(name = "deliveryDate")
+    @Column(name = "delivery_date")
     private Date deliveryDate;
 
     @Column(name = "status")

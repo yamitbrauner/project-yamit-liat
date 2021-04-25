@@ -7,18 +7,18 @@ import javax.persistence.*;
 public class Purchase {
 
     @Id
-    @Column(name = "purchaseId")
+    @Column(name = "purchase_id")
     @SequenceGenerator(name="seq_purchase",sequenceName="SEQ_PURCHASE", allocationSize=1)
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq_purchase")
     private int purchaseId;
 
-    @Column(name = "prodId")
+    @Column(name = "prod_id")
     private int prodId;
 
-    @Column(name = "categoryId")
+    @Column(name = "category_id")
     private int categoryId;
 
-    @Column(name = "reservationId")
+    @Column(name = "reservation_id")
     private int reservationId;
 
     @Column(name = "quantity")

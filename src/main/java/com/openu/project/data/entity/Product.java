@@ -8,27 +8,27 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @Column(name = "prodId")
+    @Column(name = "prod_id")
     @SequenceGenerator(name="seq_product",sequenceName="SEQ_PRODUCT", allocationSize=1)
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq_product")
     private int prodId;
 
-    @Column(name = "categoryId")
+    @Column(name = "category_id")
     private int categoryId;
 
-    @Column(name = "prodName")
+    @Column(name = "prod_name")
     private String prodName;
 
-    @Column(name = "quantityInStock")
+    @Column(name = "quantity_in_stock")
     private int quantityInStock;
 
-    @Column(name = "pricePerUnit")
+    @Column(name = "price_per_unit")
     private float pricePerUnit;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "picUrl")
+    @Column(name = "pic_url")
     private String picUrl;
 
     public int getProdId() {

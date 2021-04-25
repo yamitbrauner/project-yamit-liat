@@ -36,8 +36,8 @@ public class ProductController {
 
     @GetMapping("/products/category/{categoryId}")
     public Iterable<Product> getProductByCategory(@PathVariable("categoryId") Integer categoryId){
-        return this.productService.getProductByCategory(categoryId);
-    }
+       return this.productService.getProductByCategory(categoryId);
+   }
 
     @GetMapping("/products")
     public Product getProductByProductId(@RequestParam Integer productId){

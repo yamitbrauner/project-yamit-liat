@@ -11,10 +11,10 @@ public class Users {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seq_users")
     private int userId;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "phone")
@@ -26,13 +26,13 @@ public class Users {
     @Column(name = "mail")
     private String mail;
 
-    @Column(name = "hashedPassword")
+    @Column(name = "hashed_password")
     private int hashedPassword;
 
-    @Column(name = "tempHash")
+    @Column(name = "temp_hash")
     private int tempHash;
 
-    @Column(name = "roleId")
+    @Column(name = "role_id")
     private int roleId;
 
     public int getUserId() {
