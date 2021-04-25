@@ -14,4 +14,12 @@ public class CategoryService {
     public Iterable<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    public void createCategory(Category category) {
+        if (category.getCategoryName().length() == 0) {
+            // empty product name
+            return;
+        }
+        this.categoryRepository.save(category);
+    }
 }
