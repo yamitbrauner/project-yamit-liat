@@ -25,11 +25,11 @@ primary key (roleId));
 
 create table public.Users
 (userId integer,
-firstName varchar(30),
-lastName varchar(30),
-phone varchar(20),
+firstName varchar(50),
+lastName varchar(50),
+phone varchar(50),
 address varchar(100),
-mail varchar(60),
+mail varchar(100),
 hashedPassword integer,
 tempHash integer,
 roleId integer,
