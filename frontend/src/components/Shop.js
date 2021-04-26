@@ -6,9 +6,7 @@ import Payment from './Payment';
 
 class Shop extends Component {
   state = { items:{}, itemsInCart:{} ,totalPrice:0, categories: [], categorySelected: null, isPayment: false};
-  constructor(props) {
-      super(props);
-  }
+
 
   componentDidMount(){
     fetch("/category")
@@ -39,7 +37,7 @@ class Shop extends Component {
               .then(res => res.json())
               .then(
                   (resProducts) => {
-                      var tempItems = {... this.state.items}
+                      var tempItems = {...this.state.items};
                       tempItems[category.categoryId] = resProducts;
                       this.setState({
                           items: tempItems,
@@ -80,6 +78,7 @@ class Shop extends Component {
 
     updateTotalPrice=()=>{
         var tempTotalPrice = 0;
+        // eslint-disable-next-line
         Object.keys(this.state.itemsInCart).map((itemKey,index) => {
          tempTotalPrice = tempTotalPrice + this.state.itemsInCart[itemKey].quantity * this.state.itemsInCart[itemKey].pricePerUnit;
         });
@@ -88,7 +87,11 @@ class Shop extends Component {
     }
 
     switchPaymentOrItems = ()=>{
-        this.setState({isPayment: !this.state.isPayment})
+        if(!this.props.isLoggedIn){
+            this.props.onSelectPage(2);
+        }else{
+            this.setState({isPayment: !this.state.isPayment})
+        }
     }
 
   render() {
@@ -119,7 +122,7 @@ class Shop extends Component {
                         </div>
                     </>
                     :
-                    <div className="col-9">
+                    <div className="col-8">
                         <div className="row">
                             <Payment/>
                         </div>
@@ -130,7 +133,7 @@ class Shop extends Component {
                 <div className="col">
                     <div className="row margin-top-bottom">
                         <Cart itemsInCart={this.state.itemsInCart} removeItemFromCart={this.removeItemFromCart}
-                              handleQuantity={this.handleQuantity}
+                              handleQuantity={this.handleQuantity} isLoggedIn={this.props.isLoggedIn}
                               totalPrice={this.state.totalPrice} handlePay={this.switchPaymentOrItems}/>
                     </div>
                 </div>

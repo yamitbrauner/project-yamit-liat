@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AppHeader from "./AppHeader";
 
 class Login extends Component {
   state = {isLoginPage: true};
@@ -72,9 +71,9 @@ class Login extends Component {
                                         <div className="form-row">
                                             <div className="form-group switch-text col-md-6">
                                                 {this.state.isLoginPage ?
-                                                <a onClick={()=>this.switchPage(false)}>משתמש חדש ? להרשמה לחץ כאן</a>
+                                                <div onClick={()=>this.switchPage(false)}>משתמש חדש ? להרשמה לחץ כאן</div>
                                                     :
-                                                <a onClick={()=>this.switchPage(true)}>משתמש קיים? להתחברות לחץ כאן</a>
+                                                <div onClick={()=>this.switchPage(true)}>משתמש קיים? להתחברות לחץ כאן</div>
                                                 }
                                             </div>
                                         </div>

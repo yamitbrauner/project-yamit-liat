@@ -25,7 +25,7 @@ class AppHeader extends Component {
                 </li>
 
                 <li className="menu-list-item col">
-                    {this.props.isLogged ?
+                    {this.props.isLoggedIn ?
                         <div>
                             <button className="btn menu-list-item-txt default-cursor" disabled={true}>
                                 שלום ימית

@@ -37,15 +37,11 @@ class Payment extends Component {
                     <div className="divider"/>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label htmlFor="credit-card">מספר כרטיס אשראי</label>
-                            <input type="text" className="form-control" id="credit-card" placeholder="אנא הזן מספר כרטיס אשראי"/>
-                        </div>
-                        <div className="form-group col-md-6">
                             <label htmlFor="id">מספר תז</label>
                             <input type="text" className="form-control" id="id" placeholder="אנא הזן מספר תעודת זהות"/>
                         </div>
                     </div>
-                    <button onClick={()=>this.finishOrder()} className="btn btn-primary">סיום</button>
+                    <button onClick={()=>this.finishOrder()} className="btn btn-primary">למעבר לתשלום באמצעות Paypal</button>
                 </div>
                 :
                 <div>

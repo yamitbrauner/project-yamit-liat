@@ -36,6 +36,7 @@ class Stock extends Component {
 
     organizeCategories = (categories)=>{
         var tempCategories = {};
+        // eslint-disable-next-line
         categories.map(category =>{
             tempCategories[category.categoryId] = category.categoryName;
         })

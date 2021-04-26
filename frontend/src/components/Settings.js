@@ -110,9 +110,9 @@ class Settings extends Component {
                                         <div className="form-row">
                                             <div className="form-group switch-text col-md-6">
                                                 {this.state.isLogin ?
-                                                <a onClick={()=>this.sign(false)}>להרשמה</a>
+                                                <div onClick={()=>this.sign(false)}>להרשמה</div>
                                                     :
-                                                <a onClick={()=>this.sign(true)}>להתחברות</a>
+                                                <div onClick={()=>this.sign(true)}>להתחברות</div>
                                                 }
                                             </div>
                                         </div>
