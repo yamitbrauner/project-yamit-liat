@@ -50,8 +50,8 @@ class Stock extends Component {
 
     onOkClicked = (index,newItem)=>{
         var items = [...this.state.items];
-        items[index].quantity_in_stock = newItem.quantity_in_stock
-        items[index].price_per_unit = newItem.price_per_unit;
+        items[index].quantityInStock = newItem.quantityInStock
+        items[index].pricePerUnit = newItem.pricePerUnit;
         items[index].description = newItem.description;
         this.setState({ items: items});
     }

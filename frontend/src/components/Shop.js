@@ -81,7 +81,7 @@ class Shop extends Component {
     updateTotalPrice=()=>{
         var tempTotalPrice = 0;
         Object.keys(this.state.itemsInCart).map((itemKey,index) => {
-         tempTotalPrice = tempTotalPrice + this.state.itemsInCart[itemKey].quantity * this.state.itemsInCart[itemKey].price_per_unit;
+         tempTotalPrice = tempTotalPrice + this.state.itemsInCart[itemKey].quantity * this.state.itemsInCart[itemKey].pricePerUnit;
         });
 
         this.setState({totalPrice: tempTotalPrice });

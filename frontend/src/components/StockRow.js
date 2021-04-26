@@ -5,7 +5,7 @@ class StockRow extends Component {
     state = {editMode : false};
     constructor(props) {
         super(props);
-        this.state = {quantityInStock: '' ,price_per_unit: '',  description: ''};
+        this.state = {quantityInStock: '' ,pricePerUnit: '',  description: ''};
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onOkClicked = this.onOkClicked.bind(this);
     }
@@ -16,7 +16,7 @@ class StockRow extends Component {
     resetValues=()=>{
         this.setState(
             {quantityInStock: this.props.item.quantityInStock,
-                price_per_unit: this.props.item.price_per_unit,
+                pricePerUnit: this.props.item.pricePerUnit,
                 description: this.props.item.description});
     }
     cancelEdit = ()=>{
@@ -68,8 +68,8 @@ class StockRow extends Component {
                     this.state.quantityInStock}
                 </td>
                 <td>{this.state.editMode ?
-                    <input type="text" className="stock-input" name="price_per_unit" value={this.state.price_per_unit} onChange={this.handleInputChange}/> :
-                    this.state.price_per_unit + "₪"}
+                    <input type="text" className="stock-input" name="pricePerUnit" value={this.state.pricePerUnit} onChange={this.handleInputChange}/> :
+                    this.state.pricePerUnit + "₪"}
                 </td>
                 <td>{this.state.editMode ?
                     <textarea className="" name="description" value={this.state.description} onChange={this.handleInputChange}/> :
