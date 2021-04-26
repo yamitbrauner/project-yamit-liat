@@ -127,7 +127,7 @@ class Shop extends Component {
                     :
                     <div className="col-8">
                         <div className="row">
-                            <Payment/>
+                            <Payment userDetails={this.props.userDetails}/>
                         </div>
                     </div>
                 }
