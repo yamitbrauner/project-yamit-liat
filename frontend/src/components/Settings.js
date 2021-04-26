@@ -5,25 +5,33 @@ import OrdersTable from "./OrdersTable";
 var STOCK = 2;
 var DETAILS = 3;
 var ORDERS = 4;
-
+var MANAGER_ROLE = 2;
+var isManager = false;
 
 class Settings extends Component {
 
   state = {categorySelected: null, categories:[] };
 
   componentDidMount(){
-      this.setState({categories: [
-              {
-                  categoryId : STOCK,
-                  categoryName:"ניהול מלאי"
-              },{
-                  categoryId : DETAILS,
-                  categoryName:"ניהול פרטים אישיים"
-              },{
-                  categoryId : ORDERS,
-                  categoryName:"ההזמנות שלי"
-              }
-          ]},()=>this.handleCategorySelection())
+
+      isManager = this.props.userDetails.roleId === MANAGER_ROLE;
+
+      var categories = [
+          {
+              categoryId : DETAILS,
+              categoryName:"ניהול פרטים אישיים"
+          },{
+              categoryId : ORDERS,
+              categoryName:"ההזמנות שלי"
+          }
+      ];
+      if(isManager){
+          categories.push({
+              categoryId : STOCK,
+              categoryName:"ניהול מלאי"
+          });
+      }
+      this.setState({categories: categories},()=>this.handleCategorySelection())
   }
     handleCategorySelection = (category) =>{
         if(!category){
@@ -37,6 +45,7 @@ class Settings extends Component {
 
 
   render() {
+
     return (
         <div className="col">
             <div className="row">

@@ -13,6 +13,7 @@ class AppHeader extends Component {
   };
 
   render() {
+    var isLoggedIn = (Object.keys(this.props.userDetails).length > 0);
     return (
         <div className="col box">
             <ul className="menu-list row">
@@ -25,10 +26,10 @@ class AppHeader extends Component {
                 </li>
 
                 <li className="menu-list-item col">
-                    {this.props.isLoggedIn ?
+                    {isLoggedIn ?
                         <div>
                             <button className="btn menu-list-item-txt default-cursor" disabled={true}>
-                                שלום ימית
+                                {this.props.userDetails.firstName + " " + this.props.userDetails.lastName}
                             </button>
                             <button className="btn menu-list-item-txt" onClick={()=>this.selectPage(3)}>
                                 איזור אישי
@@ -39,7 +40,6 @@ class AppHeader extends Component {
                         </div>
                          :
                         <button onClick={()=>this.selectPage(2)} className="btn menu-list-item-txt"> התחבר </button>
-
                     }
 
                     </li>
