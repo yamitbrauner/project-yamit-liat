@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import DatePicker from 'react-datetime';
+import moment from 'moment';
+import 'react-datetime/css/react-datetime.css'
+const today = moment();
+const disablePastDt = current => {
+    return current.isAfter(today);
+};
 
 class Payment extends Component {
     state = {isFinish: false}
@@ -8,14 +15,21 @@ class Payment extends Component {
     }
 
   render() {
-    return (
+var dt = null;
+      return (
         <div className="col payment box">
             {!this.state.isFinish ?
                 <div className="margin-top-bottom">
                     <div className="form-row">
                         <div className="form-group col-md-6">
                             <label htmlFor="date">תאריך הזמנה</label>
-                            <input type="date" className="form-control" id="date" placeholder="תאריך"/>
+                            <DatePicker
+                                class="form-control"
+                                isValidDate={disablePastDt}
+                                value={dt}
+                                dateFormat="DD/MM/YYYY"
+                                timeFormat={false}
+                            />
                         </div>
                     </div>
                     <div className="form-row">
@@ -24,7 +38,7 @@ class Payment extends Component {
                             <input type="text" className="form-control" id="name" disabled={true} value={this.props.userDetails.firstName + " " + this.props.userDetails.lastName}/>
                         </div>
                         <div className="form-group col-md-6">
-                            <label htmlFor="address">כתובת</label>
+                            <label htmlFor="address">כתובת להזמנה</label>
                             <input type="text" className="form-control" id="address" disabled={true} value={this.props.userDetails.address}/>
                         </div>
                     </div>

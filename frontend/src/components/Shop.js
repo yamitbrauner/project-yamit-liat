@@ -4,14 +4,12 @@ import Item from './Item';
 import Cart from './Cart';
 import Payment from './Payment';
 
-var isLoggedIn = false;
 
 class Shop extends Component {
   state = { items:{}, itemsInCart:{} ,totalPrice:0, categories: [], categorySelected: null, isPayment: false};
 
 
   componentDidMount(){
-      isLoggedIn = (Object.keys(this.props.userDetails).length > 0);
       fetch("/category")
         .then(res => res.json())
         .then(
@@ -90,7 +88,7 @@ class Shop extends Component {
     }
 
     switchPaymentOrItems = ()=>{
-        if(!isLoggedIn){
+        if(Object.keys(this.props.userDetails).length === 0){
             this.props.onSelectPage(2);
         }else{
             this.setState({isPayment: !this.state.isPayment})
