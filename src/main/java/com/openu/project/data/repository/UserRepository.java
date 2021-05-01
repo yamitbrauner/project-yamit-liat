@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends CrudRepository<Users,Integer> {
 //    Iterable<Users> findByUserName(String userName);
     Iterable<Users> findByMail(String mail);
+    Iterable<Users> findByTempHash(String tempHash);
 
 }

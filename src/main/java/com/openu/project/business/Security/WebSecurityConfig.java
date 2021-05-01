@@ -29,6 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     MyUserDetailsService userDetailsService;
     @Autowired
     UsersService userService;
+
+    public static final String SIGN_UP_URL = "/api/services/controller/user";
+
     //private static final String ENCODED_PASSWORD = "$2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2";
 
 
@@ -54,7 +57,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
 
-    public static final String SIGN_UP_URL = "/api/services/controller/user/login";
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -64,18 +66,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/category**").permitAll()
                 .antMatchers("/users**").permitAll()
-                .antMatchers("/products**").permitAll()
+                .antMatchers("/product**").permitAll()
                 .antMatchers("/image**").permitAll()
                 .antMatchers("/purchase**").permitAll()
                 .antMatchers( "/reservation**").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/{userId}/roles").permitAll()
+                .antMatchers(HttpMethod.POST, "/{userId}").fullyAuthenticated()
                 .anyRequest().authenticated()
                 .and()
                 // Authentication filter, this will intercept request path for login ("/login").
                 .addFilter(new UUIDAuthenticationFilter(authenticationManager(), userService))
+                .addFilter(new UUIDAuthorizationFilter(authenticationManager(), userService))
                 // Authorization filter to check jwt validity.
                 // This disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

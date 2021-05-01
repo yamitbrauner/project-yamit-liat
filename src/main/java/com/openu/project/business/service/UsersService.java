@@ -29,4 +29,18 @@ public class UsersService {
         myUser.setTempHash(autoKey);
         userRepository.save(myUser);
     }
+    public String getUserNameByToken(String token)
+    {
+        // Todo: Fix names as we actually look for email
+        Iterable<Users> users = userRepository.findByTempHash(token);
+        Users user = users.iterator().next();
+        String temHash = user.getTempHash();
+        String userName = user.getMail();
+        if (temHash.equals(token)) {
+            return userName;
+        }
+        else {
+            return null;
+        }
+    }
 }
