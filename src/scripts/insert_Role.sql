@@ -1,3 +1,3 @@
 insert into public.Role
- values (1, 'customer'),
-		(2, 'manager');
+ values (1, 'admin'),
+		(2, 'user');

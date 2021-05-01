@@ -22,4 +22,6 @@ public class UsersController {
     public void createUser(@RequestBody Users newUser) {
         userService.createUser(newUser);
     }
+
+
 }

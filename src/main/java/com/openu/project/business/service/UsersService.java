@@ -21,4 +21,12 @@ public class UsersService {
     public Iterable<Users> getUsers() {
         return userRepository.findAll();
     }
+
+    public void updateUserAutoKey(String email, String autoKey)
+    {
+        Iterable<Users> users = userRepository.findByMail(email);
+        Users myUser = users.iterator().next();
+        myUser.setTempHash(autoKey);
+        userRepository.save(myUser);
+    }
 }

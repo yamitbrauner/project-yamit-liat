@@ -27,10 +27,10 @@ public class Users {
     private String mail;
 
     @Column(name = "hashed_password")
-    private int hashedPassword;
+    private String hashedPassword;
 
     @Column(name = "temp_hash")
-    private int tempHash;
+    private String tempHash;
 
     @Column(name = "role_id")
     private int roleId;
@@ -83,19 +83,19 @@ public class Users {
         this.mail = mail;
     }
 
-    public int getHashedPassword() {
+    public String getHashedPassword() {
         return hashedPassword;
     }
 
-    public void setHashedPassword(int hashedPassword) {
+    public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
 
-    public int getTempHash() {
+    public String getTempHash() {
         return tempHash;
     }
 
-    public void setTempHash(int tempHash) {
+    public void setTempHash(String tempHash) {
         this.tempHash = tempHash;
     }
 

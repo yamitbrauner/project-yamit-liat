@@ -28,7 +28,7 @@ public class ProductController {
         return this.productService.getProducts();
     }
 
-    @GetMapping("/products_in_stock")
+    @GetMapping("/productsInStock")
     public Iterable<Product> getProductInStock() {
         return this.productService.getProductInStock();
         //return productInStockService.getProductInStock();
