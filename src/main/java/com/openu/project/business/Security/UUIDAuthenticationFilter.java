@@ -2,27 +2,18 @@ package com.openu.project.business.Security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openu.project.business.service.UsersService;
-import com.openu.project.data.entity.Users;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class UUIDAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -74,7 +65,7 @@ public class UUIDAuthenticationFilter extends UsernamePasswordAuthenticationFilt
                                             FilterChain chain,
                                             Authentication auth) throws IOException {
 
-        MyUserDetailes userDetails = (MyUserDetailes) auth.getPrincipal();
+        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
         final String uuid = UUID.randomUUID().toString();
 
         String username = userDetails.getUsername();

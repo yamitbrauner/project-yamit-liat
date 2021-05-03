@@ -18,6 +18,6 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Iterable<Users>  matchUsers = userRepository.findByMail(s);
         Users user = matchUsers.iterator().next();
-        return new MyUserDetailes(user);
+        return new MyUserDetails(user);
     }
 }

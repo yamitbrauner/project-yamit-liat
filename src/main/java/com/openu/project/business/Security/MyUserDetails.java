@@ -9,19 +9,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class MyUserDetailes implements UserDetails {
+public class MyUserDetails implements UserDetails {
 
 
     private Users user;
 
-    public MyUserDetailes(Users user)
+    public MyUserDetails(Users user)
     {
         this.user = user;
     }
 
-    public MyUserDetailes()
-    {
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
