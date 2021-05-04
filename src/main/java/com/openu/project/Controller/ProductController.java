@@ -1,9 +1,11 @@
 package com.openu.project.Controller;
 
+import com.openu.project.business.domain.throwable.UpdateTable;
 import com.openu.project.business.service.ProductService;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -51,8 +53,16 @@ public class ProductController {
 
     @PutMapping("/products/{productId}")
     public void updateProduct(@RequestBody Product product,
-                              @PathVariable("productId") Integer productId){
-        productService.updateProduct(product, productId);
+                              @PathVariable("productId") Integer productId) throws UpdateTable{
+//        try {
+            productService.updateProduct(product, productId);
+//        }
+//        catch (UpdateTable e)
+//        {
+//            System.out.println("Product id dosent exist");
+//            throw new UpdateTable();
+//        }
+
     }
 
     @PutMapping("/products/quantity/{productId}/{quantity}")

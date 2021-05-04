@@ -1,5 +1,7 @@
 package com.openu.project.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -18,12 +20,14 @@ public class Reservation {
     private float total;
 
     @Column(name = "payment_id")
-    private String paymentDetails;
+    private String paymentId;
 
     @Column(name = "reservation_date")
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss.000")
     private Date reservationDate;
 
     @Column(name = "delivery_date")
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss.000")
     private Date deliveryDate;
 
     @Column(name = "status")
@@ -53,26 +57,30 @@ public class Reservation {
         this.total = total;
     }
 
-    public String getPaymentDetails() {
-        return paymentDetails;
+    public String getPaymentId() {
+        return paymentId;
     }
 
-    public void setPaymentDetails(String paymentDetails) {
-        this.paymentDetails = paymentDetails;
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
     }
 
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss.000")
     public Date getReservationDate() {
         return reservationDate;
     }
 
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss.000")
     public void setReservationDate(Date reservationDate) {
         this.reservationDate = reservationDate;
     }
 
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss.000")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
 
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss.000")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }

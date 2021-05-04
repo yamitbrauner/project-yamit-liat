@@ -1,6 +1,7 @@
 package com.openu.project.business.service;
 
 import com.openu.project.business.domain.ProductInStock;
+import com.openu.project.business.domain.throwable.UpdateTable;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.repository.CategoryRepository;
 import com.openu.project.data.repository.ProductRepository;
@@ -61,18 +62,20 @@ public class ProductService {
     }
 
 
-    public void updateProduct(Product product, Integer productId) {
+    public void updateProduct(Product product, Integer productId) throws UpdateTable {
         Product productOld = productRepository.findByProdId(productId);
+        if (productOld == null) throw new UpdateTable();
         fillNewProductToOld(productOld, product);
         productRepository.save(productOld);
     }
 
     private void fillNewProductToOld(Product productOld, Product product) {
-        productOld.setDescription(product.getDescription());
+
         productOld.setProdName(product.getProdName());
-        productOld.setPricePerUnit(product.getPricePerUnit());
-        productOld.setPicUrl(product.getPicUrl());
         productOld.setQuantityInStock(product.getQuantityInStock());
+        productOld.setPricePerUnit(product.getPricePerUnit());
+        productOld.setDescription(product.getDescription());
+        productOld.setPicUrl(product.getPicUrl());
         //productOld.setQuantityOrdered(product.getQuantityOrdered());
     }
 

@@ -68,13 +68,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
+                //.antMatchers(HttpMethod.PUT).permitAll()
                 .antMatchers("/category**").permitAll()
                 .antMatchers("/user**").permitAll()
                 .antMatchers("/product**").permitAll()
+                .antMatchers("/products/**").permitAll() //put
                 .antMatchers("/products/category/**").permitAll()
                 .antMatchers("/image**").permitAll()
                 .antMatchers("/purchase**").permitAll()
                 .antMatchers( "/reservation**").permitAll()
+                .antMatchers( "/reservation/**").permitAll() //put
+
+                .antMatchers( "/reservation/getById/**").permitAll()
+                .antMatchers( "/reservation/getByMail/**").permitAll()
+
+
                 .antMatchers(HttpMethod.POST, "/users/{userId}/roles").permitAll()
                 .antMatchers(HttpMethod.POST, "/{userId}").fullyAuthenticated()
                 .anyRequest().authenticated()
