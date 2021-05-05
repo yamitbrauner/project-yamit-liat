@@ -1,9 +1,7 @@
-package com.openu.project.Controller;
+package com.openu.project.controller;
 
 import com.openu.project.business.service.ReservationService;
-import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Reservation;
-import com.openu.project.data.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

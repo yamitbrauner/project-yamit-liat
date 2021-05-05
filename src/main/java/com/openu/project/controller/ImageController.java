@@ -1,4 +1,4 @@
-package com.openu.project.Controller;
+package com.openu.project.controller;
 
 import com.openu.project.business.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;

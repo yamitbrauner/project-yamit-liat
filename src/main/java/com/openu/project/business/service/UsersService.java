@@ -29,6 +29,12 @@ public class UsersService {
         myUser.setToken(autoKey);
         userRepository.save(myUser);
     }
+
+    public Users getUserByMail(String mail)
+    {
+        return userRepository.findByMail(mail).iterator().next();
+    }
+
     public String getUserNameByToken(String token)
     {
         // Todo: Fix names as we actually look for email

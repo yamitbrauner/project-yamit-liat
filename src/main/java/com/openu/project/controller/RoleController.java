@@ -1,8 +1,7 @@
-package com.openu.project.Controller;
+package com.openu.project.controller;
 
 import com.openu.project.business.service.RoleService;
 import com.openu.project.data.entity.Role;
-import com.openu.project.data.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

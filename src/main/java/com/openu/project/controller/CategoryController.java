@@ -1,4 +1,4 @@
-package com.openu.project.Controller;
+package com.openu.project.controller;
 
 import com.openu.project.business.service.CategoryService;
 import com.openu.project.data.entity.Category;

@@ -1,4 +1,4 @@
-package com.openu.project.business.Security;
+package com.openu.project.business.security;
 
 import com.openu.project.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

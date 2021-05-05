@@ -1,11 +1,10 @@
-package com.openu.project.business.Security;
+package com.openu.project.business.security;
 
 import com.openu.project.data.entity.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
