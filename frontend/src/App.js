@@ -38,7 +38,6 @@ class App extends Component {
             .then(res => res.json())
             .then(
                 (data) => {
-                    debugger;
                     this.setState({
                         cookie: data
                     });

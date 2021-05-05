@@ -27,7 +27,6 @@ class Payment extends Component {
     }
 
   render() {
-debugger;
       return (
         <div className="col payment">
             <RowMenu onSelectCategory={this.handleCategorySelection}
