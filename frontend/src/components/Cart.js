@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import ItemInCart from "./ItemInCart";
 class Cart extends Component {
-    state={inShop : true};
-
     removeItemFromCart=(itemToRemove)=>{
         this.props.removeItemFromCart(itemToRemove);
     }
-    handleQuantity=(prodID, num)=> {
-        this.props.handleQuantity(prodID, num);
+
+    handleQuantity = (prodId, num)=>{
+        var tempItemsInCart = {...this.props.itemsInCart};
+        tempItemsInCart[prodId].quantity = num;
+        this.props.setItemsInCart(tempItemsInCart);
     }
+
     handlePay=()=>{
-        this.setState({inShop: false});
         this.props.handlePay();
     }
   render() {
@@ -42,19 +43,16 @@ class Cart extends Component {
 
                     {this.props.totalPrice > 0 ?
                         <>
-                        <div className="row margin-top-bottom">
-                            <span className="col">סה"כ: {this.props.totalPrice}₪</span>
-                        </div>
-                            {this.state.inShop ?
-                                <div className="row">
-                                    <div className="col">
-                                        <button className="btn-default btn margin-top-bottom" onClick={this.handlePay}>
-                                            <span className="category-name">לתשלום</span>
-                                        </button>
-                                    </div>
-                                </div>: ""
-                            }
-
+                            <div className="row margin-top-bottom">
+                                <span className="col">סה"כ: {this.props.totalPrice}₪</span>
+                            </div>
+                            <div className="row">
+                                <div className="col">
+                                    <button className="btn-default btn margin-top-bottom" onClick={this.handlePay}>
+                                        <span className="category-name">לתשלום</span>
+                                    </button>
+                                </div>
+                            </div>
                         </>:
                         <div className="row margin-top-bottom">
                             <span className="col">אין פריטים בעגלה</span>

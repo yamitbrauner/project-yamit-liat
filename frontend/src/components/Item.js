@@ -9,29 +9,22 @@ class Item extends Component {
   render() {
     var inCart = this.props.itemsInCart[this.props.item.prodId] && this.props.itemsInCart[this.props.item.prodId].quantity >0;
             return (
-        <div className="col item box">
+        <div className="col-3">
             <div className="row">
-                <div className="col">
-                    <img alt="" className="margin-top-bottom img-thumbnail img-fluid" src={"http://localhost:8080/image?name=" + this.props.item.picUrl+"&&category="+this.props.item.categoryId}/>
-                </div>
-                <div className="product-box col-6">
-                    <div className="product-name row margin-top-bottom">
-                        {this.props.item.prodName} {this.props.item.pricePerUnit}₪
-                    </div>
-                    <div className="product-description row">
-                        {this.props.item.description}
-                    </div>
-                </div>
-                <div className="col margin-top-bottom">
-                    <div className="row">
-                        <div className="col">
-                            <button className="btn-default btn margin-top-bottom" onClick={this.handleUpdateCart}>
-                                <span className="category-name">{inCart ? "הסרה מהסל": "הוספה לסל"}</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <img alt="" className="item-img col" src={"http://localhost:8080/image?name=" + this.props.item.picUrl+"&&category="+this.props.item.categoryId}/>
             </div>
+            <div className="row margin-top-bottom">
+                <span className="col product-name">
+                {this.props.item.prodName} {this.props.item.pricePerUnit}₪
+                </span>
+            </div>
+                <div className="row margin-top-bottom">
+                    <div className="col">
+                        <button className="btn-default btn-danger btn margin-top-bottom" onClick={this.handleUpdateCart}>
+                            <span className="add-to-cart">{inCart ? "הסרה מהסל": "הוספה לסל"}</span>
+                        </button>
+                    </div>
+                </div>
         </div>
     );
   }

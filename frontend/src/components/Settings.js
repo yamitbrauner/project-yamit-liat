@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SideMenu from "./SideMenu";
+import RowMenu from "./RowMenu";
 import Stock from "./Stock";
 import OrdersTable from "./OrdersTable";
 var STOCK = 2;
@@ -51,7 +51,7 @@ class Settings extends Component {
             <div className="row">
                 <div className="col margin-l">
                     <div className="row">
-                        <SideMenu onSelectCategory={this.handleCategorySelection}
+                        <RowMenu onSelectCategory={this.handleCategorySelection}
                                   categories={this.state.categories}/>
                     </div>
                 </div>
