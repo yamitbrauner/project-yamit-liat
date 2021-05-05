@@ -71,7 +71,7 @@
     text-decoration: underline;
   }
   .title{
-    font-size:18px;
+    font-size:20px;
     font-weight: bold;
   }
   .category-name{
@@ -96,7 +96,7 @@
     margin-left: 30px;
   }
   .box{
-    border-radius: 12px;
+
     box-shadow: 0 5px 22px 0 rgb(161 166 192);
     background: white;
   }
@@ -112,7 +112,7 @@
   .left-cart{
     transition: visibility 0s, opacity 0.5s linear;
     position: fixed;
-    z-index: 1500;
+    z-index: 1200;
     left: 0;
     width: 700px;
   }
@@ -194,4 +194,18 @@
     top: -10px;
     font-size: 14px;
     font-weight: bold;
+  }
+  .login-box{
+    z-index:2000;
+
+  }
+  .login-popup{
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    width: 25%;
+    height: 50%;
+  }
+  .modal-backdrop-login{
+    z-index:1300;
   }

@@ -1,60 +1,47 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datetime';
-import moment from 'moment';
-import 'react-datetime/css/react-datetime.css'
-const today = moment();
-const disablePastDt = current => {
-    return current.isAfter(today);
-};
-
+import UserDetails from "./UserDetails";
+import Cart from "./Cart";
+import RowMenu from "./RowMenu";
+var SHOP = 1;
 class Payment extends Component {
-    state = {isFinish: false}
+
+    state = {isFinish: false, categories:[]}
+
+    componentDidMount(){
+
+
+        var categories = [
+            {
+                categoryId : SHOP,
+                categoryName:"חזרה לחנות"
+            }
+        ];
+        this.setState({categories: categories});
+    }
+    handleCategorySelection = (category)=>{
+        this.props.onSelectPage(category.categoryId);
+    }
 
     finishOrder = ()=>{
         this.setState({isFinish: !this.state.isFinish})
     }
 
   render() {
-var dt = null;
+debugger;
       return (
-        <div className="col payment box">
+        <div className="col payment">
+            <RowMenu onSelectCategory={this.handleCategorySelection}
+                     categories={this.state.categories}/>
             {!this.state.isFinish ?
-                <div className="margin-top-bottom">
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
-                            <label htmlFor="date">תאריך הזמנה</label>
-                            <DatePicker
-                                class="form-control"
-                                isValidDate={disablePastDt}
-                                value={dt}
-                                dateFormat="DD/MM/YYYY"
-                                timeFormat={false}
-                            />
+                <div className="row">
+                    <div className="col">
+                        <div className="row">
+                            <div className="col title"> פרטי חיוב ומשלוח</div>
                         </div>
+                        <UserDetails userDetails={this.props.userDetails}/>
                     </div>
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
-                            <label htmlFor="name">שם מלא</label>
-                            <input type="text" className="form-control" id="name" disabled={true} value={this.props.userDetails.firstName + " " + this.props.userDetails.lastName}/>
-                        </div>
-                        <div className="form-group col-md-6">
-                            <label htmlFor="address">כתובת להזמנה</label>
-                            <input type="text" className="form-control" id="address" disabled={true} value={this.props.userDetails.address}/>
-                        </div>
-                    </div>
+                    <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>
 
-                    <div className="divider"/>
-                    <div className="form-row">
-                        <div className="form-group col-md-6">
-                            <label htmlFor="id">מספר טלפון</label>
-                            <input type="text" className="form-control" id="phone" disabled={true} value={this.props.userDetails.phone}/>
-                        </div>
-                        <div className="form-group col-md-6">
-                            <label htmlFor="id">מייל</label>
-                            <input type="text" className="form-control" id="mail" disabled={true} value={this.props.userDetails.mail}/>
-                        </div>
-                    </div>
-                    <button onClick={()=>this.finishOrder()} className="btn btn-primary">למעבר לתשלום באמצעות Paypal</button>
                 </div>
                 :
                 <div>

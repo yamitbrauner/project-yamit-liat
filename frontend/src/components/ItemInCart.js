@@ -14,11 +14,15 @@ class ItemInCart extends Component {
   render() {
     return (
         <tr>
-            <td><button className="col btn btn-default btn-number" onClick={() => this.removeItemFromCart()}><span className="glyphicon glyphicon-remove"></span></button></td>
+            {this.props.isEditable && <td><button className="col btn btn-default btn-number" onClick={() => this.removeItemFromCart()}><span className="glyphicon glyphicon-remove"></span></button></td>}
             <td>{this.props.item.prodName}</td>
             <td>{this.props.item.pricePerUnit}₪</td>
             <td>
-                <PlusMinus minCart={1} maxCart={10}  handleQuantity={this.handleQuantity} quantity={this.props.item.quantity}/>
+                { this.props.isEditable ?
+                    <PlusMinus minCart={1} maxCart={10}  handleQuantity={this.handleQuantity} quantity={this.props.item.quantity}/>
+                    :
+                    <div>{this.props.item.quantity}</div>
+                }
             </td>
             <td>{this.props.item.quantity * this.props.item.pricePerUnit}₪</td>
         </tr>

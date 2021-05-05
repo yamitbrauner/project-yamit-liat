@@ -9,10 +9,11 @@ import Error from './components/Error';
 import Cart from './components/Cart';
 import Payment from "./components/Payment";
 import cartImg from "./cart.svg";
+import settingImg from "./settings.svg";
 import userImg from "./user.svg";
 
 class App extends Component {
-  state = {pageSelected:1, userDetails: {}, showCart:false,showLogin:false, itemsInCart:{} , totalPrice:0,totalItems:0};
+  state = {pageSelected:1, userDetails: {}, showCart:false,showLogin:false, itemsInCart:{} , totalPrice:0,totalItems:0, cookie:""};
 
 
     handlePageSelection = (pageNum) =>{
@@ -20,11 +21,32 @@ class App extends Component {
     }
     handleLog = (val) =>{
         if(val){
+            // this.loginUser(val);
             this.fetchUserDetails();
         }else{
             this.setState({userDetails : {}});
         }
     }
+
+    loginUser = (loginData)=>{
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({username:"liat.arama1@gmail.com",password:"1234"})
+        };
+        fetch("/api/services/controller/user/login",requestOptions)
+            .then(res => res.json())
+            .then(
+                (data) => {
+                    debugger;
+                    this.setState({
+                        cookie: data
+                    });
+                }
+            )
+
+    }
+
     showCart = () =>{
         this.setState({showCart : !this.state.showCart});
     }
@@ -48,9 +70,10 @@ class App extends Component {
 
     switchPaymentOrItems = ()=>{
         if(Object.keys(this.state.userDetails).length === 0){
-            this.handlePageSelection(2);
+            this.showLogin();
         }else{
             this.handlePageSelection(4);
+            this.showCart();
         }
     }
     removeItemFromCart=(itemToRemove)=>{
@@ -67,7 +90,7 @@ class App extends Component {
                 (resUser) => {
                     this.setState({
                         userDetails: resUser[3]
-                    });
+                    },()=>this.showLogin());
                 },
                 (error) => {
                     this.props.onSelectPage(404);
@@ -81,7 +104,7 @@ class App extends Component {
             {this.state.showCart ?
                 <div className="left-cart">
                     <div className="row">
-                        <Cart itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice} setItemsInCart={this.setItemsInCart}
+                        <Cart itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice} setItemsInCart={this.setItemsInCart} isEditable={true}
                             handleQuantity={this.handleQuantity} handlePay={this.switchPaymentOrItems} removeItemFromCart={this.removeItemFromCart}
                         />
                     </div>
@@ -89,11 +112,11 @@ class App extends Component {
                 </div> : ""
             }
             {this.state.showLogin ?
-                <div className="left-cart">
+                <div className="login-popup">
                     <div className="row">
-                        <Login handleLog={this.handleLog} userDetails={this.state.userDetails} onSelectPage={this.handlePageSelection}/>
+                        <Login handleLog={this.handleLog} userDetails={this.state.userDetails}/>
                     </div>
-                    <div className="modal-backdrop in" onClick={()=>this.showCart()}/>
+                    <div className="modal-backdrop modal-backdrop-login in" onClick={()=>this.showLogin()}/>
                 </div> : ""
             }
 
@@ -109,7 +132,11 @@ class App extends Component {
                             </div>
                         </div>
                         <div className="symbol-cart symbol-user">
-                            <img className="symbol-height" alt="" src={userImg} onClick={()=>this.showLogin()}/>
+                            {Object.keys(this.state.userDetails).length === 0 ?
+                                <img className="symbol-height" alt="" src={userImg} onClick={() => this.showLogin()}/>
+                                :
+                                <img className="symbol-height" alt="" src={settingImg} onClick={() => this.handlePageSelection(3)}/>
+                            }
                         </div>
                     </div>
 
@@ -121,9 +148,9 @@ class App extends Component {
                             {this.state.pageSelected === 0 && <Main/>}
                             {this.state.pageSelected === 1 && <Shop onSelectPage={this.handlePageSelection} setItemsInCart={this.setItemsInCart}
                                                                     itemsInCart={this.state.itemsInCart} removeItemFromCart={this.removeItemFromCart} userDetails={this.state.userDetails}/>}
-                            {/*{this.state.pageSelected === 2 && <Login handleLog={this.handleLog} userDetails={this.state.userDetails} onSelectPage={this.handlePageSelection}/>}*/}
                             {this.state.pageSelected === 3 && <Settings onSelectPage={this.handlePageSelection} userDetails={this.state.userDetails}/>}
-                            {this.state.pageSelected === 4 && <Payment userDetails={this.props.userDetails}/>}
+                            {this.state.pageSelected === 4 && <Payment userDetails={this.state.userDetails}  itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice}
+                                                                       onSelectPage={this.handlePageSelection}/>}
                             {this.state.pageSelected === 404 && <Error/>}
                         </div>
                     </div>

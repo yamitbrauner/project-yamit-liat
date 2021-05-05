@@ -8,15 +8,11 @@ class Login extends Component {
     }
     finish = ()=>{
         this.props.handleLog(true);
-        this.props.onSelectPage(1);
     }
 
   render() {
     return (
-        <div className="col">
-            <div className="row">
-                <div className="col-3"/>
-                <div className="col-6 box">
+        <div className="col box login-box">
 
                         <div className="row">
                             <div className="col">
@@ -28,13 +24,13 @@ class Login extends Component {
                                             </span>
                                         </div>
                                         <div className="form-row">
-                                            <div className="form-group col-md-6">
+                                            <div className="form-group col">
                                                 <label htmlFor="name">מייל</label>
                                                 <input type="text" className="form-control" id="name" placeholder="אנא הזן מייל"/>
                                             </div>
                                         </div>
                                         <div className="form-row">
-                                            <div className="form-group col-md-6">
+                                            <div className="form-group col">
                                                 <label htmlFor="password">סיסמא</label>
                                                 <input type="password" className="form-control" id="password" placeholder="אנא הזן סיסמא"/>
                                             </div>
@@ -69,7 +65,7 @@ class Login extends Component {
 
 
                                         <div className="form-row">
-                                            <div className="form-group switch-text col-md-6">
+                                            <div className="form-group switch-text col">
                                                 {this.state.isLoginPage ?
                                                 <div onClick={()=>this.switchPage(false)}>משתמש חדש ? להרשמה לחץ כאן</div>
                                                     :
@@ -82,9 +78,6 @@ class Login extends Component {
                             </div>
                         </div>
                     </div>
-                <div className="col-3"/>
-            </div>
-        </div>
     );
   }
 }

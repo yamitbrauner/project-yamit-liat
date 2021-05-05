@@ -16,7 +16,7 @@ class Cart extends Component {
     }
   render() {
     return (
-        <div className="col cart box">
+        <div className={this.props.isEditable? "col cart box" : "col box"}>
             <div className="row cart-title"><span className="col cart-title-text">סיכום הזמנה</span></div>
             <div className="divider row margin-top-bottom"/>
             <div className="row">
@@ -24,7 +24,7 @@ class Cart extends Component {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th/>
+                            {this.props.isEditable && <th/>}
                             <th scope="col">מוצר</th>
                             <th scope="col">מחיר ליח'</th>
                             <th scope="col">כמות</th>
@@ -35,7 +35,7 @@ class Cart extends Component {
                         {Object.keys(this.props.itemsInCart).map((prodID,index) =>{
                             return this.props.itemsInCart[prodID].quantity >0 ?
                                 <ItemInCart item={this.props.itemsInCart[prodID]} key={index} itemIndex={prodID} removeItemFromCart={this.removeItemFromCart}
-                                            handleQuantity = {this.handleQuantity}/>
+                                            handleQuantity = {this.handleQuantity} isEditable={this.props.isEditable}/>
                                 : ''
                         })}
                         </tbody>
@@ -46,6 +46,8 @@ class Cart extends Component {
                             <div className="row margin-top-bottom">
                                 <span className="col">סה"כ: {this.props.totalPrice}₪</span>
                             </div>
+                            {
+                                this.props.isEditable &&
                             <div className="row">
                                 <div className="col">
                                     <button className="btn-default btn margin-top-bottom" onClick={this.handlePay}>
@@ -53,6 +55,7 @@ class Cart extends Component {
                                     </button>
                                 </div>
                             </div>
+                            }
                         </>:
                         <div className="row margin-top-bottom">
                             <span className="col">אין פריטים בעגלה</span>
