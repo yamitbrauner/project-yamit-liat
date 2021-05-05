@@ -1,16 +1,11 @@
 package com.openu.project.business.service;
 
-import com.openu.project.business.domain.ProductInStock;
-import com.openu.project.business.domain.throwable.UpdateTable;
+import com.openu.project.exception.UpdateTable;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.repository.CategoryRepository;
 import com.openu.project.data.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 public class ProductService {

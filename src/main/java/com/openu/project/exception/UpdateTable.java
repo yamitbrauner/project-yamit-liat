@@ -1,4 +1,4 @@
-package com.openu.project.business.domain.throwable;
+package com.openu.project.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -31,7 +31,7 @@ phone varchar(200),
 address varchar(200),
 mail varchar(200),
 hashed_password varchar(200),
-temp_hash varchar(200),
+token varchar(200),
 role_id integer,
 primary key (user_id),
 foreign key (role_id) references public.Role);

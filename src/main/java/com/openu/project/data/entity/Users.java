@@ -29,8 +29,8 @@ public class Users {
     @Column(name = "hashed_password")
     private String hashedPassword;
 
-    @Column(name = "temp_hash")
-    private String tempHash;
+    @Column(name = "token")
+    private String token;
 
     @Column(name = "role_id")
     private int roleId;
@@ -91,12 +91,12 @@ public class Users {
         this.hashedPassword = hashedPassword;
     }
 
-    public String getTempHash() {
-        return tempHash;
+    public String getToken() {
+        return token;
     }
 
-    public void setTempHash(String tempHash) {
-        this.tempHash = tempHash;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public int getRoleId() {
