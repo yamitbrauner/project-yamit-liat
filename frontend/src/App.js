@@ -10,10 +10,11 @@ import Cart from './components/Cart';
 import Payment from "./components/Payment";
 import cartImg from "./cart.svg";
 import settingImg from "./settings.svg";
+import logoutImg from "./logout.svg";
 import userImg from "./user.svg";
 
 class App extends Component {
-  state = {pageSelected:1, userDetails: {}, showCart:false,showLogin:false, itemsInCart:{} , totalPrice:0,totalItems:0, cookie:""};
+  state = {pageSelected:1, userDetails: {}, showCart:false,showLogin:false, itemsInCart:{} , totalPrice:0,totalItems:0};
 
 
     handlePageSelection = (pageNum) =>{
@@ -21,8 +22,7 @@ class App extends Component {
     }
     handleLog = (val) =>{
         if(val){
-            // this.loginUser(val);
-            this.fetchUserDetails();
+            this.loginUser(val);
         }else{
             this.setState({userDetails : {}});
         }
@@ -32,15 +32,14 @@ class App extends Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({username:"liat.arama1@gmail.com",password:"1234"})
+            body: JSON.stringify(loginData)
         };
         fetch("/api/services/controller/user/login",requestOptions)
             .then(res => res.json())
             .then(
                 (data) => {
-                    this.setState({
-                        cookie: data
-                    });
+                    this.setState({userDetails : data},()=>this.showLogin());
+                    localStorage.setItem('token',data.token);
                 }
             )
 
@@ -81,20 +80,9 @@ class App extends Component {
         this.setItemsInCart(tempItemsInCart);
     }
 
-    fetchUserDetails = ()=>{
-        // to change for a specific user
-        fetch("/user")
-            .then(res => res.json())
-            .then(
-                (resUser) => {
-                    this.setState({
-                        userDetails: resUser[3]
-                    },()=>this.showLogin());
-                },
-                (error) => {
-                    this.props.onSelectPage(404);
-                }
-            )
+    logout = ()=>{
+        this.setState({userDetails:{}});
+        localStorage.removeItem('token');
     }
 
   render() {
@@ -123,7 +111,7 @@ class App extends Component {
                 <div className="container">
                     <div className="sticky-symbol">
                         <div className="symbol-cart">
-                            <img className="symbol-height" alt="" src={cartImg} onClick={()=>this.showCart()}/>
+                            <img title="עגלה" className="symbol-height" alt="" src={cartImg} onClick={()=>this.showCart()}/>
                             <div className="cart-count">
                                 (
                                 <span>{this.state.totalItems}</span>
@@ -132,9 +120,12 @@ class App extends Component {
                         </div>
                         <div className="symbol-cart symbol-user">
                             {Object.keys(this.state.userDetails).length === 0 ?
-                                <img className="symbol-height" alt="" src={userImg} onClick={() => this.showLogin()}/>
+                                <img title="התחברות" className="symbol-height" alt="להתחברות" src={userImg} onClick={() => this.showLogin()}/>
                                 :
-                                <img className="symbol-height" alt="" src={settingImg} onClick={() => this.handlePageSelection(3)}/>
+                                <>
+                                    <img title="התנתקות" className="symbol-height" alt="התנתקות" src={logoutImg} onClick={() => this.logout()}/>
+                                    <img title="הגדרות" className="symbol-height" alt="הגדרות" src={settingImg} onClick={() => this.handlePageSelection(3)}/>
+                                </>
                             }
                         </div>
                     </div>

@@ -186,7 +186,8 @@
     left: 100px;
   }
   .symbol-height{
-    height:100%
+    height:100%;
+    margin-left: 20px;
   }
   .cart-count{
     position: absolute;

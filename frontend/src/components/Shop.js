@@ -78,7 +78,7 @@ class Shop extends Component {
                                 this.state.items[this.state.categorySelected.categoryId].map((item, index) => {
                                     //eslint-disable-next-line
                                     return item.quantityInStock > 0 ?
-                                        <Item item={item} itemIndex={index} handleCart={(itemIndex)=>this.handleCart(itemIndex)} itemsInCart={this.props.itemsInCart}/>
+                                        <Item item={item} itemIndex={index} key={index} handleCart={(itemIndex)=>this.handleCart(itemIndex)} itemsInCart={this.props.itemsInCart}/>
                                          : ''
                                 })}
                         </div>

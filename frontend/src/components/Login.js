@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 
 class Login extends Component {
-  state = {isLoginPage: true};
+
+    state = {isLoginPage: true, loginInput:{} };
+
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
 
     switchPage = (val)=>{
         this.setState({isLoginPage: val});
     }
     finish = ()=>{
-        this.props.handleLog(true);
+        this.props.handleLog(this.state.loginInput);
+    }
+    handleChange(event) {
+        var tempLoginInput = {...this.state.loginInput};
+        tempLoginInput[event.target.name] = event.target.value;
+        this.setState({loginInput:tempLoginInput});
     }
 
   render() {
@@ -26,13 +37,13 @@ class Login extends Component {
                                         <div className="form-row">
                                             <div className="form-group col">
                                                 <label htmlFor="name">מייל</label>
-                                                <input type="text" className="form-control" id="name" placeholder="אנא הזן מייל"/>
+                                                <input type="text" className="form-control" id="username" name="username" placeholder="אנא הזן מייל" value={this.state.loginInput.username} onChange={this.handleChange}/>
                                             </div>
                                         </div>
                                         <div className="form-row">
                                             <div className="form-group col">
                                                 <label htmlFor="password">סיסמא</label>
-                                                <input type="password" className="form-control" id="password" placeholder="אנא הזן סיסמא"/>
+                                                <input type="password" className="form-control" id="password" name="password" placeholder="אנא הזן סיסמא" value={this.state.loginInput.password} onChange={this.handleChange}/>
                                             </div>
                                         </div>
                                         {!this.state.isLoginPage?
