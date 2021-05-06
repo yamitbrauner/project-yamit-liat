@@ -3,7 +3,7 @@ rem sleep 3
 timeout /t 5
 set PGPASSWORD=12345678
 
-psql -U postgres -d dev -h localhost -p 5432 -f .\drop_all.sql
+rem psql -U postgres -d dev -h localhost -p 5432 -f .\drop_all.sql
 
 createdb -h localhost -p 5432 -U postgres  dev
 
@@ -13,3 +13,5 @@ psql -U postgres -d dev -h localhost -p 5432 -f insert_Product.sql
 psql -U postgres -d dev -h localhost -p 5432 -f insert_Role.sql
 psql -U postgres -d dev -h localhost -p 5432 -f insert_Users.sql
 psql -U postgres -d dev -h localhost -p 5432 -f insert_Reservation.sql
+
+psql -U postgres -d dev -h localhost -p 5432 -f sequence.sql

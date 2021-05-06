@@ -1,8 +1,12 @@
 package com.openu.project.business.service;
 
+import com.openu.project.business.domain.CreateNewReservation;
+import com.openu.project.business.domain.ProductsForCart;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
+import com.openu.project.exception.ReservationConfirmError;
+import com.openu.project.exception.UpdateTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openu.project.data.entity.Users;
@@ -16,6 +20,8 @@ public class ReservationService {
     ReservationRepository reservationRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PurchaseService purchaseService;
 
     public Iterable<Reservation> findAll() {
         return reservationRepository.findAll();
@@ -50,4 +56,38 @@ public class ReservationService {
         reservationOld.setDeliveryDate(reservation.getDeliveryDate());
         reservationOld.setStatus(reservation.getStatus());
     }
+
+    public Reservation createReservation(CreateNewReservation newReservation) {
+
+        // TODO: Add checkers
+        // 1. dates, user id, total prince?!
+        Reservation dbReservation = new Reservation();
+        // TODO: set payment id in confirm
+        //dbReservation.setPaymentId(newReservation.getPaymentId());
+        dbReservation.setTotal(newReservation.getTotalPrice());
+        dbReservation.setReservationDate(newReservation.getReservationDate());
+        dbReservation.setDeliveryDate(newReservation.getDeliveryDate());
+        dbReservation.setUserId(newReservation.getUserId());
+        this.reservationRepository.save(dbReservation);
+        return dbReservation;
+    }
+
+
+    public Reservation confirmReservation(int reservationId, String paymentId) throws ReservationConfirmError{
+
+        // TODO: Add checkers
+        // 1. dates, user id, total prince?!
+        Reservation reservation = this.reservationRepository.findByReservationId(reservationId);
+        reservation.setPaymentId(paymentId);
+
+        // TODO: Send mail
+        float totalReservationSum =  this.purchaseService.getProuductsSumByReservationId(reservationId);
+        if (totalReservationSum != reservation.getTotal()) throw new ReservationConfirmError();
+
+        // TODO: Check real payment status with paypal service
+        reservation.setStatus("Approved");
+        this.reservationRepository.save(reservation);
+        return reservation;
+    }
+
 }

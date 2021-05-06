@@ -17,6 +17,8 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 //import static org.attoparser.config.ParseConfiguration.PrologPresence.FORBIDDEN;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -73,14 +75,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user**").permitAll()
                 .antMatchers("/product**").permitAll()
                 .antMatchers("/products/**").permitAll() //put
+                .antMatchers("/products**").permitAll() //put
                 .antMatchers("/products/category/**").permitAll()
                 .antMatchers("/image**").permitAll()
                 .antMatchers("/purchase**").permitAll()
                 .antMatchers( "/reservation**").permitAll()
                 .antMatchers( "/reservation/**").permitAll() //put
+                .antMatchers( "/confirmReservation").permitAll() //put
+                .antMatchers( "/createPurchase").permitAll() //put
 
                 .antMatchers( "/reservation/getById/**").permitAll()
                 .antMatchers( "/reservation/getByMail/**").permitAll()
+                .antMatchers("/createNewReservation*").permitAll()
+                .antMatchers("/getProductsByReservation*").permitAll()
 
 
                 .antMatchers(HttpMethod.POST, "/users/{userId}/roles").permitAll()

@@ -1,8 +1,8 @@
 package com.openu.project.controller;
 
-import com.openu.project.business.domain.throwable.UpdateTable;
 import com.openu.project.business.service.ProductService;
 import com.openu.project.data.entity.Product;
+import com.openu.project.exception.UpdateTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +49,7 @@ public class ProductController {
 
     @PutMapping("/products/{productId}")
     public void updateProduct(@RequestBody Product product,
-                              @PathVariable("productId") Integer productId) throws UpdateTable{
+                              @PathVariable("productId") Integer productId) throws UpdateTable {
 //        try {
             productService.updateProduct(product, productId);
 //        }
