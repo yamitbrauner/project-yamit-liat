@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RowMenu from "./RowMenu";
 import UserDetails from "./UserDetails";
 import Stock from "./Stock";
-import OrdersTable from "./OrdersTable";
+import Reservations from "./Reservations";
 var STOCK = 2;
 var DETAILS = 3;
 var ORDERS = 4;
@@ -56,21 +56,21 @@ class Settings extends Component {
                 <div className="col">
                             {
                                 // eslint-disable-next-line
-                                this.state.categorySelected && this.state.categorySelected.categoryId == STOCK &&
+                                this.state.categorySelected && this.state.categorySelected.categoryId === STOCK &&
                                 <div className="margin-top-bottom">
                                     <Stock onSelectPage={this.onSelectPage}/>
                                 </div>
                             }
                             {
                                 // eslint-disable-next-line
-                                this.state.categorySelected && this.state.categorySelected.categoryId == DETAILS &&
+                                this.state.categorySelected && this.state.categorySelected.categoryId === DETAILS &&
                                 <UserDetails userDetails={this.props.userDetails}/>
                             }
                             {
                                 // eslint-disable-next-line
-                                this.state.categorySelected && this.state.categorySelected.categoryId == ORDERS &&
+                                this.state.categorySelected && this.state.categorySelected.categoryId === ORDERS &&
                                 <div className="margin-top-bottom">
-                                    <OrdersTable/>
+                                    <Reservations userDetails={this.props.userDetails}/>
                                 </div>
                             }
 

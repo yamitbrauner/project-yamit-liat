@@ -7,6 +7,11 @@ class Stock extends Component {
 
     state = {items:[],itemsToShow:[], categories:{}, offset: 0};
 
+    constructor(props){
+        super(props);
+        this.updateItem = this.updateItem.bind(this);
+    }
+
     componentDidMount(){
         fetch("/category")
             .then(res => res.json())
@@ -54,13 +59,29 @@ class Stock extends Component {
         items[index].quantityInStock = newItem.quantityInStock
         items[index].pricePerUnit = newItem.pricePerUnit;
         items[index].description = newItem.description;
-        this.setState({ items: items});
+        this.setState({ items: items},()=>this.updateItem(index));
     }
 
     onDeleteClicked = (index)=>{
         var items = [...this.state.items];
         items.splice(index,1);
         this.setState({ items: items});
+    }
+    updateItem= (index) =>{
+        var itemId = this.state.items[index].prodId;
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.state.items[index])
+        };
+        fetch("/product/"+itemId,requestOptions)
+            .then(res => {
+                if(res.ok){
+
+                }
+            })
+
+
     }
 
   render() {
