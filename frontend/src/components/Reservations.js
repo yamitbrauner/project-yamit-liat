@@ -42,6 +42,7 @@ class Reservations extends Component {
                         <th scope="col">תאריך משלוח</th>
                         <th scope="col">סה"כ לתשלום</th>
                         <th scope="col">סטטוס</th>
+                        <th scope="col"/>
 
                     </tr>
                     </thead>

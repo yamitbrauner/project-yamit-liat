@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import AppHeader from './components/AppHeader';
-import Main from './components/Main';
 import Shop from './components/Shop';
 import Login from './components/Login';
 import Settings from './components/Settings';
@@ -16,6 +15,12 @@ import userImg from "./user.svg";
 class App extends Component {
   state = {pageSelected:1, userDetails: {}, showCart:false,showLogin:false, itemsInCart:{} , totalPrice:0,totalItems:0};
 
+    componentDidMount(){
+        var tempUserDetails = localStorage.getItem('userDetails');
+        if(tempUserDetails && tempUserDetails.length > 0){
+            this.setState({userDetails: JSON.parse(tempUserDetails)});
+        }
+    }
 
     handlePageSelection = (pageNum) =>{
         this.setState({pageSelected : pageNum})
@@ -40,6 +45,7 @@ class App extends Component {
                 (data) => {
                     this.setState({userDetails : data},()=>this.showLogin());
                     localStorage.setItem('token',data.token);
+                    localStorage.setItem('userDetails',JSON.stringify(data));
                 }
             )
 
@@ -83,6 +89,7 @@ class App extends Component {
     logout = ()=>{
         this.setState({userDetails:{}});
         localStorage.removeItem('token');
+        localStorage.removeItem('userDetails');
     }
 
   render() {
@@ -135,7 +142,6 @@ class App extends Component {
                             <AppHeader className="app-header" handleLog={this.handleLog} userDetails={this.state.userDetails} onSelectPage={this.handlePageSelection}/>
                         </div>
                         <div className="row margin-top-bottom">
-                            {this.state.pageSelected === 0 && <Main/>}
                             {this.state.pageSelected === 1 && <Shop onSelectPage={this.handlePageSelection} setItemsInCart={this.setItemsInCart}
                                                                     itemsInCart={this.state.itemsInCart} removeItemFromCart={this.removeItemFromCart} userDetails={this.state.userDetails}/>}
                             {this.state.pageSelected === 3 && <Settings onSelectPage={this.handlePageSelection} userDetails={this.state.userDetails}/>}

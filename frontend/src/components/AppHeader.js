@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 
 class AppHeader extends Component {
 
+    onSelectPage = ()=>{
+        this.props.onSelectPage(1);
+    }
   render() {
     return (
         <div className="col">
             <div className="row">
-                <h1 className="header-title col">
+                <h1 className="header-title col" onClick={()=>this.onSelectPage()}>
                     מתוק לי
                 </h1>
             </div>

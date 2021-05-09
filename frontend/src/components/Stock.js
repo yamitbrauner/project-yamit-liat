@@ -23,10 +23,9 @@ class Stock extends Component {
                             (resProducts) => {
                                 this.setState({
                                     items: resProducts,
-                                    itemsToShow : resProducts.slice(this.state.offset,PER_PAGE),
                                     categories: this.organizeCategories(resCategories),
                                     pageCount: Math.ceil(resProducts.length / PER_PAGE)
-                                });
+                                },()=>this.handlePageClick());
                             },
                             (error) => {
                                 this.props.onSelectPage(404);
@@ -49,9 +48,18 @@ class Stock extends Component {
     }
 
     handlePageClick = (data) => {
-        let selected = data.selected;
-        let offset = Math.ceil(selected * PER_PAGE);
-        this.setState({ offset: offset,  itemsToShow : this.state.items.slice(offset, offset + PER_PAGE) });
+        let offset = 0;
+        if(data){
+            let selected = data.selected;
+            offset = Math.ceil(selected * PER_PAGE);
+        }else{
+            offset = this.state.offset;
+        }
+        this.setState({
+            offset: offset,
+            itemsToShow : this.state.items.slice(offset, offset + PER_PAGE),
+            pageCount: Math.ceil(this.state.items.length / PER_PAGE)
+        });
     };
 
     onOkClicked = (index,newItem)=>{
@@ -59,13 +67,16 @@ class Stock extends Component {
         items[index].quantityInStock = newItem.quantityInStock
         items[index].pricePerUnit = newItem.pricePerUnit;
         items[index].description = newItem.description;
-        this.setState({ items: items},()=>this.updateItem(index));
+        this.setState({
+            items: items
+        },()=>this.updateItem(index));
     }
 
     onDeleteClicked = (index)=>{
         var items = [...this.state.items];
-        items.splice(index,1);
-        this.setState({ items: items});
+        var tempIndex = index + this.state.offset;
+        items.splice(tempIndex,1);
+        this.setState({ items: items}/*,()=>this.deleteItem()*/);
     }
     updateItem= (index) =>{
         var itemId = this.state.items[index].prodId;
@@ -74,17 +85,34 @@ class Stock extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state.items[index])
         };
-        fetch("/product/"+itemId,requestOptions)
+        fetch("/products/"+itemId,requestOptions)
             .then(res => {
                 if(res.ok){
-
+                   this.updateItem();
+                    // error
                 }
             })
-
-
     }
 
-  render() {
+    deleteItem= (index) =>{
+        // to complete
+
+        var itemId = this.state.items[index].prodId;
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.state.items[index])
+        };
+        fetch("/products/"+itemId,requestOptions)
+            .then(res => {
+                if(res.ok){
+                    this.updateItem();
+                    // error
+                }
+            })
+    }
+
+    render() {
     return (
         <div className="col">
             <table className="table table-striped">

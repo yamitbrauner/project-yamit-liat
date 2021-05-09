@@ -8,14 +8,17 @@ const disablePastDt = current => {
 };
 
 class UserDetails extends Component {
-    state = {isFinish: false}
+    state = {isFinish: false, deliveryDate:null}
 
     finishOrder = ()=>{
+        this.props.finishOrder(this.state.deliveryDate)
         this.setState({isFinish: !this.state.isFinish})
+    }
+    onDateChange = (event)=>{
+        this.setState({deliveryDate:event._d});
     }
 
   render() {
-    var dt = null;
       return (
         <div className="row">
             {!this.state.isFinish ?
@@ -24,9 +27,10 @@ class UserDetails extends Component {
                         <div className="form-group col-md-6">
                             <label htmlFor="date">תאריך הזמנה</label>
                             <DatePicker
+                                onChange={this.onDateChange}
                                 class="form-control"
                                 isValidDate={disablePastDt}
-                                value={dt}
+                                value={this.state.deliveryDate}
                                 dateFormat="DD/MM/YYYY"
                                 timeFormat={false}
                             />

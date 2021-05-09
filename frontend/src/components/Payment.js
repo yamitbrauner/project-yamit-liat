@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserDetails from "./UserDetails";
 import Cart from "./Cart";
 import RowMenu from "./RowMenu";
+import moment from 'moment';
 var SHOP = 1;
 class Payment extends Component {
 
@@ -22,8 +23,28 @@ class Payment extends Component {
         this.props.onSelectPage(category.categoryId);
     }
 
-    finishOrder = ()=>{
-        this.setState({isFinish: !this.state.isFinish})
+    finishOrder= (deliveryDate) =>{
+        const today = moment();
+        var data = {
+        userId: this.props.userDetails.userId,
+        totalPrice: this.props.totalPrice,
+        paymentId: "152315789",
+        reservationDate: today,
+        deliveryDate: deliveryDate
+    }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+        fetch("/createNewReservation",requestOptions)
+            .then(res => {
+                if(res.ok){
+                    this.setState({isFinish: !this.state.isFinish})
+                }
+            })
+
+
     }
 
   render() {
@@ -37,7 +58,7 @@ class Payment extends Component {
                         <div className="row">
                             <div className="col title"> פרטי חיוב ומשלוח</div>
                         </div>
-                        <UserDetails userDetails={this.props.userDetails}/>
+                        <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder}/>
                     </div>
                     <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>
 
