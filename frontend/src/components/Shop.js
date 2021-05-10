@@ -4,7 +4,7 @@ import Item from './Item';
 
 
 class Shop extends Component {
-  state = { items:{}, categories: [], categorySelected: null};
+  state = { items:{}, categories: [], categorySelected: null, productToShow:false};
 
 
   componentDidMount(){
@@ -51,18 +51,14 @@ class Shop extends Component {
 
     }
 
-    handleCart = (itemIndex) =>{
-      var tempItemsInCart = {...this.props.itemsInCart};
-      var selectedItem = this.state.items[this.state.categorySelected.categoryId][itemIndex];
-      if(tempItemsInCart[selectedItem.prodId]){
-          this.props.removeItemFromCart(selectedItem);
-      }else{
-          selectedItem.quantity = 1;
-          tempItemsInCart[selectedItem.prodId]=selectedItem;
-          this.props.setItemsInCart(tempItemsInCart);
-      }
+    handleCart=(itemIndex)=>{
+        var selectedItem = this.state.items[this.state.categorySelected.categoryId][itemIndex];
+        this.props.handleCart(itemIndex, selectedItem);
     }
 
+    showProduct=(itemIndex)=>{
+        this.props.showProduct(this.state.items[this.state.categorySelected.categoryId][itemIndex]);
+    }
 
   render() {
     return (
@@ -78,7 +74,8 @@ class Shop extends Component {
                                 this.state.items[this.state.categorySelected.categoryId].map((item, index) => {
                                     //eslint-disable-next-line
                                     return item.quantityInStock > 0 ?
-                                        <Item item={item} itemIndex={index} key={index} handleCart={(itemIndex)=>this.handleCart(itemIndex)} itemsInCart={this.props.itemsInCart}/>
+                                        <Item item={item} itemIndex={index} key={index} handleCart={(itemIndex)=>this.handleCart(itemIndex)}
+                                              itemsInCart={this.props.itemsInCart} showProduct={this.showProduct}/>
                                          : ''
                                 })}
                         </div>

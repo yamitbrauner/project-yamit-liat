@@ -198,15 +198,52 @@
   }
   .login-box{
     z-index:2000;
-
+    border-radius: 4px;
   }
   .login-popup{
-    position: absolute;
+    position: fixed;
     top: 25%;
     left: 40%;
     width: 25%;
     height: 50%;
+    z-index: 1500;
+  }
+  .product-popup{
+    position: fixed;
+    width: 900px;
+    right: 20%;
+    top: 25%;
+    height: 400px;
+    z-index: 1500;
   }
   .modal-backdrop-login{
     z-index:1300;
+  }
+  .product-popup-img{
+    width: 100%;
+    height: 400px;
+  }
+  .product-popup-txt{
+    text-align: right;
+    margin-right: 30px;
+  }
+  .line{
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    left: 50%;
+    margin-left: -5px;
+    top: 20px;
+    margin-top: -1px;
+    background: #121212;
+  }
+  .one{
+    -webkit-transform: rotate(
+            45deg
+    );
+  }
+  .two{
+    -webkit-transform: rotate(
+            -45deg
+    );
   }

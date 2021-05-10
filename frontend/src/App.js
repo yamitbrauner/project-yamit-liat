@@ -11,9 +11,10 @@ import cartImg from "./cart.svg";
 import settingImg from "./settings.svg";
 import logoutImg from "./logout.svg";
 import userImg from "./user.svg";
+import Product from "./components/Product";
 
 class App extends Component {
-  state = {pageSelected:1, userDetails: {}, showCart:false,showLogin:false, itemsInCart:{} , totalPrice:0,totalItems:0};
+  state = {pageSelected:1, userDetails: {}, showCart:false, showLogin:false, itemsInCart:{}, totalPrice:0, totalItems:0, productToShow:false};
 
     componentDidMount(){
         var tempUserDetails = localStorage.getItem('userDetails');
@@ -81,7 +82,7 @@ class App extends Component {
         }
     }
     removeItemFromCart=(itemToRemove)=>{
-        var tempItemsInCart = {...this.props.itemsInCart};
+        var tempItemsInCart = {...this.state.itemsInCart};
         delete tempItemsInCart[itemToRemove.prodId];
         this.setItemsInCart(tempItemsInCart);
     }
@@ -90,6 +91,22 @@ class App extends Component {
         this.setState({userDetails:{}});
         localStorage.removeItem('token');
         localStorage.removeItem('userDetails');
+    }
+    showProduct = (productToShow)=>{
+        if(productToShow === undefined){
+            productToShow = false;
+        }
+        this.setState({productToShow:productToShow});
+    }
+    handleCart = (itemIndex, selectedItem) =>{
+        var tempItemsInCart = {...this.state.itemsInCart};
+        if(tempItemsInCart[selectedItem.prodId]){
+            this.removeItemFromCart(selectedItem);
+        }else{
+            selectedItem.quantity = 1;
+            tempItemsInCart[selectedItem.prodId]=selectedItem;
+            this.setItemsInCart(tempItemsInCart);
+        }
     }
 
   render() {
@@ -112,6 +129,14 @@ class App extends Component {
                     </div>
                     <div className="modal-backdrop modal-backdrop-login in" onClick={()=>this.showLogin()}/>
                 </div> : ""
+            }
+            {this.state.productToShow !== false ?
+                <>
+                    <div className="row product-popup">
+                        <Product item={this.state.productToShow}  itemsInCart={this.state.itemsInCart} handleCart={this.handleCart} close={this.showProduct}/>
+                    </div>
+                    <div className="modal-backdrop modal-backdrop-login in" onClick={()=>this.showProduct()}/>
+                </> : ""
             }
 
 
@@ -142,8 +167,8 @@ class App extends Component {
                             <AppHeader className="app-header" handleLog={this.handleLog} userDetails={this.state.userDetails} onSelectPage={this.handlePageSelection}/>
                         </div>
                         <div className="row margin-top-bottom">
-                            {this.state.pageSelected === 1 && <Shop onSelectPage={this.handlePageSelection} setItemsInCart={this.setItemsInCart}
-                                                                    itemsInCart={this.state.itemsInCart} removeItemFromCart={this.removeItemFromCart} userDetails={this.state.userDetails}/>}
+                            {this.state.pageSelected === 1 && <Shop onSelectPage={this.handlePageSelection} handleCart={this.handleCart}
+                                                                    showProduct={this.showProduct} itemsInCart={this.state.itemsInCart}/>}
                             {this.state.pageSelected === 3 && <Settings onSelectPage={this.handlePageSelection} userDetails={this.state.userDetails}/>}
                             {this.state.pageSelected === 4 && <Payment userDetails={this.state.userDetails}  itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice}
                                                                        onSelectPage={this.handlePageSelection}/>}

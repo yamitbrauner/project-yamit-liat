@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ItemInCart from "./ItemInCart";
 class Cart extends Component {
+
     removeItemFromCart=(itemToRemove)=>{
         this.props.removeItemFromCart(itemToRemove);
     }
