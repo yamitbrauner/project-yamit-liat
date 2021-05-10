@@ -1,5 +1,6 @@
 package com.openu.project.controller;
 
+import com.openu.project.business.service.MatokLiEmailService;
 import com.openu.project.business.service.ProductService;
 import com.openu.project.data.entity.Product;
 import com.openu.project.exception.UpdateTable;
@@ -45,6 +46,11 @@ public class ProductController {
     @PostMapping("/products")
     public void createProduct(@RequestBody Product newProduct) {
         productService.createProduct(newProduct);
+    }
+
+    @PostMapping("/deleteProduct")
+    public void deleteProduct(@RequestParam Integer productId) {
+        productService.deleteProduct(productId);
     }
 
     @PutMapping("/products/{productId}")

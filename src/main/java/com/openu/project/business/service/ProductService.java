@@ -14,7 +14,6 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-
     public ProductService() {
     }
 
@@ -84,5 +83,10 @@ public class ProductService {
     public Boolean isProductInStock(Integer productId) {
         Product prod = productRepository.findByProdId(productId);
         return prod.getQuantityInStock() > 0;
+    }
+
+    public void deleteProduct(Integer productId) {
+        this.productRepository.deleteById(productId);
+        // Todo: return error when fail
     }
 }

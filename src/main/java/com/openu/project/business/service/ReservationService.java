@@ -24,10 +24,10 @@ public class ReservationService {
     UserRepository userRepository;
     @Autowired
     PurchaseService purchaseService;
-
-  //  public Iterable<Reservation> findAll() {
-  //      return reservationRepository.findAll();
-   //}
+    @Autowired
+    private MatokLiEmailService emailService;
+    @Autowired
+    private UsersService usersService;
 
 
     public Iterable<Reservation> getReservation() {         return reservationRepository.findAll();
@@ -93,6 +93,10 @@ public class ReservationService {
         // TODO: Check real payment status with paypal service
         reservation.setStatus("Approved");
         this.reservationRepository.save(reservation);
+        String userMail = this.usersService.getMailByUserId(reservation.getUserId());
+
+        emailService.sendSimpleConfirmationMail(userMail, reservation.getReservationId());
+
         return reservation;
     }
 

@@ -2,6 +2,8 @@ package com.openu.project.business.service;
 
 import com.openu.project.data.entity.Users;
 import com.openu.project.data.repository.UserRepository;
+import com.openu.project.exception.ResourceNotFoundException;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,13 @@ public class UsersService {
     public Users getUserByMail(String mail)
     {
         return userRepository.findByMail(mail).iterator().next();
+    }
+
+    public String getMailByUserId(Integer userId)
+    {
+        Users user =  userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException());
+        return user.getMail();
     }
 
     public String getUserNameByToken(String token)
