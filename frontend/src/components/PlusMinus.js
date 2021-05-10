@@ -24,7 +24,7 @@ class PlusMinus extends Component {
                     {this.props.quantity}
                 </span>
 
-                <span className="glyphicon glyphicon-plus glyphicon-size glyphicon-plus-align" onClick={() => this.plusClicked()}/>
+                { this.props.quantity < this.props.maxCart && <span className="glyphicon glyphicon-plus glyphicon-size glyphicon-plus-align" onClick={() => this.plusClicked()}/>}
             </div>
         </div>
     );

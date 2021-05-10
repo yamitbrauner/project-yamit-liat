@@ -149,7 +149,7 @@ class App extends Component {
 
                     <div className="col-xs-12">
                         <div className="row">
-                            <AppHeader className="app-header" handleLog={this.handleLog} userDetails={this.state.userDetails} onSelectPage={this.handlePageSelection}/>
+                            <AppHeader className="app-header" pageSelected={this.state.pageSelected} onSelectPage={this.handlePageSelection}/>
                         </div>
                         <div className="row margin-top-bottom">
                             {this.state.pageSelected === 1 && <Shop onSelectPage={this.handlePageSelection} handleCart={this.handleCart}
