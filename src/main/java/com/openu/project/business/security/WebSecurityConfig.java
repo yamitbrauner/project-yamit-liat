@@ -83,11 +83,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/reservation/**").permitAll() //put
                 .antMatchers( "/confirmReservation").permitAll() //put
                 .antMatchers( "/createPurchase").permitAll() //put
-
+                .antMatchers( "/createPurchase").permitAll() //put
                 .antMatchers( "/reservation/getById/**").permitAll()
                 .antMatchers( "/reservation/getByMail/**").permitAll()
                 .antMatchers("/createNewReservation*").permitAll()
-                .antMatchers("/getProductsByReservation*").permitAll()
+                .antMatchers("/role*").permitAll()
 
 
                 .antMatchers(HttpMethod.POST, "/users/{userId}/roles").permitAll()

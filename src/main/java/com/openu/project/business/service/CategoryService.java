@@ -10,9 +10,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Iterable<Category> findAll() {
-        return categoryRepository.findAll();
-    }
+
 
     public void createCategory(Category category) {
         if (category.getCategoryName().length() == 0) {
@@ -20,5 +18,9 @@ public class CategoryService {
             return;
         }
         this.categoryRepository.save(category);
+    }
+
+    public Iterable<Category> getCategory() {
+        return categoryRepository.findAll();
     }
 }

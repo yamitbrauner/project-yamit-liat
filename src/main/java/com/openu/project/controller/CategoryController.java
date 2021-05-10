@@ -15,7 +15,7 @@ public class CategoryController {
 
     @GetMapping("/category")
     public Iterable<Category> getCategory() {
-        return this.categoryService.findAll();
+        return this.categoryService.getCategory();
     }
 
     @PostMapping("/category")
@@ -25,7 +25,7 @@ public class CategoryController {
 
     @PostMapping("/liat.arama1@gmail.com")
     public Iterable<Category> liatTest() {
-        return this.categoryService.findAll();
+        return this.categoryService.getCategory();
     }
 
 }

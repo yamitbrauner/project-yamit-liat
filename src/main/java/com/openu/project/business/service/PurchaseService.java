@@ -17,6 +17,9 @@ public class PurchaseService {
     @Autowired
     ProductService productService;
 
+    public Iterable<Purchase> getPurchase() {
+        return purchaseRepository.findAll();
+    }
 
     public float getProuductsSumByReservationId(int reservationId) {
 
@@ -63,4 +66,6 @@ public class PurchaseService {
         }
         return productsForCarts;
     }
+
+
 }

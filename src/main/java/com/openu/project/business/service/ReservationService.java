@@ -2,6 +2,8 @@ package com.openu.project.business.service;
 
 import com.openu.project.business.domain.CreateNewReservation;
 import com.openu.project.business.domain.ProductsForCart;
+import com.openu.project.data.entity.Product;
+import com.openu.project.data.entity.Purchase;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
@@ -23,8 +25,12 @@ public class ReservationService {
     @Autowired
     PurchaseService purchaseService;
 
-    public Iterable<Reservation> findAll() {
-        return reservationRepository.findAll();
+  //  public Iterable<Reservation> findAll() {
+  //      return reservationRepository.findAll();
+   //}
+
+
+    public Iterable<Reservation> getReservation() {         return reservationRepository.findAll();
     }
 
 

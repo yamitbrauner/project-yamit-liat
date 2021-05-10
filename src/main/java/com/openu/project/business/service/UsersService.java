@@ -15,11 +15,12 @@ public class UsersService {
     }
 
     public void createUser(Users user){
-         this.userRepository.save(user);
+        //TODO: if mail already exist return exception
+
+        this.userRepository.save(user);
     }
 
-    public Iterable<Users> getUsers() {
-        return userRepository.findAll();
+    public Iterable<Users> getUsers() {         return userRepository.findAll();
     }
 
     public void updateUserAutoKey(String email, String autoKey)

@@ -4,6 +4,7 @@ import com.openu.project.business.domain.CreateNewReservation;
 import com.openu.project.business.domain.ProductsForCart;
 import com.openu.project.business.service.ReservationService;
 import com.openu.project.data.entity.Product;
+import com.openu.project.data.entity.Purchase;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.exception.ReservationConfirmError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,14 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+
+
     @GetMapping("/reservation")
     public Iterable<Reservation> getReservation() {
-        return this.reservationService.findAll();
+        return this.reservationService.getReservation();
     }
+
+
 
     @GetMapping("/reservation/getById/{userId}")
     public Iterable<Reservation> getReservationByUserId(@PathVariable("userId") Integer userId){

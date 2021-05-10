@@ -20,7 +20,9 @@ public class UsersController {
 
     @PostMapping("/user")
     public void createUser(@RequestBody Users newUser) {
-        userService.createUser(newUser);
+          userService.createUser(newUser);
+
+
     }
 
 

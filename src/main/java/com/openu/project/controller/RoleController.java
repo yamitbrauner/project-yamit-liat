@@ -13,6 +13,6 @@ public class RoleController {
 
     @GetMapping("/role")
     public Iterable<Role> getRole() {
-         return this.roleService.findAll();
+         return this.roleService.getRole();
     }
 }

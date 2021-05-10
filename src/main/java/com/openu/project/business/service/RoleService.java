@@ -10,7 +10,6 @@ public class RoleService {
     @Autowired
     RoleRepository roleRepository;
 
-    public Iterable<Role> findAll() {
-        return roleRepository.findAll();
+        public Iterable<Role> getRole() { return roleRepository.findAll();
     }
 }
