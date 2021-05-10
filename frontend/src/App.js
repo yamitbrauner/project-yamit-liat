@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 import AppHeader from './components/AppHeader';
 import Shop from './components/Shop';
-import Login from './components/Login';
 import Settings from './components/Settings';
 import Error from './components/Error';
-import Cart from './components/Cart';
 import Payment from "./components/Payment";
+import Popup from "./components/Popup";
 import cartImg from "./cart.svg";
 import settingImg from "./settings.svg";
 import logoutImg from "./logout.svg";
 import userImg from "./user.svg";
-import Product from "./components/Product";
+let CLOSE_POPUP = 0;
+let CART_POPUP = 1;
+let LOGIN_POPUP = 2;
+let PRODUCT_POPUP = 3;
 
 class App extends Component {
-  state = {pageSelected:1, userDetails: {}, showCart:false, showLogin:false, itemsInCart:{}, totalPrice:0, totalItems:0, productToShow:false};
+  state = {pageSelected:1, userDetails: {}, itemsInCart:{}, totalPrice:0, totalItems:0, productToShow:false};
 
     componentDidMount(){
         var tempUserDetails = localStorage.getItem('userDetails');
@@ -44,7 +46,7 @@ class App extends Component {
             .then(res => res.json())
             .then(
                 (data) => {
-                    this.setState({userDetails : data},()=>this.showLogin());
+                    this.setState({userDetails : data},()=>this.showPopup(CLOSE_POPUP));
                     localStorage.setItem('token',data.token);
                     localStorage.setItem('userDetails',JSON.stringify(data));
                 }
@@ -52,15 +54,13 @@ class App extends Component {
 
     }
 
-    showCart = () =>{
-        this.setState({showCart : !this.state.showCart});
-    }
-    showLogin = () =>{
-        this.setState({showLogin : !this.state.showLogin});
+    showPopup = (type) =>{
+        this.setState({popupType : type});
     }
 
     setItemsInCart = (tempItems) =>{
         this.setState({itemsInCart: tempItems},()=>this.updateTotalPrice());
+        this.showPopup(CART_POPUP);
     }
     updateTotalPrice=()=>{
         var tempTotalPrice = 0;
@@ -73,12 +73,12 @@ class App extends Component {
         this.setState({totalPrice: tempTotalPrice , totalItems: tempTotalItems});
     }
 
-    switchPaymentOrItems = ()=>{
+    handlePay = ()=>{
         if(Object.keys(this.state.userDetails).length === 0){
-            this.showLogin();
+            this.showPopup(LOGIN_POPUP);
         }else{
+            this.showPopup(CLOSE_POPUP);
             this.handlePageSelection(4);
-            this.showCart();
         }
     }
     removeItemFromCart=(itemToRemove)=>{
@@ -92,12 +92,17 @@ class App extends Component {
         localStorage.removeItem('token');
         localStorage.removeItem('userDetails');
     }
-    showProduct = (productToShow)=>{
-        if(productToShow === undefined){
-            productToShow = false;
+    showProduct = (item,itemIndex)=>{
+        var productToShow = false;
+        if(item !== undefined){
+            productToShow = {
+                item:item,
+                itemIndex : itemIndex
+            }
         }
-        this.setState({productToShow:productToShow});
+        this.setState({productToShow: productToShow },()=>this.showPopup(PRODUCT_POPUP));
     }
+
     handleCart = (itemIndex, selectedItem) =>{
         var tempItemsInCart = {...this.state.itemsInCart};
         if(tempItemsInCart[selectedItem.prodId]){
@@ -112,38 +117,18 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-            {this.state.showCart ?
-                <div className="left-cart">
-                    <div className="row">
-                        <Cart itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice} setItemsInCart={this.setItemsInCart} isEditable={true}
-                            handleQuantity={this.handleQuantity} handlePay={this.switchPaymentOrItems} removeItemFromCart={this.removeItemFromCart}
-                        />
-                    </div>
-                    <div className="modal-backdrop in" onClick={()=>this.showCart()}/>
-                </div> : ""
+            { this.state.popupType > 0 ?
+                <Popup popupType={this.state.popupType} showPopup={this.showPopup}
+                       itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice} setItemsInCart={this.setItemsInCart} isEditable={true}
+                       handleQuantity={this.handleQuantity} handlePay={this.handlePay} removeItemFromCart={this.removeItemFromCart} handleLog={this.handleLog}
+                       userDetails={this.state.userDetails} productToShow={this.state.productToShow} handleCart={this.handleCart}
+                />
+                : ""
             }
-            {this.state.showLogin ?
-                <div className="login-popup">
-                    <div className="row">
-                        <Login handleLog={this.handleLog} userDetails={this.state.userDetails}/>
-                    </div>
-                    <div className="modal-backdrop modal-backdrop-login in" onClick={()=>this.showLogin()}/>
-                </div> : ""
-            }
-            {this.state.productToShow !== false ?
-                <>
-                    <div className="row product-popup">
-                        <Product item={this.state.productToShow}  itemsInCart={this.state.itemsInCart} handleCart={this.handleCart} close={this.showProduct}/>
-                    </div>
-                    <div className="modal-backdrop modal-backdrop-login in" onClick={()=>this.showProduct()}/>
-                </> : ""
-            }
-
-
                 <div className="container">
                     <div className="sticky-symbol">
                         <div className="symbol-cart">
-                            <img title="עגלה" className="symbol-height" alt="" src={cartImg} onClick={()=>this.showCart()}/>
+                            <img title="עגלה" className="symbol-height" alt="" src={cartImg} onClick={()=>this.showPopup(CART_POPUP)}/>
                             <div className="cart-count">
                                 (
                                 <span>{this.state.totalItems}</span>
@@ -152,7 +137,7 @@ class App extends Component {
                         </div>
                         <div className="symbol-cart symbol-user">
                             {Object.keys(this.state.userDetails).length === 0 ?
-                                <img title="התחברות" className="symbol-height" alt="להתחברות" src={userImg} onClick={() => this.showLogin()}/>
+                                <img title="התחברות" className="symbol-height" alt="להתחברות" src={userImg} onClick={() => this.showPopup(LOGIN_POPUP)}/>
                                 :
                                 <>
                                     <img title="התנתקות" className="symbol-height" alt="התנתקות" src={logoutImg} onClick={() => this.logout()}/>

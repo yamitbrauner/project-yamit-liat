@@ -109,7 +109,7 @@
     height:1000px;
 
   }
-  .left-cart{
+  .popup1{
     transition: visibility 0s, opacity 0.5s linear;
     position: fixed;
     z-index: 1200;
@@ -200,7 +200,7 @@
     z-index:2000;
     border-radius: 4px;
   }
-  .login-popup{
+  .popup2{
     position: fixed;
     top: 25%;
     left: 40%;
@@ -208,7 +208,7 @@
     height: 50%;
     z-index: 1500;
   }
-  .product-popup{
+  .popup3{
     position: fixed;
     width: 900px;
     right: 20%;
@@ -229,13 +229,14 @@
   }
   .line{
     position: absolute;
-    width: 10px;
+    width: 25px;
     height: 2px;
-    left: 50%;
+    left: 45%;
     margin-left: -5px;
-    top: 20px;
+    top: 0;
     margin-top: -1px;
-    background: #121212;
+    background: white;
+    z-index: 1500;
   }
   .one{
     -webkit-transform: rotate(

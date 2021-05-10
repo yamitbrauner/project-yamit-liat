@@ -12,7 +12,7 @@ class Login extends Component {
     switchPage = (val)=>{
         this.setState({isLoginPage: val});
     }
-    finish = ()=>{
+    handleLog = ()=>{
         this.props.handleLog(this.state.loginInput);
     }
     handleChange(event) {
@@ -84,7 +84,7 @@ class Login extends Component {
                                                 }
                                             </div>
                                         </div>
-                                        <button onClick={()=>this.finish()} className="btn btn-primary">סיום</button>
+                                        <button onClick={()=>this.handleLog()} className="btn btn-primary">סיום</button>
                                     </div>
                             </div>
                         </div>

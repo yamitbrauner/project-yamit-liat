@@ -57,7 +57,7 @@ class Shop extends Component {
     }
 
     showProduct=(itemIndex)=>{
-        this.props.showProduct(this.state.items[this.state.categorySelected.categoryId][itemIndex]);
+        this.props.showProduct(this.state.items[this.state.categorySelected.categoryId][itemIndex],itemIndex);
     }
 
   render() {

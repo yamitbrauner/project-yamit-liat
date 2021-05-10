@@ -3,28 +3,25 @@ import React, { Component } from 'react';
 class Product extends Component {
 
     handleUpdateCart = ()=>{
-        this.props.handleCart(this.props.itemIndex, this.props.item);
+        this.props.handleCart(this.props.productToShow.itemIndex, this.props.productToShow.item);
     }
 
   render() {
-      var inCart = this.props.itemsInCart[this.props.item.prodId] && this.props.itemsInCart[this.props.item.prodId].quantity >0;
+      var item = this.props.productToShow.item;
+      var inCart = this.props.itemsInCart[item.prodId] && this.props.itemsInCart[item.prodId].quantity >0;
       return (
         <div className="col box login-box">
                         <div className="row">
-                            <div className="col-1">
-                                <div className="line one" onClick={()=>this.props.close()}/>
-                                <div className="line two" onClick={()=>this.props.close()}/>
-                            </div>
                             <div className="col">
                                 <div className="margin-top-bottom row">
-                                    <h1 className="col">{this.props.item.prodName}</h1>
+                                    <h1 className="col">{item.prodName}</h1>
                                 </div>
                                 <div className="row">
-                                    <span className="col product-popup-txt">{this.props.item.description}</span>
+                                    <span className="col product-popup-txt">{item.description}</span>
                                 </div>
                                 <div className="divider margin-top-bottom"/>
                                 <div className="row">
-                                    <span className="col product-popup-txt">מחיר ליחידה : ₪{this.props.item.pricePerUnit} </span>
+                                    <span className="col product-popup-txt">מחיר ליחידה : ₪{item.pricePerUnit} </span>
                                 </div>
                                 <div className="divider margin-top-bottom"/>
                                 <button className="btn-default btn-danger btn margin-top-bottom" onClick={this.handleUpdateCart}>
@@ -33,7 +30,7 @@ class Product extends Component {
                             </div>
                             <div className="col">
                                 <img alt="" className="product-popup-img row"
-                                     src={"http://localhost:8080/image?name=" + this.props.item.picUrl+"&&category="+this.props.item.categoryId}/>
+                                     src={"http://localhost:8080/image?name=" + item.picUrl+"&&category="+item.categoryId}/>
                             </div>
                         </div>
                     </div>
