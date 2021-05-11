@@ -23,14 +23,13 @@ class Payment extends Component {
         this.props.onSelectPage(category.categoryId);
     }
 
-    finishOrder= (deliveryDate) =>{
+    finishOrder= (userInput) =>{
         const today = moment();
         let data = {
         userId: this.props.userDetails.userId,
         totalPrice: this.props.totalPrice,
-        paymentId: "152315789",
         reservationDate: today,
-        deliveryDate: deliveryDate
+        deliveryDate: userInput.deliveryDate
     }
         const requestOptions = {
             method: 'POST',
@@ -38,13 +37,49 @@ class Payment extends Component {
             body: JSON.stringify(data)
         };
         fetch("/createNewReservation",requestOptions)
+            .then(res => res.json())
+            .then(
+                (reservationData) => {
+                    this.updateResProducts(reservationData);
+                });
+    }
+    updateResProducts=(reservationData)=>{
+        Object.keys(this.props.itemsInCart).map((key,index)=>{
+            let item = this.props.itemsInCart[key];
+            let data = {
+                prodId: item.prodId,
+                categoryId: item.categoryId,
+                reservationId: reservationData.reservationId,
+                quantity: item.quantity
+            }
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            };
+            fetch("/createPurchase",requestOptions)
+                .then(res => {
+                    if(res.ok){
+                        if(Object.keys(this.props.itemsInCart).length === index+1){
+                            this.confirmReservation(reservationData.reservationId);
+                        }
+                    }
+                })
+        });
+    }
+
+    confirmReservation = (reservationId)=>{
+        var paymentId = 10203040;
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+        };
+        fetch("/confirmReservation?reservationId="+reservationId + "&paymentId=" + paymentId,requestOptions)
             .then(res => {
                 if(res.ok){
-                    this.setState({isFinish: !this.state.isFinish})
+                    this.setState({ isFinish:!this.state.isFinish},()=>this.props.setItemsInCart({}));
                 }
             })
-
-
     }
 
   render() {
@@ -52,23 +87,24 @@ class Payment extends Component {
         <div className="col payment">
             <RowMenu onSelectCategory={this.handleCategorySelection}
                      categories={this.state.categories}/>
-            {!this.state.isFinish ?
                 <div className="row">
+                    {!this.state.isFinish ?
+
                     <div className="col">
                         <div className="row">
                             <div className="col title"> פרטי חיוב ומשלוח</div>
                         </div>
                         <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder} isUpdate={false}/>
                     </div>
+                        :
+                        <div className="col">
+                            ההזמנה הושלמה בהצלחה
+                        </div>
+
+                    }
                     <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>
-
-                </div>
-                :
-                <div>
-                    ההזמנה הושלמה בהצלחה
                 </div>
 
-            }
 
         </div>
     );

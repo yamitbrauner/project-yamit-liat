@@ -163,6 +163,7 @@
     font-size: 16px;
   }
   .item-img{
+    cursor: pointer;
     width: 289px;
     height: 289px;
   }

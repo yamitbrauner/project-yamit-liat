@@ -6,7 +6,7 @@ import Reservations from "./Reservations";
 let STOCK = 2;
 let DETAILS = 3;
 let ORDERS = 4;
-let MANAGER_ROLE = 2;
+let MANAGER_ROLE = 1;
 let isManager = false;
 
 class Settings extends Component {
@@ -23,7 +23,7 @@ class Settings extends Component {
               categoryName:"ניהול פרטים אישיים"
           },{
               categoryId : ORDERS,
-              categoryName:"ההזמנות שלי"
+              categoryName:"ניהול הזמנות"
           }
       ];
       if(isManager){

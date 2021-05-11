@@ -32,18 +32,19 @@ class UserDetails extends Component {
             if(this.state.deliveryDate === null){
                 this.setState({isError:true});
             }else{
-                this.props.finishOrder(this.state.deliveryDate)
+                this.props.finishOrder(this.state.userInput);
                 this.setState({isFinish: !this.state.isFinish})
             }
         }
     }
-    onDateChange = (event)=>{
-        this.setState({deliveryDate:event._d, isError:false});
-    }
     handleChange(event) {
         let tempUserInput = {...this.state.userInput};
-        tempUserInput[event.target.name] = event.target.value;
-        this.setState({userInput:tempUserInput});
+        if(event._d){
+            tempUserInput["deliveryDate"] = event._d;
+        }else{
+            tempUserInput[event.target.name] = event.target.value;
+        }
+        this.setState({userInput:tempUserInput,isError:false});
     }
 
     updateDetails(event) {
@@ -60,7 +61,7 @@ class UserDetails extends Component {
                           <div className="form-group col-md-6">
                               <label htmlFor="date">תאריך הזמנה</label>
                               <DatePicker
-                                  onChange={this.onDateChange}
+                                  onChange={this.handleChange}
                                   class="form-control"
                                   isValidDate={disablePastDt}
                                   value={this.state.userInput.deliveryDate}

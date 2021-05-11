@@ -60,7 +60,6 @@ class App extends Component {
 
     setItemsInCart = (tempItems) =>{
         this.setState({itemsInCart: tempItems},()=>this.updateTotalPrice());
-        this.showPopup(CART_POPUP);
     }
     updateTotalPrice=()=>{
         let tempTotalPrice = 0;
@@ -156,7 +155,7 @@ class App extends Component {
                                                                     showProduct={this.showProduct} itemsInCart={this.state.itemsInCart}/>}
                             {this.state.pageSelected === 3 && <Settings onSelectPage={this.handlePageSelection} userDetails={this.state.userDetails}/>}
                             {this.state.pageSelected === 4 && <Payment userDetails={this.state.userDetails}  itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice}
-                                                                       onSelectPage={this.handlePageSelection}/>}
+                                                                       onSelectPage={this.handlePageSelection} setItemsInCart={this.setItemsInCart}/>}
                             {this.state.pageSelected === 404 && <Error/>}
                         </div>
                     </div>
