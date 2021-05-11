@@ -1,9 +1,12 @@
 package com.openu.project.controller;
 
+import com.openu.project.business.domain.CreateNewUserDto;
+import com.openu.project.business.domain.CreateNewUserResponse;
 import com.openu.project.business.service.UsersService;
 import com.openu.project.data.entity.Users;
 import com.openu.project.exception.UpdateTable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,8 +20,8 @@ public class UsersController {
      }
 
     @PostMapping("/createUser")
-    public void createUser(@RequestBody Users newUser) {
-        userService.createUser(newUser);
+    public ResponseEntity<CreateNewUserResponse> createUser(@RequestBody CreateNewUserDto newUser) {
+        return userService.createUser(newUser);
     }
 
         @PutMapping("/users/{userId}")
