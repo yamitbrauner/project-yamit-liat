@@ -62,7 +62,6 @@ class StockRow extends Component {
                 <td>{this.props.item.prodId}</td>
                 <td>{this.props.categories[this.props.item.categoryId]}</td>
                 <td>{this.props.item.prodName}</td>
-                <td>{this.props.item.quantityOrdered}</td>
                 <td>{this.state.editMode ?
                     <input type="text" className="stock-input" name="quantityInStock" value={this.state.quantityInStock} onChange={this.handleInputChange}/> :
                     this.state.quantityInStock}

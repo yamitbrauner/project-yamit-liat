@@ -36,7 +36,7 @@ class Shop extends Component {
               .then(res => res.json())
               .then(
                   (resProducts) => {
-                      var tempItems = {...this.state.items};
+                      let tempItems = {...this.state.items};
                       tempItems[category.categoryId] = resProducts;
                       this.setState({
                           items: tempItems,
@@ -52,7 +52,7 @@ class Shop extends Component {
     }
 
     handleCart=(itemIndex)=>{
-        var selectedItem = this.state.items[this.state.categorySelected.categoryId][itemIndex];
+        let selectedItem = this.state.items[this.state.categorySelected.categoryId][itemIndex];
         this.props.handleCart(itemIndex, selectedItem);
     }
 

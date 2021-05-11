@@ -39,7 +39,7 @@ class Stock extends Component {
     }
 
     organizeCategories = (categories)=>{
-        var tempCategories = {};
+        let tempCategories = {};
         // eslint-disable-next-line
         categories.map(category =>{
             tempCategories[category.categoryId] = category.categoryName;
@@ -63,23 +63,22 @@ class Stock extends Component {
     };
 
     onOkClicked = (index,newItem)=>{
-        var items = [...this.state.items];
-        items[index].quantityInStock = newItem.quantityInStock
-        items[index].pricePerUnit = newItem.pricePerUnit;
-        items[index].description = newItem.description;
+        let items = [...this.state.items];
+        let tempIndex = index + this.state.offset;
+        items[tempIndex].quantityInStock = newItem.quantityInStock
+        items[tempIndex].pricePerUnit = newItem.pricePerUnit;
+        items[tempIndex].description = newItem.description;
         this.setState({
             items: items
-        },()=>this.updateItem(index));
+        },()=>this.updateItem(tempIndex));
     }
 
     onDeleteClicked = (index)=>{
-        var items = [...this.state.items];
-        var tempIndex = index + this.state.offset;
-        items.splice(tempIndex,1);
-        this.setState({ items: items}/*,()=>this.deleteItem()*/);
+        let tempIndex = index + this.state.offset;
+        this.deleteItem(tempIndex);
     }
     updateItem= (index) =>{
-        var itemId = this.state.items[index].prodId;
+        let itemId = this.state.items[index].prodId;
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -88,26 +87,24 @@ class Stock extends Component {
         fetch("/products/"+itemId,requestOptions)
             .then(res => {
                 if(res.ok){
-                   this.updateItem();
-                    // error
+                   this.handlePageClick();
                 }
             })
     }
 
     deleteItem= (index) =>{
-        // to complete
-
-        var itemId = this.state.items[index].prodId;
+        let itemId = this.state.items[index].prodId;
         const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.state.items[index])
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
         };
-        fetch("/products/"+itemId,requestOptions)
+        fetch("/deleteProduct?productId="+itemId,requestOptions)
             .then(res => {
                 if(res.ok){
-                    this.updateItem();
-                    // error
+                    let items = [...this.state.items];
+                    items.splice(index,1);
+                    this.setState({ items: items},()=>this.handlePageClick());
+
                 }
             })
     }
@@ -123,7 +120,6 @@ class Stock extends Component {
                     <th scope="col">#</th>
                     <th scope="col">קטגוריה</th>
                     <th scope="col">שם מוצר</th>
-                    <th scope="col">כמות שהוזמנה</th>
                     <th scope="col">כמות במלאי</th>
                     <th scope="col">מחיר</th>
                     <th scope="col">תיאור</th>

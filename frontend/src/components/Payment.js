@@ -3,7 +3,7 @@ import UserDetails from "./UserDetails";
 import Cart from "./Cart";
 import RowMenu from "./RowMenu";
 import moment from 'moment';
-var SHOP = 1;
+let SHOP = 1;
 class Payment extends Component {
 
     state = {isFinish: false, categories:[]}
@@ -11,7 +11,7 @@ class Payment extends Component {
     componentDidMount(){
 
 
-        var categories = [
+        let categories = [
             {
                 categoryId : SHOP,
                 categoryName:"חזרה לחנות"
@@ -25,7 +25,7 @@ class Payment extends Component {
 
     finishOrder= (deliveryDate) =>{
         const today = moment();
-        var data = {
+        let data = {
         userId: this.props.userDetails.userId,
         totalPrice: this.props.totalPrice,
         paymentId: "152315789",
@@ -58,7 +58,7 @@ class Payment extends Component {
                         <div className="row">
                             <div className="col title"> פרטי חיוב ומשלוח</div>
                         </div>
-                        <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder}/>
+                        <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder} isUpdate={false}/>
                     </div>
                     <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>
 

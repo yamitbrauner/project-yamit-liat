@@ -7,8 +7,8 @@ class Product extends Component {
     }
 
   render() {
-      var item = this.props.productToShow.item;
-      var inCart = this.props.itemsInCart[item.prodId] && this.props.itemsInCart[item.prodId].quantity >0;
+      let item = this.props.productToShow.item;
+      let inCart = this.props.itemsInCart[item.prodId] && this.props.itemsInCart[item.prodId].quantity >0;
       return (
         <div className="col box login-box">
                         <div className="row">

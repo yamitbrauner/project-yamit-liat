@@ -19,7 +19,7 @@ class App extends Component {
   state = {pageSelected:1, userDetails: {}, itemsInCart:{}, totalPrice:0, totalItems:0, productToShow:false};
 
     componentDidMount(){
-        var tempUserDetails = localStorage.getItem('userDetails');
+        let tempUserDetails = localStorage.getItem('userDetails');
         if(tempUserDetails && tempUserDetails.length > 0){
             this.setState({userDetails: JSON.parse(tempUserDetails)});
         }
@@ -63,8 +63,8 @@ class App extends Component {
         this.showPopup(CART_POPUP);
     }
     updateTotalPrice=()=>{
-        var tempTotalPrice = 0;
-        var tempTotalItems = 0;
+        let tempTotalPrice = 0;
+        let tempTotalItems = 0;
         // eslint-disable-next-line
         Object.keys(this.state.itemsInCart).map((itemKey,index) => {
             tempTotalItems = tempTotalItems + this.state.itemsInCart[itemKey].quantity;
@@ -82,7 +82,7 @@ class App extends Component {
         }
     }
     removeItemFromCart=(itemToRemove)=>{
-        var tempItemsInCart = {...this.state.itemsInCart};
+        let tempItemsInCart = {...this.state.itemsInCart};
         delete tempItemsInCart[itemToRemove.prodId];
         this.setItemsInCart(tempItemsInCart);
     }
@@ -93,7 +93,7 @@ class App extends Component {
         localStorage.removeItem('userDetails');
     }
     showProduct = (item,itemIndex)=>{
-        var productToShow = false;
+        let productToShow = false;
         if(item !== undefined){
             productToShow = {
                 item:item,
@@ -104,7 +104,7 @@ class App extends Component {
     }
 
     handleCart = (itemIndex, selectedItem) =>{
-        var tempItemsInCart = {...this.state.itemsInCart};
+        let tempItemsInCart = {...this.state.itemsInCart};
         if(tempItemsInCart[selectedItem.prodId]){
             this.removeItemFromCart(selectedItem);
         }else{

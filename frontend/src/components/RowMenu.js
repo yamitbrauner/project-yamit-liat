@@ -15,7 +15,7 @@ class RowMenu extends Component {
     return (
         <div className="row margin-top-bottom">
             {this.props.categories.map((category,index) =>{
-                var isSelected = this.props.categorySelected && this.props.categorySelected.categoryId === category.categoryId;
+                let isSelected = this.props.categorySelected && this.props.categorySelected.categoryId === category.categoryId;
                 return <div className={ isSelected ? "col category-name category-selected" :"col category-name"} key={index} onClick={()=>this.selectCategory(category)}>
                             {category.categoryName}
                 </div>
