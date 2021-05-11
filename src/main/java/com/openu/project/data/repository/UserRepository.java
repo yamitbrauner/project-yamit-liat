@@ -10,5 +10,6 @@ public interface UserRepository extends CrudRepository<Users,Integer> {
 //    Iterable<Users> findByUserName(String userName);
     Iterable<Users> findByMail(String mail);
     Iterable<Users> findByToken(String token);
+    Users findByUserId(int userId);
 
 }

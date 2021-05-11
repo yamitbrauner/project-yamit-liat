@@ -1,8 +1,8 @@
 insert into public.Users
 values  (1, 'ליאת', 'ארמה', '0524325336', 'רמת גן', 'liat.arama1@gmail.com', '$2a$10$2vg/JT/J9vBUNgLOGMaEHuS1yElAzIBVezUmfySWc89R1ocuhTPVm', 1234 ,1),
-		(2, 'ימית', 'שמואל', '0522222222', 'חולון', 'yamitush13@gmail.com', '123123', '12312', 1),
-		(3, 'נוי', 'עמית', '0532233232', 'אשקלון', 'noyamit1212@walla.com', '654321', '985632', 2),
-		(4, 'עמרי', 'חלפון', '0545525465', 'בת ים', 'omrihahaha@gmail.com', '1212345', '45654', 2),
+		(2, 'ימית', 'שמואל', '0522222222', 'חולון', 'yamitush13@gmail.com', '$2a$10$SD0o.qXlqRoQLb21X4h3JONV1WqK7jtMmlxmj4cmeM4WPIYYMd2qq', '12312', 1),
+		(3, 'נוי', 'עמית', '0532233232', 'אשקלון', 'noyamit1212@walla.com', '$2a$10$SD0o.qXlqRoQLb21X4h3JOG5xOroYFMMzItdkS/Wfktz3Bwb.RHIu', '985632', 2),
+		(4, 'עמרי', 'חלפון', '0545525465', 'בת ים', 'omrihahaha@gmail.com', '$2a$10$SD0o.qXlqRoQLb21X4h3JOqYmfC.UakggORooKC2shDcL2or1Ts1W', '45654', 2),
 		(5, 'ליאם', 'בוזגלו', '0506784561', 'אילת', 'liambu524@walla.co.il', '$2a$10$2vg/JT/J9vBUNgLOGMaEHuqz7iBJVaKqJ1FSZi3wqWuZ8zyPSuPAe', '6589658', 2);
 		
 		

@@ -1,8 +1,10 @@
 package com.openu.project.business.service;
 
+import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Users;
 import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ResourceNotFoundException;
+import com.openu.project.exception.UpdateTable;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +60,20 @@ public class UsersService {
         else {
             return null;
         }
+    }
+
+    public void updateUser(Users users, Integer userId) throws UpdateTable {
+        Users userOld = userRepository.findByUserId(userId);
+        if (userOld == null) throw new UpdateTable();
+        fillNewUserToOld(userOld, users);
+        userRepository.save(userOld);
+    }
+
+    private void fillNewUserToOld(Users userOld, Users userNew) {
+
+        userOld.setFirstName(userNew.getFirstName());
+        userOld.setLastName(userNew.getLastName());
+        userOld.setPhone(userNew.getPhone());
+        userOld.setAddress(userNew.getAddress());
     }
 }
