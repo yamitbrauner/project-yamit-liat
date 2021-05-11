@@ -120,7 +120,6 @@ class Stock extends Component {
                     <th scope="col">#</th>
                     <th scope="col">קטגוריה</th>
                     <th scope="col">שם מוצר</th>
-                    <th scope="col">כמות שהוזמנה</th>
                     <th scope="col">כמות במלאי</th>
                     <th scope="col">מחיר</th>
                     <th scope="col">תיאור</th>
