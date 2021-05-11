@@ -64,7 +64,7 @@ class Settings extends Component {
                             {
                                 // eslint-disable-next-line
                                 this.state.categorySelected && this.state.categorySelected.categoryId === DETAILS &&
-                                <UserDetails userDetails={this.props.userDetails}/>
+                                <UserDetails userDetails={this.props.userDetails} isUpdate={true}/>
                             }
                             {
                                 // eslint-disable-next-line

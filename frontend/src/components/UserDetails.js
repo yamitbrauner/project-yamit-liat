@@ -23,11 +23,12 @@ class UserDetails extends Component {
     }
 
     render() {
+        var isDisabled = !this.props.isUpdate;
         return (
           <div className="row">
               {!this.state.isFinish ?
                   <div className="col margin-top-bottom">
-                      <div className="form-row">
+                      {isDisabled ? <div className="form-row">
                           <div className="form-group col-md-6">
                               <label htmlFor="date">תאריך הזמנה</label>
                               <DatePicker
@@ -40,16 +41,22 @@ class UserDetails extends Component {
                               />
                               {this.state.isError ? <span className="error-txt">יש למלא תאריך הזמנה</span> : ""}
                           </div>
+                      </div> : ""}
 
+                      <div className="form-row">
+                          <div className="form-group col-md-6">
+                              <label htmlFor="name">שם פרטי</label>
+                              <input type="text" className="form-control" id="firstName" disabled={isDisabled} value={this.props.userDetails.firstName}/>
+                          </div>
+                          <div className="form-group col-md-6">
+                              <label htmlFor="address">שם משפחה</label>
+                              <input type="text" className="form-control" id="lastName" disabled={isDisabled} value={this.props.userDetails.lastName}/>
+                          </div>
                       </div>
                       <div className="form-row">
                           <div className="form-group col-md-6">
-                              <label htmlFor="name">שם מלא</label>
-                              <input type="text" className="form-control" id="name" disabled={true} value={this.props.userDetails.firstName + " " + this.props.userDetails.lastName}/>
-                          </div>
-                          <div className="form-group col-md-6">
                               <label htmlFor="address">כתובת להזמנה</label>
-                              <input type="text" className="form-control" id="address" disabled={true} value={this.props.userDetails.address}/>
+                              <input type="text" className="form-control" id="address" disabled={isDisabled} value={this.props.userDetails.address}/>
                           </div>
                       </div>
 
@@ -57,7 +64,7 @@ class UserDetails extends Component {
                       <div className="form-row">
                           <div className="form-group col-md-6">
                               <label htmlFor="id">מספר טלפון</label>
-                              <input type="text" className="form-control" id="phone" disabled={true} value={this.props.userDetails.phone}/>
+                              <input type="text" className="form-control" id="phone" disabled={isDisabled} value={this.props.userDetails.phone}/>
                           </div>
                           <div className="form-group col-md-6">
                               <label htmlFor="id">מייל</label>

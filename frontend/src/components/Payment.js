@@ -58,7 +58,7 @@ class Payment extends Component {
                         <div className="row">
                             <div className="col title"> פרטי חיוב ומשלוח</div>
                         </div>
-                        <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder}/>
+                        <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder} isUpdate={false}/>
                     </div>
                     <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>
 
