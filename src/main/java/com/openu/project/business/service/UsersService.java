@@ -2,12 +2,12 @@ package com.openu.project.business.service;
 
 import com.openu.project.business.domain.CreateNewUserDto;
 import com.openu.project.business.domain.CreateNewUserResponse;
-import com.openu.project.data.entity.Product;
+import com.openu.project.business.domain.UpdateUserDto;
+import com.openu.project.business.domain.UpdateUserResponse;
 import com.openu.project.data.entity.Users;
 import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ResourceNotFoundException;
 import com.openu.project.exception.UpdateTable;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.util.Iterator;
-import java.util.Optional;
 
 @Service
 public class UsersService {
@@ -132,14 +131,46 @@ public class UsersService {
         }
     }
 
-    public void updateUser(Users users, Integer userId) throws UpdateTable {
+    public ResponseEntity<UpdateUserResponse> updateUser(UpdateUserDto user, Integer userId) throws UpdateTable {
         Users userOld = userRepository.findByUserId(userId);
+        UpdateUserResponse response = new UpdateUserResponse();
         if (userOld == null) throw new UpdateTable();
-        fillNewUserToOld(userOld, users);
+        fillNewUserToOld(userOld, user, response);
+
+        if (!response.allOk()) return ResponseEntity.badRequest().body(response);
+
+
+        // TODO: Add try catch
         userRepository.save(userOld);
+        return ResponseEntity.ok().body(response);
+
     }
 
-    private void fillNewUserToOld(Users userOld, Users userNew) {
+    private void fillNewUserToOld(Users userOld, UpdateUserDto userNew, UpdateUserResponse resBody) {
+
+        resBody.setFirstNameOk(true);
+        if(userNew.getFirstName().length()  <= 0)
+        {
+            resBody.setFirstNameOk(false);
+        }
+
+        resBody.setLastNameOk(true);
+        if(userNew.getLastName().length()  <= 0)
+        {
+            resBody.setLastNameOk(false);
+        }
+
+        resBody.setPhoneOk(true);
+        if(userNew.getPhone().length()  <= 0)
+        {
+            resBody.setPhoneOk(false);
+        }
+
+        resBody.setAddressOk(true);
+        if(userNew.getAddress().length()  <= 0)
+        {
+            resBody.setAddressOk(false);
+        }
 
         userOld.setFirstName(userNew.getFirstName());
         userOld.setLastName(userNew.getLastName());

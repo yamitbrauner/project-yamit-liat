@@ -7,6 +7,10 @@ import com.openu.project.data.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+
 @Service
 public class ProductService {
     @Autowired
@@ -17,8 +21,22 @@ public class ProductService {
     public ProductService() {
     }
 
-    public Iterable<Product> getProducts() {
-        return productRepository.findAll();
+    public ArrayList<Product> getProducts() {
+
+        ArrayList<Product> result = new ArrayList<Product>();
+        Iterator<Product> productIterator = productRepository.findAll().iterator();
+        while (productIterator.hasNext()) result.add(productIterator.next());
+
+        Comparator<Product> productComparator = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return (o1.getProdId() - o2.getProdId());
+            }
+        };
+
+        result.sort(productComparator);
+
+        return result;
     }
     
     public Iterable<Product> getProductInStock(){

@@ -95,7 +95,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/saveImage*").permitAll()
                 .antMatchers("/deleteProduct*").permitAll()
 
-
                 .antMatchers(HttpMethod.POST, "/users/{userId}/roles").permitAll()
                 .antMatchers(HttpMethod.POST, "/{userId}").fullyAuthenticated()
                 .anyRequest().authenticated()
