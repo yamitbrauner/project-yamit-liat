@@ -7,7 +7,7 @@ class Cart extends Component {
     }
 
     handleQuantity = (prodId, num)=>{
-        var tempItemsInCart = {...this.props.itemsInCart};
+        let tempItemsInCart = {...this.props.itemsInCart};
         tempItemsInCart[prodId].quantity = num;
         this.props.setItemsInCart(tempItemsInCart);
     }

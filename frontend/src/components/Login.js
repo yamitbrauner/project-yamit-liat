@@ -16,7 +16,7 @@ class Login extends Component {
         this.props.handleLog(this.state.loginInput);
     }
     handleChange(event) {
-        var tempLoginInput = {...this.state.loginInput};
+        let tempLoginInput = {...this.state.loginInput};
         tempLoginInput[event.target.name] = event.target.value;
         this.setState({loginInput:tempLoginInput});
     }

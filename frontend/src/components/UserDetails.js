@@ -8,34 +8,62 @@ const disablePastDt = current => {
 };
 
 class UserDetails extends Component {
-    state = {isFinish: false, deliveryDate: null, isError:false};
+    state = {isFinish: false,  isError:false,userInput:{}};
 
-    finishOrder = ()=>{
-        if(this.state.deliveryDate === null){
-            this.setState({isError:true});
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    componentDidMount() {
+        let userInput = {
+                deliveryDate: null,
+                firstName: this.props.userDetails.firstName,
+                lastName: this.props.userDetails.lastName,
+                address: this.props.userDetails.address,
+                phone: this.props.userDetails.phone
+            };
+        this.setState({userInput : userInput});
+    }
+
+    finish = ()=>{
+        if(this.props.isUpdate){
+            this.updateDetails()
         }else{
-            this.props.finishOrder(this.state.deliveryDate)
-            this.setState({isFinish: !this.state.isFinish})
+            if(this.state.deliveryDate === null){
+                this.setState({isError:true});
+            }else{
+                this.props.finishOrder(this.state.deliveryDate)
+                this.setState({isFinish: !this.state.isFinish})
+            }
         }
     }
     onDateChange = (event)=>{
         this.setState({deliveryDate:event._d, isError:false});
     }
+    handleChange(event) {
+        let tempUserInput = {...this.state.userInput};
+        tempUserInput[event.target.name] = event.target.value;
+        this.setState({userInput:tempUserInput});
+    }
+
+    updateDetails(event) {
+        // service of update
+    }
 
     render() {
-        var isDisabled = !this.props.isUpdate;
+        let isUpdate = this.props.isUpdate;
         return (
           <div className="row">
               {!this.state.isFinish ?
                   <div className="col margin-top-bottom">
-                      {isDisabled ? <div className="form-row">
+                      {!isUpdate ? <div className="form-row">
                           <div className="form-group col-md-6">
                               <label htmlFor="date">תאריך הזמנה</label>
                               <DatePicker
                                   onChange={this.onDateChange}
                                   class="form-control"
                                   isValidDate={disablePastDt}
-                                  value={this.state.deliveryDate}
+                                  value={this.state.userInput.deliveryDate}
                                   dateFormat="DD/MM/YYYY"
                                   timeFormat={false}
                               />
@@ -46,17 +74,17 @@ class UserDetails extends Component {
                       <div className="form-row">
                           <div className="form-group col-md-6">
                               <label htmlFor="name">שם פרטי</label>
-                              <input type="text" className="form-control" id="firstName" disabled={isDisabled} value={this.props.userDetails.firstName}/>
+                              <input type="text" className="form-control" id="firstName" name="firstName" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.firstName}/>
                           </div>
                           <div className="form-group col-md-6">
                               <label htmlFor="address">שם משפחה</label>
-                              <input type="text" className="form-control" id="lastName" disabled={isDisabled} value={this.props.userDetails.lastName}/>
+                              <input type="text" className="form-control" id="lastName" name="lastName" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.lastName}/>
                           </div>
                       </div>
                       <div className="form-row">
                           <div className="form-group col-md-6">
                               <label htmlFor="address">כתובת להזמנה</label>
-                              <input type="text" className="form-control" id="address" disabled={isDisabled} value={this.props.userDetails.address}/>
+                              <input type="text" className="form-control" id="address" name="address" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.address}/>
                           </div>
                       </div>
 
@@ -64,14 +92,17 @@ class UserDetails extends Component {
                       <div className="form-row">
                           <div className="form-group col-md-6">
                               <label htmlFor="id">מספר טלפון</label>
-                              <input type="text" className="form-control" id="phone" disabled={isDisabled} value={this.props.userDetails.phone}/>
+                              <input type="text" className="form-control" id="phone" name="phone" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.phone}/>
                           </div>
                           <div className="form-group col-md-6">
                               <label htmlFor="id">מייל</label>
-                              <input type="text" className="form-control" id="mail" disabled={true} value={this.props.userDetails.mail}/>
+                              <input type="text" className="form-control" id="mail" name="mail" disabled={true} value={this.props.userDetails.mail}/>
                           </div>
                       </div>
-                      <button onClick={()=>this.finishOrder()} className="btn btn-lg margin-top-bottom btn-danger">למעבר לתשלום באמצעות Paypal</button>
+
+                              <button onClick={()=>this.finish()} className="btn btn-lg margin-top-bottom btn-danger">
+                                  {isUpdate ? "עדכון" : "למעבר לתשלום באמצעות Paypal"}</button>
+
                   </div>
                   :
                   <div>

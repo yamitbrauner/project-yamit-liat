@@ -3,11 +3,11 @@ import RowMenu from "./RowMenu";
 import UserDetails from "./UserDetails";
 import Stock from "./Stock";
 import Reservations from "./Reservations";
-var STOCK = 2;
-var DETAILS = 3;
-var ORDERS = 4;
-var MANAGER_ROLE = 2;
-var isManager = false;
+let STOCK = 2;
+let DETAILS = 3;
+let ORDERS = 4;
+let MANAGER_ROLE = 2;
+let isManager = false;
 
 class Settings extends Component {
 
@@ -17,7 +17,7 @@ class Settings extends Component {
 
       isManager = this.props.userDetails.roleId === MANAGER_ROLE;
 
-      var categories = [
+      let categories = [
           {
               categoryId : DETAILS,
               categoryName:"ניהול פרטים אישיים"

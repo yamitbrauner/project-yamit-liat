@@ -10,7 +10,7 @@ class Item extends Component {
   }
 
   render() {
-    var inCart = this.props.itemsInCart[this.props.item.prodId] && this.props.itemsInCart[this.props.item.prodId].quantity >0;
+      let inCart = this.props.itemsInCart[this.props.item.prodId] && this.props.itemsInCart[this.props.item.prodId].quantity >0;
             return (
         <div className="col-3">
             <div className="row">
