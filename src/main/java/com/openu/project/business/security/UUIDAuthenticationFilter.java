@@ -105,6 +105,7 @@ public class UUIDAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         //authenticateResponse resBody = new authenticateResponse(uuid,"2022-12-16T22:00:00.000+00:00");
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
+
         //res.getWriter().write(new Gson().toJson(resBody));
         res.getWriter().write(new Gson().toJson(user));
         res.getWriter().flush();
