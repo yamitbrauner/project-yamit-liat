@@ -22,12 +22,14 @@ public class UUIDAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     private UsersService userService;
 
     static class LoginAttempt {
-        private String username;
+        private String mail;
         private String password;
+
         public LoginAttempt() {}
-        public String getUsername() { return username; }
+
+        public String getMail() { return mail; }
         public String getPassword() { return password; }
-        public void setUsername(String username) { this.username = username; }
+        public void setMail(String mail) { this.mail = mail; }
         public void setPassword(String password) { this.password = password; }
     }
 
@@ -62,7 +64,7 @@ public class UUIDAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             //AuthRequest req = this.getCredentials(request);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
+                            creds.getMail(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
