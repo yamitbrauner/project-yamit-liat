@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import UserDetails from "./UserDetails";
 
 class Login extends Component {
 
@@ -12,8 +13,9 @@ class Login extends Component {
     switchPage = (val)=>{
         this.setState({isLoginPage: val});
     }
-    handleLog = ()=>{
-        this.props.handleLog(this.state.loginInput);
+    handleLog = (userInput)=>{
+        var tempLoginInput = {...this.state.loginInput, ...userInput};
+        this.setState({loginInput : tempLoginInput}, ()=>this.props.handleLog(this.state.loginInput, this.state.isLoginPage));
     }
     handleChange(event) {
         let tempLoginInput = {...this.state.loginInput};
@@ -37,7 +39,7 @@ class Login extends Component {
                                         <div className="form-row">
                                             <div className="form-group col">
                                                 <label htmlFor="name">מייל</label>
-                                                <input type="text" className="form-control" id="username" name="username" placeholder="אנא הזן מייל" value={this.state.loginInput.username} onChange={this.handleChange}/>
+                                                <input type="text" className="form-control" id="mail" name="mail" placeholder="אנא הזן מייל" value={this.state.loginInput.mail} onChange={this.handleChange}/>
                                             </div>
                                         </div>
                                         <div className="form-row">
@@ -47,29 +49,7 @@ class Login extends Component {
                                             </div>
                                         </div>
                                         {!this.state.isLoginPage?
-                                        <>
-                                            <div className="form-row">
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="privateName">שם פרטי</label>
-                                                    <input type="text" className="form-control" id="privateName" placeholder="אנא הזן שם פרטי"/>
-                                                </div>
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="lastName">שם משפחה</label>
-                                                    <input type="text" className="form-control" id="lastName" placeholder="אנא הזן שם משפחה"/>
-                                                </div>
-                                            </div>
-                                            <div className="form-row">
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="address">כתובת</label>
-                                                    <input type="text" className="form-control" id="address" placeholder="אנא הזן כתובת"/>
-                                                </div>
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="phone">טלפון</label>
-                                                    <input type="text" className="form-control" id="phone" placeholder="אנא הזן טלפון"/>
-                                                </div>
-                                            </div>
-                                        </>
-
+                                            <UserDetails userDetails={this.props.userDetails} signUp={this.handleLog} isUpdate={true}/>
                                         :""
                                         }
 
@@ -78,13 +58,15 @@ class Login extends Component {
                                         <div className="form-row">
                                             <div className="form-group switch-text col">
                                                 {this.state.isLoginPage ?
-                                                <div onClick={()=>this.switchPage(false)}>משתמש חדש ? להרשמה לחץ כאן</div>
+                                                    <div>
+                                                        <button onClick={()=>this.handleLog()} className="btn btn-danger ">סיום</button>
+                                                        <div className="margin-top-bottom" onClick={()=>this.switchPage(false)}>משתמש חדש ? להרשמה לחץ כאן</div>
+                                                    </div>
                                                     :
                                                 <div onClick={()=>this.switchPage(true)}>משתמש קיים? להתחברות לחץ כאן</div>
                                                 }
                                             </div>
                                         </div>
-                                        <button onClick={()=>this.handleLog()} className="btn btn-primary">סיום</button>
                                     </div>
                             </div>
                         </div>

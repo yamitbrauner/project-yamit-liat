@@ -16,7 +16,6 @@ class UserDetails extends Component {
     }
     componentDidMount() {
         let userInput = {
-                deliveryDate: null,
                 firstName: this.props.userDetails.firstName,
                 lastName: this.props.userDetails.lastName,
                 address: this.props.userDetails.address,
@@ -47,8 +46,24 @@ class UserDetails extends Component {
         this.setState({userInput:tempUserInput,isError:false});
     }
 
-    updateDetails(event) {
-        // service of update
+    updateDetails() {
+        if(Object.keys(this.props.userDetails).length > 0){
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.state.userInput)
+            };
+            fetch("/users/"+this.props.userDetails.userId,requestOptions)
+                .then(
+                    (res) => {
+                        if(res.ok){
+
+                        }
+                    }
+                )
+        }else{
+            this.props.signUp(this.state.userInput);
+        }
     }
 
     render() {
@@ -75,34 +90,31 @@ class UserDetails extends Component {
                       <div className="form-row">
                           <div className="form-group col-md-6">
                               <label htmlFor="name">שם פרטי</label>
-                              <input type="text" className="form-control" id="firstName" name="firstName" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.firstName}/>
+                              <input type="text" className="form-control" id="firstName" name="firstName" placeholder="אנא הזן שם פרטי"
+                                     onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.firstName}/>
                           </div>
                           <div className="form-group col-md-6">
                               <label htmlFor="address">שם משפחה</label>
-                              <input type="text" className="form-control" id="lastName" name="lastName" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.lastName}/>
+                              <input type="text" className="form-control" id="lastName" name="lastName" placeholder="אנא הזן שם משפחה"
+                                     onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.lastName}/>
                           </div>
                       </div>
-                      <div className="form-row">
-                          <div className="form-group col-md-6">
-                              <label htmlFor="address">כתובת להזמנה</label>
-                              <input type="text" className="form-control" id="address" name="address" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.address}/>
-                          </div>
-                      </div>
-
                       <div className="divider"/>
                       <div className="form-row">
                           <div className="form-group col-md-6">
-                              <label htmlFor="id">מספר טלפון</label>
-                              <input type="text" className="form-control" id="phone" name="phone" onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.phone}/>
+                              <label htmlFor="address">כתובת להזמנה</label>
+                              <input type="text" className="form-control" id="address" name="address"  placeholder="אנא הזן כתובת"
+                                     onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.address}/>
                           </div>
                           <div className="form-group col-md-6">
-                              <label htmlFor="id">מייל</label>
-                              <input type="text" className="form-control" id="mail" name="mail" disabled={true} value={this.props.userDetails.mail}/>
+                              <label htmlFor="id">מספר טלפון</label>
+                              <input type="text" className="form-control" id="phone" name="phone"  placeholder="אנא הזן טלפון"
+                                     onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.phone}/>
                           </div>
                       </div>
 
                               <button onClick={()=>this.finish()} className="btn btn-lg margin-top-bottom btn-danger">
-                                  {isUpdate ? "עדכון" : "למעבר לתשלום באמצעות Paypal"}</button>
+                                  {isUpdate ? "שמירה" : "למעבר לתשלום באמצעות Paypal"}</button>
 
                   </div>
                   :

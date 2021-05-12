@@ -1,11 +1,14 @@
+import BootstrapTable from 'react-bootstrap-table-next';
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import React, { Component } from 'react';
 import ReservationRow from "./ReservationRow";
 import ReactPaginate from 'react-paginate';
 const PER_PAGE = 5;
 
+
 class Reservations extends Component {
 
-    state = {items:[],reservationToShow:[], offset: 0};
+    state = {reservations:[],reservationToShow:[], offset: 0};
 
 
     componentDidMount(){
@@ -14,7 +17,7 @@ class Reservations extends Component {
             .then(
                 (resReservations) => {
                     this.setState({
-                        items: resReservations,
+                        reservations: resReservations,
                         reservationToShow : resReservations.slice(this.state.offset,PER_PAGE),
                         pageCount: Math.ceil(resReservations.length / PER_PAGE)
                     });
@@ -26,32 +29,66 @@ class Reservations extends Component {
     handlePageClick = (data) => {
         let selected = data.selected;
         let offset = Math.ceil(selected * PER_PAGE);
-        this.setState({ offset: offset,  reservationToShow : this.state.items.slice(offset, offset + PER_PAGE) });
+        this.setState({ offset: offset,  reservationToShow : this.state.reservations.slice(offset, offset + PER_PAGE) });
     };
 
-
+    getRowDetails=(row)=>{
+        debugger;
+        fetch("/getProductsByReservation?reservationId="+row.reservationId)
+            .then(res => res.json())
+            .then(
+                (resPurchase) => {
+                    debugger;
+                },
+                (error) => {
+                }
+            )
+    }
 
     render() {
+        const columns = [{
+            dataField: 'reservationId',
+            text: '#'
+        },{
+            dataField: 'reservationDate',
+            text: 'תאריך הזמנה'
+        },{
+            dataField: 'deliveryDate',
+            text: 'תאריך משלוח'
+        }, {
+            dataField: 'total',
+            text: 'סה"כ לתשלום'
+        }, {
+            dataField: 'status',
+            text: 'סטטוס'
+        }];
+        const expandRow = {
+            renderer: row => (
+                <div>
+                    <p>{ `This Expand row is belong to rowKey ${row.id}` }</p>
+                    <p>You can render anything here, also you can add additional data on every row object</p>
+                    <p>expandRow.renderer callback will pass the origin row object to you</p>
+                </div>
+            ),
+            onExpand: (row, isExpand, rowIndex, e) => {
+                if(isExpand){
+                    this.getRowDetails(row);
+                }
+            },
+            showExpandColumn: true,
+            expandColumnPosition: 'right',
+            parentClassName: 'foo',
+            className: 'foo'
+        };
         return (
             <div className="col">
-                <table className="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">תאריך הזמנה</th>
-                        <th scope="col">תאריך משלוח</th>
-                        <th scope="col">סה"כ לתשלום</th>
-                        <th scope="col">סטטוס</th>
-                        <th scope="col"/>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.state.reservationToShow.length > 0 && this.state.reservationToShow.map((item,index)=>{
-                        return <ReservationRow item={item} key={index} index={index}/>
-                    })}
-                    </tbody>
-                </table>
+                <BootstrapTable
+                    keyField='reservationId'
+                    data={ this.state.reservationToShow }
+                    columns={ columns }
+                    expandRow={ expandRow }
+                />
                 <ReactPaginate
                     previousLabel={'הקודם'}
                     nextLabel={'הבא'}

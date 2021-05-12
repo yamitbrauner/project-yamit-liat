@@ -28,12 +28,27 @@ class App extends Component {
     handlePageSelection = (pageNum) =>{
         this.setState({pageSelected : pageNum})
     }
-    handleLog = (val) =>{
-        if(val){
-            this.loginUser(val);
+    handleLog = (userInput, isLogin) =>{
+        if(isLogin){
+            this.loginUser(userInput);
         }else{
-            this.setState({userDetails : {}});
+            this.signUp(userInput);
         }
+    }
+    signUp = (userInput)=>{
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userInput)
+        };
+        fetch("/createUser",requestOptions)
+            .then(
+                (res) => {
+                    if(res.ok){
+
+                    }
+                }
+            )
     }
 
     loginUser = (loginData)=>{

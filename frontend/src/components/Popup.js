@@ -24,7 +24,7 @@ class Popup extends Component {
                               : ""
                         }
                         {this.props.popupType === LOGIN_POPUP ?
-                              <Login handleLog={(log)=>this.props.handleLog(log)} userDetails={this.props.userDetails}/>
+                              <Login handleLog={(log,isLogin)=>this.props.handleLog(log,isLogin)} userDetails={this.props.userDetails}/>
                               :""}
                         {this.props.popupType === PRODUCT_POPUP?
                             <Product productToShow={this.props.productToShow} handleCart={this.props.handleCart}
