@@ -1,8 +1,8 @@
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import React, { Component } from 'react';
-import ReservationRow from "./ReservationRow";
 import ReactPaginate from 'react-paginate';
+import moment from "moment";
 const PER_PAGE = 5;
 
 
@@ -16,6 +16,10 @@ class Reservations extends Component {
             .then(res => res.json())
             .then(
                 (resReservations) => {
+                    resReservations.map((res) =>{
+                        res.deliveryDate = moment(res.deliveryDate).format('DD/MM/yyyy');
+                        res.reservationDate = moment(res.reservationDate).format('DD/MM/yyyy');
+                    })
                     this.setState({
                         reservations: resReservations,
                         reservationToShow : resReservations.slice(this.state.offset,PER_PAGE),
@@ -32,13 +36,14 @@ class Reservations extends Component {
         this.setState({ offset: offset,  reservationToShow : this.state.reservations.slice(offset, offset + PER_PAGE) });
     };
 
-    getRowDetails=(row)=>{
-        debugger;
+    getRowDetails=(row,tempIndex)=>{
         fetch("/getProductsByReservation?reservationId="+row.reservationId)
             .then(res => res.json())
             .then(
                 (resPurchase) => {
-                    debugger;
+                    let tempReservations = {... this.state.reservations};
+                    tempReservations[tempIndex].items = resPurchase;
+                    this.setState({reservations:tempReservations});
                 },
                 (error) => {
                 }
@@ -63,16 +68,43 @@ class Reservations extends Component {
             text: 'סטטוס'
         }];
         const expandRow = {
-            renderer: row => (
-                <div>
-                    <p>{ `This Expand row is belong to rowKey ${row.id}` }</p>
-                    <p>You can render anything here, also you can add additional data on every row object</p>
-                    <p>expandRow.renderer callback will pass the origin row object to you</p>
-                </div>
-            ),
+            renderer: (row,rowIndex,props) =>{
+                return (
+                    <div>
+                        {
+                            row.items &&
+                            row.items.length > 0 &&
+                            <table>
+                                <thead>
+                                <th>שם מוצר</th>
+                                <th>כמות</th>
+                                <th>מחיר למוצר</th>
+                                <th>סה"כ</th>
+                                </thead>
+                                <tbody>
+                                {
+                                    row.items.map(item =>{
+                                        return <tr>
+                                            <td>{item.prodName}</td>
+                                            <td>{item.quantity}</td>
+                                            <td>{item.pricePerUnit}</td>
+                                            <td>{item.totalPrice}</td>
+                                        </tr>
+
+                                    })}
+
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                )
+            },
             onExpand: (row, isExpand, rowIndex, e) => {
                 if(isExpand){
-                    this.getRowDetails(row);
+                    let tempIndex = rowIndex + this.state.offset;
+                    if(!this.state.reservations[tempIndex].items){
+                        this.getRowDetails(row,tempIndex);
+                    }
                 }
             },
             showExpandColumn: true,
