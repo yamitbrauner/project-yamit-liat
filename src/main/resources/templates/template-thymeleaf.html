@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: right;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {background-color:#f5f5f5;}
+
+         p {
+            color:pink;
+            font-size:24px;
+
+          }
+         #p2{
+             display:inline;
+          }
+
+</style>
+
+</head>
+<body>
+<div dir=RTL>
+    <p style="display:inline" th:text="שלום"></p>
+    <p style="display:inline" th:text="${recipientName}"></p>
+    <p>להלן פירוט הזמנתך:</p>
+</div>
+<div dir=RTL>
+    <table>
+        <thead>
+        <tr>
+            <th> פריט </th>
+            <th> מחיר ליחידה </th>
+            <th> כמות </th>
+            <th> סה"כ </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td><span th:text="${product.prodName}"> פריט </span></td>
+            <td><span th:text="${product.pricePerUnit}"> מחיר ליחידה </span></td>
+            <td><span th:text="${product.quantity}"> כמות </span></td>
+            <td><span th:text="${product.totalPrice}"> סה"כ </span></td>
+        </tr>
+        <tr>
+            <td colspan="3" />
+            <td><b th:text="${#aggregates.sum(products.![totalPrice])}" /></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div dir=RTL>
+    <p>בברכה,</p>
+    <p>מתוק לי.</p>
+</div>
+</body>
+</html>

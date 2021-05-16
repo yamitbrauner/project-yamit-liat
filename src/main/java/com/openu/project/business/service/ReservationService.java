@@ -2,19 +2,17 @@ package com.openu.project.business.service;
 
 import com.openu.project.business.domain.CreateNewReservation;
 import com.openu.project.business.domain.ProductsForCart;
-import com.openu.project.data.entity.Product;
+import com.openu.project.business.domain.purchasedProducts;
 import com.openu.project.data.entity.Purchase;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ReservationConfirmError;
-import com.openu.project.exception.UpdateTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openu.project.data.entity.Users;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 @Service
 public class ReservationService {
@@ -25,7 +23,7 @@ public class ReservationService {
     @Autowired
     PurchaseService purchaseService;
     @Autowired
-    private MatokLiEmailService emailService;
+    private EmailService emailService;
     @Autowired
     private UsersService usersService;
 
@@ -78,7 +76,6 @@ public class ReservationService {
         return dbReservation;
     }
 
-
     public Reservation confirmReservation(int reservationId, String paymentId) throws ReservationConfirmError{
 
         // TODO: Add checkers
@@ -94,8 +91,17 @@ public class ReservationService {
         reservation.setStatus("Approved");
         this.reservationRepository.save(reservation);
         String userMail = this.usersService.getMailByUserId(reservation.getUserId());
+        String firstName = this.usersService.getFirstNameByUserId(reservation.getUserId());
 
-        emailService.sendSimpleConfirmationMail(userMail, reservation.getReservationId());
+        ArrayList<ProductsForCart> purchases = this.purchaseService.getProductsByReservation(reservationId);
+
+        try{
+            emailService.sendMessageUsingThymeleafTemplate(userMail, purchases, firstName,reservationId);
+        } catch (Exception e)
+        {
+            // TODO: Fix mailing!
+            System.out.println("what??");
+        }
 
         return reservation;
     }

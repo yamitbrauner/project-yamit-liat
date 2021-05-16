@@ -116,6 +116,13 @@ public class UsersService {
         return user.getMail();
     }
 
+    public String getFirstNameByUserId(Integer userId)
+    {
+        Users user =  userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException());
+        return user.getFirstName();
+    }
+
     public String getUserNameByToken(String token)
     {
         // Todo: Fix names as we actually look for email
