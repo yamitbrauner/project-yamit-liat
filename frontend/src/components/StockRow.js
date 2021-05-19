@@ -5,17 +5,28 @@ class StockRow extends Component {
     state = {editMode : false};
     constructor(props) {
         super(props);
-        this.state = {quantityInStock: '' ,pricePerUnit: '',  description: ''};
+        this.state = {prodId:'', quantityInStock: '' ,pricePerUnit: '',  description: ''};
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onOkClicked = this.onOkClicked.bind(this);
     }
     componentDidMount() {
        this.resetValues();
     }
+    componentWillReceiveProps(nextProps) {
+        // You don't have to do this check first, but it can help prevent an unneeded render
+        if (nextProps.item.prodId !== this.state.prodId) {
+            this.setState(
+                {prodId: nextProps.item.prodId,
+                    quantityInStock: nextProps.quantityInStock,
+                    pricePerUnit: nextProps.item.pricePerUnit,
+                    description: nextProps.item.description});
+        }
+    }
 
     resetValues=()=>{
         this.setState(
-            {quantityInStock: this.props.item.quantityInStock,
+            {prodId: this.props.item.prodId,
+                quantityInStock: this.props.item.quantityInStock,
                 pricePerUnit: this.props.item.pricePerUnit,
                 description: this.props.item.description});
     }
