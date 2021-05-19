@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import StockRow from "./StockRow";
+import NewProduct from "./NewProduct";
 import ReactPaginate from 'react-paginate';
 const PER_PAGE = 5;
 
@@ -13,6 +14,9 @@ class Stock extends Component {
     }
 
     componentDidMount(){
+        this.getProducts();
+    }
+    getProducts(){
         fetch("/category")
             .then(res => res.json())
             .then(
@@ -78,18 +82,34 @@ class Stock extends Component {
         this.deleteItem(tempIndex);
     }
     updateItem= (index) =>{
-        let itemId = this.state.items[index].prodId;
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.state.items[index])
-        };
-        fetch("/products/"+itemId,requestOptions)
-            .then(res => {
-                if(res.ok){
-                   this.handlePageClick();
-                }
-            })
+        if(this.state.addOption){ //add
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.state.items[index])
+            };
+            fetch("/products",requestOptions)
+                .then(res => {
+                    if(res.ok){
+                        this.switchAddOption();
+                        this.getProducts();
+                    }
+                })
+        }else{ // update
+            let itemId = this.state.items[index].prodId;
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.state.items[index])
+            };
+            fetch("/products/"+itemId,requestOptions)
+                .then(res => {
+                    if(res.ok){
+                        this.handlePageClick();
+                    }
+                })
+        }
+
     }
 
     deleteItem= (index) =>{

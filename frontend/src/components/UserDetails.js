@@ -8,7 +8,7 @@ const disablePastDt = current => {
 };
 
 class UserDetails extends Component {
-    state = {isFinish: false,  isError:false,userInput:{}};
+    state = {isError:false,userInput:{}};
 
     constructor(props){
         super(props);
@@ -19,7 +19,9 @@ class UserDetails extends Component {
                 firstName: this.props.userDetails.firstName,
                 lastName: this.props.userDetails.lastName,
                 address: this.props.userDetails.address,
-                phone: this.props.userDetails.phone
+                phone: this.props.userDetails.phone,
+                deliveryDate: today
+
             };
         this.setState({userInput : userInput});
     }
@@ -28,22 +30,23 @@ class UserDetails extends Component {
         if(this.props.isUpdate){
             this.updateDetails()
         }else{
-            if(this.state.deliveryDate === null){
+            if(this.state.userInput.deliveryDate === null){
                 this.setState({isError:true});
             }else{
                 this.props.finishOrder(this.state.userInput);
-                this.setState({isFinish: !this.state.isFinish})
             }
         }
     }
     handleChange(event) {
-        let tempUserInput = {...this.state.userInput};
-        if(event._d){
-            tempUserInput["deliveryDate"] = event._d;
-        }else{
-            tempUserInput[event.target.name] = event.target.value;
+        if(event){
+            let tempUserInput = {...this.state.userInput};
+            if(event._d){
+                tempUserInput["deliveryDate"] = event._d;
+            }else{
+                tempUserInput[event.target.name] = event.target.value;
+            }
+            this.setState({userInput:tempUserInput,isError:false});
         }
-        this.setState({userInput:tempUserInput,isError:false});
     }
 
     updateDetails() {
@@ -70,7 +73,6 @@ class UserDetails extends Component {
         let isUpdate = this.props.isUpdate;
         return (
           <div className="row">
-              {!this.state.isFinish ?
                   <div className="col margin-top-bottom">
                       {!isUpdate ? <div className="form-row">
                           <div className="form-group col-md-6">
@@ -117,12 +119,6 @@ class UserDetails extends Component {
                                   {isUpdate ? "שמירה" : "למעבר לתשלום באמצעות Paypal"}</button>
 
                   </div>
-                  :
-                  <div>
-                      ההזמנה הושלמה בהצלחה
-                  </div>
-
-              }
 
           </div>
       );

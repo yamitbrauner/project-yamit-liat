@@ -3,10 +3,12 @@ import UserDetails from "./UserDetails";
 import Cart from "./Cart";
 import RowMenu from "./RowMenu";
 import moment from 'moment';
+import { PayPalButton } from "react-paypal-button-v2";
+
 let SHOP = 1;
 class Payment extends Component {
 
-    state = {isFinish: false, categories:[]}
+    state = {isFinish: false, categories:[], showPaypal: false, reservationId:''};
 
     componentDidMount(){
 
@@ -61,20 +63,20 @@ class Payment extends Component {
                 .then(res => {
                     if(res.ok){
                         if(Object.keys(this.props.itemsInCart).length === index+1){
-                            this.confirmReservation(reservationData.reservationId);
+                            this.setState({showPaypal:true, reservationId: reservationData.reservationId});
                         }
                     }
                 })
         });
     }
 
-    confirmReservation = (reservationId)=>{
-        var paymentId = 10203040;
+    confirmReservation = (orderId)=>{
+        var paymentId = orderId;
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
         };
-        fetch("/confirmReservation?reservationId="+reservationId + "&paymentId=" + paymentId,requestOptions)
+        fetch("/confirmReservation?reservationId="+this.state.reservationId + "&paymentId=" + paymentId,requestOptions)
             .then(res => {
                 if(res.ok){
                     this.setState({ isFinish:!this.state.isFinish},()=>this.props.setItemsInCart({}));
@@ -82,7 +84,7 @@ class Payment extends Component {
             })
     }
 
-  render() {
+    render() {
       return (
         <div className="col payment">
             <RowMenu onSelectCategory={this.handleCategorySelection}
@@ -91,15 +93,33 @@ class Payment extends Component {
                     {!this.state.isFinish ?
 
                     <div className="col">
-                        <div className="row">
-                            <div className="col title"> פרטי חיוב ומשלוח</div>
-                        </div>
-                        <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder} isUpdate={false}/>
+
+                        {this.state.showPaypal ?
+                            <div className="row">
+                                <div className="col">
+                                    <h1 className="row">אנא בחר אמצעי תשלום</h1>
+                                    <div className="row">
+                                        <PayPalButton
+                                            amount={this.props.totalPrice}
+                                            onSuccess={(details, data) => {
+                                                this.confirmReservation(data.orderID);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                        </div> :
+                            <>
+                                <div className="row">
+                                    <div className="col title"> פרטי חיוב ומשלוח</div>
+                                </div>
+                                <UserDetails userDetails={this.props.userDetails} finishOrder={this.finishOrder} isUpdate={false}/>
+                            </>
+                        }
                     </div>
                         :
-                        <div className="col">
+                    <div className="col">
                             ההזמנה הושלמה בהצלחה
-                        </div>
+                    </div>
 
                     }
                     <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>

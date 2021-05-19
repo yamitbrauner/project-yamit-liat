@@ -254,3 +254,10 @@
   .error-txt{
     color:red;
   }
+  .add-product{
+    float:right;
+    border: 1px solid gray;
+  }
+  .btn-save{
+    margin-left: 40px;
+  }
