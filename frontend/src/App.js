@@ -10,6 +10,8 @@ import cartImg from "./cart.svg";
 import settingImg from "./settings.svg";
 import logoutImg from "./logout.svg";
 import userImg from "./user.svg";
+import { Route, Switch, Link} from 'react-router-dom'
+
 let CLOSE_POPUP = 0;
 let CART_POPUP = 1;
 let LOGIN_POPUP = 2;
@@ -23,10 +25,6 @@ class App extends Component {
         if(tempUserDetails && tempUserDetails.length > 0){
             this.setState({userDetails: JSON.parse(tempUserDetails)});
         }
-    }
-
-    handlePageSelection = (pageNum) =>{
-        this.setState({pageSelected : pageNum})
     }
     handleLog = (userInput, isLogin) =>{
         if(isLogin){
@@ -92,7 +90,6 @@ class App extends Component {
             this.showPopup(LOGIN_POPUP);
         }else{
             this.showPopup(CLOSE_POPUP);
-            this.handlePageSelection(4);
         }
     }
     removeItemFromCart=(itemToRemove)=>{
@@ -155,7 +152,9 @@ class App extends Component {
                                 :
                                 <>
                                     <img title="התנתקות" className="symbol-height" alt="התנתקות" src={logoutImg} onClick={() => this.logout()}/>
-                                    <img title="הגדרות" className="symbol-height" alt="הגדרות" src={settingImg} onClick={() => this.handlePageSelection(3)}/>
+
+                                    <Link to="/settings/3"><img title="הגדרות" className="symbol-height" alt="הגדרות" src={settingImg}/></Link>
+
                                 </>
                             }
                         </div>
@@ -163,16 +162,31 @@ class App extends Component {
 
                     <div className="col-xs-12">
                         <div className="row">
-                            <AppHeader className="app-header" pageSelected={this.state.pageSelected} onSelectPage={this.handlePageSelection}/>
+                            <AppHeader className="app-header" pageSelected={this.state.pageSelected}/>
                         </div>
-                        <div className="row margin-top-bottom">
-                            {this.state.pageSelected === 1 && <Shop onSelectPage={this.handlePageSelection} handleCart={this.handleCart}
-                                                                    showProduct={this.showProduct} itemsInCart={this.state.itemsInCart}/>}
-                            {this.state.pageSelected === 3 && <Settings onSelectPage={this.handlePageSelection} userDetails={this.state.userDetails}/>}
-                            {this.state.pageSelected === 4 && <Payment userDetails={this.state.userDetails}  itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice}
-                                                                       onSelectPage={this.handlePageSelection} setItemsInCart={this.setItemsInCart}/>}
-                            {this.state.pageSelected === 404 && <Error/>}
-                        </div>
+                        <Switch>
+                            <Route exact path="/">
+                                <Shop handleCart={this.handleCart}
+                                      showProduct={this.showProduct} itemsInCart={this.state.itemsInCart}/>
+                            </Route>
+                            <Route exact path="/settings/:type"
+
+                                   render={(matchProps) =>
+                                       <Settings
+                                           {...matchProps}
+                                           {...this.props}
+                                           userDetails={this.state.userDetails}
+                                       />
+                                   }>
+                            </Route>
+
+                            <Route path="/payment">
+                                <Payment userDetails={this.state.userDetails}
+                                            itemsInCart={this.state.itemsInCart}
+                                         totalPrice={this.state.totalPrice}
+                                         setItemsInCart={this.setItemsInCart}/>
+                            </Route>
+                        </Switch>
                     </div>
                 </div>
 

@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class AppHeader extends Component {
 
-    onSelectPage = ()=>{
-        this.props.onSelectPage(1);
-    }
   render() {
     return (
         <div className="col">
             <div className="row">
-                <h1 className="header-title col" onClick={()=>this.onSelectPage()}>
-                    מתוק לי
-                </h1>
+                <Link to="/" className="col black-font">
+                    <h1 className="header-title col">מתוק לי</h1>
+                </Link>
+
             </div>
             {this.props.pageSelected === 1 ?
                 <p className="row description">

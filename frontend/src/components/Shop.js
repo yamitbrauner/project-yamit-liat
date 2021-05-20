@@ -17,7 +17,7 @@ class Shop extends Component {
                 },()=>this.handleCategorySelection());
             },
             (error) => {
-                this.props.onSelectPage(404);
+
             }
         )
   }
@@ -44,7 +44,7 @@ class Shop extends Component {
                       });
                   },
                   (error) => {
-                      this.props.onSelectPage(404);
+
                   }
               )
       }

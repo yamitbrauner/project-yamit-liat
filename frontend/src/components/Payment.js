@@ -8,22 +8,7 @@ import { PayPalButton } from "react-paypal-button-v2";
 let SHOP = 1;
 class Payment extends Component {
 
-    state = {isFinish: false, categories:[], showPaypal: false, reservationId:''};
-
-    componentDidMount(){
-
-
-        let categories = [
-            {
-                categoryId : SHOP,
-                categoryName:"חזרה לחנות"
-            }
-        ];
-        this.setState({categories: categories});
-    }
-    handleCategorySelection = (category)=>{
-        this.props.onSelectPage(category.categoryId);
-    }
+    state = {isFinish: false, showPaypal: false, reservationId:''};
 
     finishOrder= (userInput) =>{
         const today = moment();
@@ -87,8 +72,6 @@ class Payment extends Component {
     render() {
       return (
         <div className="col payment">
-            <RowMenu onSelectCategory={this.handleCategorySelection}
-                     categories={this.state.categories}/>
                 <div className="row">
                     {!this.state.isFinish ?
 

@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import RowMenu from "./RowMenu";
 import UserDetails from "./UserDetails";
 import Stock from "./Stock";
 import Reservations from "./Reservations";
-let STOCK = 2;
-let DETAILS = 3;
-let ORDERS = 4;
+import {Link} from "react-router-dom";
+let STOCK = "2";
+let DETAILS = "3";
+let ORDERS = "4";
 let MANAGER_ROLE = 1;
 let isManager = false;
 
 class Settings extends Component {
 
-  state = {categorySelected: null, categories:[] };
+  state = {categories:[], type:'' };
+
 
   componentDidMount(){
-
       isManager = this.props.userDetails.roleId === MANAGER_ROLE;
 
       let categories = [
@@ -32,43 +32,39 @@ class Settings extends Component {
               categoryName:"ניהול מלאי"
           });
       }
-      this.setState({categories: categories},()=>this.handleCategorySelection())
+      this.setState({categories: categories});
   }
-    handleCategorySelection = (category) =>{
-        if(!category){
-            category = this.state.categories[0];
-        }
-        this.setState({categorySelected : category})
-    }
-    onSelectPage=(val)=>{
-      this.props.onSelectPage(val);
-    }
-
 
   render() {
-
-    return (
+      let type = this.props.match.params.type;
+      return (
         <div className="col">
-            <RowMenu onSelectCategory={this.handleCategorySelection}
-                     categorySelected={this.state.categorySelected}
-                     categories={this.state.categories}/>
+            <div className="row margin-top-bottom">
+                {this.state.categories.map((category,index) =>{
+                    let isSelected = type && type == category.categoryId;
+                    return <Link className={ isSelected ? "col category-name category-selected" :"col category-name black-font"} key={index} to={category.categoryId}>
+                        {category.categoryName}
+                    </Link>
+                })}
+
+            </div>
             <div className="row">
                 <div className="col">
                             {
                                 // eslint-disable-next-line
-                                this.state.categorySelected && this.state.categorySelected.categoryId === STOCK &&
+                                type && type === STOCK &&
                                 <div className="margin-top-bottom">
-                                    <Stock onSelectPage={this.onSelectPage}/>
+                                    <Stock/>
                                 </div>
                             }
                             {
                                 // eslint-disable-next-line
-                                this.state.categorySelected && this.state.categorySelected.categoryId === DETAILS &&
+                                type && type === DETAILS &&
                                 <UserDetails userDetails={this.props.userDetails} isUpdate={true}/>
                             }
                             {
                                 // eslint-disable-next-line
-                                this.state.categorySelected && this.state.categorySelected.categoryId === ORDERS &&
+                                type && type === ORDERS &&
                                 <div className="margin-top-bottom">
                                     <Reservations userDetails={this.props.userDetails}/>
                                 </div>

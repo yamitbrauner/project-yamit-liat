@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ItemInCart from "./ItemInCart";
+import {Link} from "react-router-dom";
+
 class Cart extends Component {
 
     removeItemFromCart=(itemToRemove)=>{
@@ -52,7 +54,7 @@ class Cart extends Component {
                             <div className="row">
                                 <div className="col">
                                     <button className="btn-default btn margin-top-bottom" onClick={this.handlePay}>
-                                        <span className="category-name">לתשלום</span>
+                                        <Link to="payment" className="category-name">לתשלום</Link>
                                     </button>
                                 </div>
                             </div>

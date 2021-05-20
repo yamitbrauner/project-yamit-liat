@@ -16,6 +16,7 @@
     "react-modal-login": "^1.4.5",
     "react-paginate": "^7.1.2",
     "react-paypal-button-v2": "^2.6.3",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.0"
   },
