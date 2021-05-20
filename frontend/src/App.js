@@ -125,7 +125,9 @@ class App extends Component {
         }
     }
 
+
   render() {
+
     return (
         <div className="App">
             { this.state.popupType > 0 ?
@@ -169,23 +171,32 @@ class App extends Component {
                                 <Shop handleCart={this.handleCart}
                                       showProduct={this.showProduct} itemsInCart={this.state.itemsInCart}/>
                             </Route>
-                            <Route exact path="/settings/:type"
 
-                                   render={(matchProps) =>
-                                       <Settings
-                                           {...matchProps}
-                                           {...this.props}
-                                           userDetails={this.state.userDetails}
-                                       />
-                                   }>
-                            </Route>
+                            {Object.keys(this.state.userDetails).length === 0 ?
+                                <>
+                                <Redirect  from="/payment"  to="/shop" />
+                                <Redirect  from="/settings/:type"  to="/shop" />
+                                </>
+                                :
+                                <>
+                                    <Route exact path="/settings/:type"
 
-                            <Route path="/payment">
-                                <Payment userDetails={this.state.userDetails}
-                                            itemsInCart={this.state.itemsInCart}
-                                         totalPrice={this.state.totalPrice}
-                                         setItemsInCart={this.setItemsInCart}/>
-                            </Route>
+                                           render={(matchProps) =>
+                                               <Settings
+                                                   {...matchProps}
+                                                   {...this.props}
+                                                   userDetails={this.state.userDetails}
+                                               />
+                                           }>
+                                    </Route>
+                                    <Route path="/payment">
+                                        <Payment userDetails={this.state.userDetails}
+                                                 itemsInCart={this.state.itemsInCart}
+                                                 totalPrice={this.state.totalPrice}
+                                                 setItemsInCart={this.setItemsInCart}/>
+                                    </Route>
+                                </>
+                            }
                             <Redirect  from="/"  to="/shop"  exact  />
                         </Switch>
                     </div>
