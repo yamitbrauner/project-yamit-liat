@@ -20,7 +20,7 @@ class UserDetails extends Component {
                 lastName: this.props.userDetails.lastName,
                 address: this.props.userDetails.address,
                 phone: this.props.userDetails.phone,
-                deliveryDate: today
+                deliveryDate: today.add('1','days')
 
             };
         this.setState({userInput : userInput});

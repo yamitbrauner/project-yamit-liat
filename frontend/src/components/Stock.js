@@ -6,7 +6,7 @@ const PER_PAGE = 5;
 
 class Stock extends Component {
 
-    state = {items:[],itemsToShow:[], categories:{}, offset: 0};
+    state = {items:[],itemsToShow:[], categories:{}, offset: 0, addOption: false};
 
     constructor(props){
         super(props);
@@ -68,15 +68,27 @@ class Stock extends Component {
 
     onOkClicked = (index,newItem)=>{
         let items = [...this.state.items];
-        let tempIndex = index + this.state.offset;
-        items[tempIndex].quantityInStock = newItem.quantityInStock
-        items[tempIndex].pricePerUnit = newItem.pricePerUnit;
-        items[tempIndex].description = newItem.description;
+        let tempIndex = 0;
+        if(index >=0){
+            tempIndex = index + this.state.offset;
+            items[tempIndex].prodName = newItem.prodName
+            items[tempIndex].quantityInStock = newItem.quantityInStock
+            items[tempIndex].pricePerUnit = newItem.pricePerUnit;
+            items[tempIndex].description = newItem.description;
+        }else{
+            items.unshift({
+                categoryId : newItem.categoryId,
+                prodName : newItem.prodName,
+                quantityInStock : newItem.quantityInStock,
+                pricePerUnit : newItem.pricePerUnit,
+                description : newItem.description,
+                picUrl : newItem.picUrl.name
+            })
+        }
         this.setState({
             items: items
         },()=>this.updateItem(tempIndex));
     }
-
     onDeleteClicked = (index)=>{
         let tempIndex = index + this.state.offset;
         this.deleteItem(tempIndex);
@@ -111,7 +123,6 @@ class Stock extends Component {
         }
 
     }
-
     deleteItem= (index) =>{
         let itemId = this.state.items[index].prodId;
         const requestOptions = {
@@ -128,10 +139,24 @@ class Stock extends Component {
                 }
             })
     }
-
+    switchAddOption= () =>{
+       this.setState({addOption : !this.state.addOption});
+    }
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value
+        });
+    }
     render() {
     return (
         <div className="col">
+            {!this.state.addOption && <button className="btn btn-danger row" onClick={()=>this.switchAddOption()}>
+                    הוספת מוצר
+                </button>}
+            {this.state.addOption && <NewProduct onOkClicked={this.onOkClicked} cancelAdd={this.switchAddOption}/>}
             <table className="table table-striped">
                 <thead>
                 <tr>

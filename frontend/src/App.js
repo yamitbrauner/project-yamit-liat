@@ -175,7 +175,7 @@ class App extends Component {
                             {Object.keys(this.state.userDetails).length === 0 ?
                                 <>
                                 <Redirect  from="/payment"  to="/shop" />
-                                <Redirect  from="/settings/:type"  to="/shop" />
+                                <Redirect  from="/settings/:type"  to="/shop"/>
                                 </>
                                 :
                                 <>

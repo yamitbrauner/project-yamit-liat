@@ -45,33 +45,24 @@ class NewProduct extends Component {
         });
     }
     onOkClicked = ()=>{
-        debugger;
         const formData = new FormData();
-        formData.append(
-            "file",
-            this.state.picUrl
-        );
+        formData.append("multipartImage",this.state.picUrl);
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: formData
+            body: formData,
+            redirect: 'follow'
         };
         fetch("/saveImage?category="+this.state.categoryId,requestOptions)
-            .then(
-                (res) => {
-                debugger;
-                    if(res.ok){
-
-                    }
-                }
-            )
-        // this.props.onOkClicked(false, this.state);
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        this.props.onOkClicked(-1, this.state);
     }
 
 
   render() {
     return (
-        <div className="col-md-6 add-product">
+        <div className="col add-product">
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <label htmlFor="categoryId">קטגוריה</label>
@@ -102,16 +93,16 @@ class NewProduct extends Component {
             </div>
             <div className="form-row">
                 <div className="form-group col-md-12">
-                    <button className="btn btn-danger btn-save" onClick={()=>this.onOkClicked()}>שמור</button>
-                    <button className="btn btn-danger" onClick={()=>this.cancelAdd()}>ביטול</button>
-                </div>
-            </div>
-            <div className="form-row">
-                <div className="form-group col-md-12">
                     <input type="file"
                            name="picUrl"
                            onChange={this.handleInputChange}
                     />
+                </div>
+            </div>
+            <div className="form-row">
+                <div className="form-group col-md-12">
+                    <button className="btn btn-danger btn-save" onClick={()=>this.onOkClicked()}>שמור</button>
+                    <button className="btn btn-danger" onClick={()=>this.cancelAdd()}>ביטול</button>
                 </div>
             </div>
         </div>
