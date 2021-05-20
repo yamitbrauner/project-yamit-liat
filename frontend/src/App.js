@@ -10,7 +10,7 @@ import cartImg from "./cart.svg";
 import settingImg from "./settings.svg";
 import logoutImg from "./logout.svg";
 import userImg from "./user.svg";
-import { Route, Switch, Link} from 'react-router-dom'
+import { Route, Switch, Link, Redirect} from 'react-router-dom'
 
 let CLOSE_POPUP = 0;
 let CART_POPUP = 1;
@@ -165,7 +165,7 @@ class App extends Component {
                             <AppHeader className="app-header" pageSelected={this.state.pageSelected}/>
                         </div>
                         <Switch>
-                            <Route exact path="/">
+                            <Route exact path="/shop">
                                 <Shop handleCart={this.handleCart}
                                       showProduct={this.showProduct} itemsInCart={this.state.itemsInCart}/>
                             </Route>
@@ -186,6 +186,7 @@ class App extends Component {
                                          totalPrice={this.state.totalPrice}
                                          setItemsInCart={this.setItemsInCart}/>
                             </Route>
+                            <Redirect  from="/"  to="/shop"  exact  />
                         </Switch>
                     </div>
                 </div>
