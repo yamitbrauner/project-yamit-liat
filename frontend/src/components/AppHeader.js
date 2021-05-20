@@ -7,7 +7,7 @@ class AppHeader extends Component {
     return (
         <div className="col">
             <div className="row">
-                <Link to="/" className="col black-font">
+                <Link to="/shop" className="col black-font">
                     <h1 className="header-title col">מתוק לי</h1>
                 </Link>
 
