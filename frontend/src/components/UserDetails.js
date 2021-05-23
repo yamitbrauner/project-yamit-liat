@@ -60,7 +60,7 @@ class UserDetails extends Component {
                 .then(
                     (res) => {
                         if(res.ok){
-
+                            alert("נשמר בהצלחה")
                         }
                     }
                 )

@@ -99,15 +99,17 @@ class Reservations extends Component {
                             row.items.length > 0 &&
                             <table>
                                 <thead>
-                                <th>שם מוצר</th>
-                                <th>כמות</th>
-                                <th>מחיר למוצר</th>
-                                <th>סה"כ</th>
+                                <tr>
+                                    <th>שם מוצר</th>
+                                    <th>כמות</th>
+                                    <th>מחיר למוצר</th>
+                                    <th>סה"כ</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 {
                                     row.items.map(item =>{
-                                        return <tr>
+                                        return <tr key={item.prodName}>
                                             <td>{item.prodName}</td>
                                             <td>{item.quantity}</td>
                                             <td>{item.pricePerUnit}</td>
