@@ -1,9 +1,10 @@
+import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
-import React, { Component } from 'react';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
-import ReactPaginate from 'react-paginate';
+import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
 import moment from "moment";
 const PER_PAGE = 5;
 let MANAGER_ROLE = 1;
@@ -12,7 +13,7 @@ let isManager = false;
 
 class Reservations extends Component {
 
-    state = {reservations:[],reservationToShow:[], offset: 0, usersOptions:{}};
+    state = {reservations:[], offset: 0, usersOptions:{}};
 
 
     componentDidMount(){
@@ -25,25 +26,22 @@ class Reservations extends Component {
                 (resReservations) => {
                     let usersOptions = {};
                     resReservations.map((res) =>{
-                        res.deliveryDate = moment(res.deliveryDate).format('DD/MM/yyyy');
-                        res.reservationDate = moment(res.reservationDate).format('DD/MM/yyyy');
+                        res.deliveryDate = res.deliveryDate ? moment(res.deliveryDate).format('DD/MM/yyyy'): "";
+                        res.reservationDate = res.reservationDate ? moment(res.reservationDate).format('DD/MM/yyyy') : "";
                         usersOptions[res.userId] = res.userId;
                     })
                     this.setState({
                         usersOptions:usersOptions,
                         reservations: resReservations,
-                        reservationToShow : resReservations.slice(this.state.offset,PER_PAGE),
-                        pageCount: Math.ceil(resReservations.length / PER_PAGE)
                     });
                 }
             )
     }
 
 
-    handlePageClick = (data) => {
-        let selected = data.selected;
-        let offset = Math.ceil(selected * PER_PAGE);
-        this.setState({ offset: offset,  reservationToShow : this.state.reservations.slice(offset, offset + PER_PAGE) });
+    handlePageChange = (page,sizePerPage) => {
+        let offset = Math.ceil((page-1) * sizePerPage);
+        this.setState({ offset: offset});
     };
 
     getRowDetails=(row,tempIndex)=>{
@@ -61,6 +59,13 @@ class Reservations extends Component {
     }
 
     render() {
+        const paginationOption = paginationFactory({
+            sizePerPage: PER_PAGE,
+            hideSizePerPage:  true,
+            withFirstAndLast:true,
+            onPageChange: this.handlePageChange
+
+        });
         let columns = [{
             dataField: 'reservationId',
             text: '#'
@@ -139,26 +144,16 @@ class Reservations extends Component {
         };
         return (
             <div className="col">
-
+                {this.state.reservations.length &&
                 <BootstrapTable
+                    pagination={paginationOption}
                     keyField='reservationId'
-                    data={ this.state.reservationToShow }
+                    data={ this.state.reservations }
                     columns={ columns }
                     expandRow={ expandRow }
                     filter={ filterFactory() }
                 />
-                <ReactPaginate
-                    previousLabel={'הקודם'}
-                    nextLabel={'הבא'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    pageCount={this.state.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={this.handlePageClick}
-                    containerClassName={'pagination'}
-                    activeClassName={'active'}
-                />
+                }
             </div>
         );
     }
