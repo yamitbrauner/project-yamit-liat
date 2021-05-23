@@ -264,3 +264,7 @@
   .black-font{
     color:black;
   }
+  .search{
+    border-radius: 5px;
+    width:450px;
+  }

@@ -124,7 +124,6 @@ class Reservations extends Component {
             },
             onExpand: (row, isExpand, rowIndex, e) => {
                 if(isExpand){
-                    debugger;
                     let tempIndex = rowIndex + this.state.offset;
                     if(!this.state.reservations[tempIndex].items){
                         this.getRowDetails(row,tempIndex);
