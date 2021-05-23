@@ -13,7 +13,7 @@ quantity_in_stock integer,
 price_per_unit numeric(5,0),
 description varchar(512),
 pic_url varchar(512),
-primary key (prod_id, category_id),
+primary key (prod_id),
 foreign key (category_id) references public.Category);
 
 
