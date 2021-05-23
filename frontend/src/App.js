@@ -43,7 +43,7 @@ class App extends Component {
             .then(
                 (res) => {
                     if(res.ok){
-
+                        this.loginUser(userInput);
                     }
                 }
             )

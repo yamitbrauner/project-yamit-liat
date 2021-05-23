@@ -1,26 +1,36 @@
 import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
 import React, { Component } from 'react';
+import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
 import ReactPaginate from 'react-paginate';
 import moment from "moment";
 const PER_PAGE = 5;
+let MANAGER_ROLE = 1;
+let isManager = false;
 
 
 class Reservations extends Component {
 
-    state = {reservations:[],reservationToShow:[], offset: 0};
+    state = {reservations:[],reservationToShow:[], offset: 0, usersOptions:{}};
 
 
     componentDidMount(){
-        fetch("/reservation/getById/"+ this.props.userDetails.userId)
+        isManager = this.props.userDetails.roleId === MANAGER_ROLE;
+        let path = isManager ? "/reservation" : "/reservation/getById/"+ this.props.userDetails.userId;
+
+        fetch(path)
             .then(res => res.json())
             .then(
                 (resReservations) => {
+                    let usersOptions = {};
                     resReservations.map((res) =>{
                         res.deliveryDate = moment(res.deliveryDate).format('DD/MM/yyyy');
                         res.reservationDate = moment(res.reservationDate).format('DD/MM/yyyy');
+                        usersOptions[res.userId] = res.userId;
                     })
                     this.setState({
+                        usersOptions:usersOptions,
                         reservations: resReservations,
                         reservationToShow : resReservations.slice(this.state.offset,PER_PAGE),
                         pageCount: Math.ceil(resReservations.length / PER_PAGE)
@@ -51,7 +61,7 @@ class Reservations extends Component {
     }
 
     render() {
-        const columns = [{
+        let columns = [{
             dataField: 'reservationId',
             text: '#'
         },{
@@ -67,6 +77,19 @@ class Reservations extends Component {
             dataField: 'status',
             text: 'סטטוס'
         }];
+        if(isManager) {
+            columns.unshift(
+                {
+                    dataField: 'userId',
+                    text: 'משתמש',
+                    formatter: cell => this.state.usersOptions[cell],
+                    filter: selectFilter({
+                        options: this.state.usersOptions
+                    })
+
+                }
+            )
+        }
         const expandRow = {
             renderer: (row,rowIndex,props) =>{
                 return (
@@ -101,6 +124,7 @@ class Reservations extends Component {
             },
             onExpand: (row, isExpand, rowIndex, e) => {
                 if(isExpand){
+                    debugger;
                     let tempIndex = rowIndex + this.state.offset;
                     if(!this.state.reservations[tempIndex].items){
                         this.getRowDetails(row,tempIndex);
@@ -120,6 +144,7 @@ class Reservations extends Component {
                     data={ this.state.reservationToShow }
                     columns={ columns }
                     expandRow={ expandRow }
+                    filter={ filterFactory() }
                 />
                 <ReactPaginate
                     previousLabel={'הקודם'}
