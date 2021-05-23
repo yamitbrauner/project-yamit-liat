@@ -6,29 +6,31 @@ class NewProduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            hasEditIndex:'false',
             prodId:'',
             categoryId:'',
             prodName:'',
             quantityInStock: '' ,
             pricePerUnit: '',
             description: '',
-            picUrl:''
+            picUrl:'',
+            isError:false
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onOkClicked = this.onOkClicked.bind(this);
     }
-
-    cancelAdd = ()=>{
-        this.setState({
-            prodId:'',
-            categoryId:'',
-            prodName:'',
-            quantityInStock: '' ,
-            pricePerUnit: '',
-            description: '',
-            picUrl:''
-        })
-        this.props.cancelAdd();
+    componentDidMount() {
+        let item = this.props.hasEditIndex!== false ? this.props.items[this.props.hasEditIndex] : {};
+        this.setState(
+            {
+                hasEditIndex: this.props.hasEditIndex,
+                prodId: item.prodId ? item.prodId : '',
+                categoryId: item.categoryId ? item.categoryId : '',
+                prodName: item.prodName ? item.prodName : '',
+                quantityInStock: item.quantityInStock ? item.quantityInStock : '',
+                pricePerUnit: item.pricePerUnit? item.pricePerUnit: '',
+                picUrl: item.picUrl? item.picUrl: '',
+                description: item.description ? item.description : ''});
     }
 
     handleInputChange(event) {
@@ -45,20 +47,30 @@ class NewProduct extends Component {
         });
     }
     onOkClicked = ()=>{
-        const formData = new FormData();
-        formData.append("multipartImage",this.state.picUrl);
-        const requestOptions = {
-            method: 'POST',
-            body: formData,
-            redirect: 'follow'
-        };
-        fetch("/saveImage?category="+this.state.categoryId,requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-        this.props.onOkClicked(-1, this.state);
+        if(this.state.categoryId =='' || this.state.prodName =='' || this.state.quantityInStock ==''
+            || this.state.pricePerUnit =='' || this.state.description ==''|| this.state.picUrl ==''){
+            this.setState({isError:true});
+        }else{
+            let item = this.props.hasEditIndex!== false ? this.props.items[this.props.hasEditIndex] : {};
+            if(item.picUrl !== this.state.picUrl){
+                const formData = new FormData();
+                formData.append("multipartImage",this.state.picUrl);
+                const requestOptions = {
+                    method: 'POST',
+                    body: formData,
+                    redirect: 'follow'
+                };
+                fetch("/saveImage?category="+this.state.categoryId,requestOptions)
+                    .then(res => {
+                        if(res.ok) {
+                            this.props.onOkClicked(this.state);
+                        }
+                    })
+            }else{
+                this.props.onOkClicked(this.state);
+            }
+        }
     }
-
 
   render() {
     return (
@@ -67,28 +79,31 @@ class NewProduct extends Component {
                 <div className="form-group col-md-6">
                     <label htmlFor="categoryId">קטגוריה</label>
                     <input type="text" className="form-control" id="categoryId" name="categoryId" placeholder="אנא הזן מס' קטגוריה"
-                           onChange={this.handleInputChange}/>
+                           onChange={this.handleInputChange} value={this.state.categoryId}/>
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor="address">שם מוצר</label>
                     <input type="text" className="form-control" id="prodName" name="prodName" placeholder="אנא הזן שם מוצר"
-                           onChange={this.handleInputChange}/>
+                           onChange={this.handleInputChange} value={this.state.prodName}/>
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <label htmlFor="categoryId">כמות במלאי</label>
-                    <input type="text" className="form-control" name="quantityInStock" onChange={this.handleInputChange} placeholder="כמות"/>
+                    <input type="text" className="form-control" name="quantityInStock" placeholder="כמות"
+                           onChange={this.handleInputChange} value={this.state.quantityInStock}/>
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor="address">מחיר</label>
-                    <input type="text" className="form-control" name="pricePerUnit" onChange={this.handleInputChange} placeholder="מחיר"/>
+                    <input type="text" className="form-control" name="pricePerUnit" placeholder="מחיר"
+                           onChange={this.handleInputChange} value={this.state.pricePerUnit}/>
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col-md">
                     <label htmlFor="address">תיאור</label>
-                    <textarea className="form-control" name="description" onChange={this.handleInputChange} placeholder="תיאור"/>
+                    <textarea className="form-control" name="description" placeholder="תיאור"
+                              onChange={this.handleInputChange} value={this.state.description}/>
                 </div>
             </div>
             <div className="form-row">
@@ -99,10 +114,13 @@ class NewProduct extends Component {
                     />
                 </div>
             </div>
+            {this.state.isError && <div className="form-row">
+                <div className="col error-txt">אנא הזן את כל הפרטים</div>
+            </div>}
             <div className="form-row">
                 <div className="form-group col-md-12">
                     <button className="btn btn-danger btn-save" onClick={()=>this.onOkClicked()}>שמור</button>
-                    <button className="btn btn-danger" onClick={()=>this.cancelAdd()}>ביטול</button>
+                    <button className="btn btn-danger" onClick={()=>this.props.cancelAdd()}>ביטול</button>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ const PER_PAGE = 5;
 
 class Stock extends Component {
 
-    state = {items:[],itemsToShow:[], categories:{}, offset: 0, addOption: false};
+    state = {items:[],itemsToShow:[], categories:{}, offset: 0, productBoxOpen: false, hasEditIndex:false};
 
     constructor(props){
         super(props);
@@ -41,7 +41,6 @@ class Stock extends Component {
                 }
             )
     }
-
     organizeCategories = (categories)=>{
         let tempCategories = {};
         // eslint-disable-next-line
@@ -50,7 +49,6 @@ class Stock extends Component {
         })
         return tempCategories;
     }
-
     handlePageClick = (data) => {
         let offset = 0;
         if(data){
@@ -65,17 +63,10 @@ class Stock extends Component {
             pageCount: Math.ceil(this.state.items.length / PER_PAGE)
         });
     };
-
-    onOkClicked = (index,newItem)=>{
+    onOkClicked = (newItem)=>{
         let items = [...this.state.items];
-        let tempIndex = 0;
-        if(index >=0){
-            tempIndex = index + this.state.offset;
-            items[tempIndex].prodName = newItem.prodName
-            items[tempIndex].quantityInStock = newItem.quantityInStock
-            items[tempIndex].pricePerUnit = newItem.pricePerUnit;
-            items[tempIndex].description = newItem.description;
-        }else{
+        if(this.state.hasEditIndex === false){
+            //add
             items.unshift({
                 categoryId : newItem.categoryId,
                 prodName : newItem.prodName,
@@ -84,39 +75,46 @@ class Stock extends Component {
                 description : newItem.description,
                 picUrl : newItem.picUrl.name
             })
+        }else{
+            items[this.state.hasEditIndex].prodName = newItem.prodName
+            items[this.state.hasEditIndex].quantityInStock = newItem.quantityInStock
+            items[this.state.hasEditIndex].pricePerUnit = newItem.pricePerUnit;
+            items[this.state.hasEditIndex].description = newItem.description;
+            items[this.state.hasEditIndex].picUrl = newItem.picUrl.name ?  newItem.picUrl.name :  newItem.picUrl;
         }
         this.setState({
             items: items
-        },()=>this.updateItem(tempIndex));
+        },()=>this.updateItem());
     }
     onDeleteClicked = (index)=>{
         let tempIndex = index + this.state.offset;
         this.deleteItem(tempIndex);
     }
-    updateItem= (index) =>{
-        if(this.state.addOption){ //add
+    updateItem= () =>{
+        if(this.state.hasEditIndex === false){ //add
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(this.state.items[index])
+                body: JSON.stringify(this.state.items[0])
             };
             fetch("/products",requestOptions)
                 .then(res => {
                     if(res.ok){
-                        this.switchAddOption();
-                        this.getProducts();
+                        this.switchProductBox();
+                        this.handlePageClick({selected:0});
                     }
                 })
         }else{ // update
-            let itemId = this.state.items[index].prodId;
+            let item = this.state.items[this.state.hasEditIndex];
             const requestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(this.state.items[index])
+                body: JSON.stringify(item)
             };
-            fetch("/products/"+itemId,requestOptions)
+            fetch("/products/"+item.prodId,requestOptions)
                 .then(res => {
                     if(res.ok){
+                        this.switchProductBox();
                         this.handlePageClick();
                     }
                 })
@@ -139,8 +137,12 @@ class Stock extends Component {
                 }
             })
     }
-    switchAddOption= () =>{
-       this.setState({addOption : !this.state.addOption});
+    switchProductBox = (val,index) =>{
+        let tempIndex = false;
+        if(index !== false){
+            tempIndex = index + this.state.offset;
+       }
+       this.setState({productBoxOpen : val ? val : !this.state.productBoxOpen, hasEditIndex:tempIndex});
     }
     handleInputChange(event) {
         const target = event.target;
@@ -150,13 +152,14 @@ class Stock extends Component {
             [name]: value
         });
     }
+
     render() {
     return (
         <div className="col">
-            {!this.state.addOption && <button className="btn btn-danger row" onClick={()=>this.switchAddOption()}>
+            {!this.state.productBoxOpen && <button className="btn btn-danger row" onClick={()=>this.switchProductBox(true,false)}>
                     הוספת מוצר
                 </button>}
-            {this.state.addOption && <NewProduct onOkClicked={this.onOkClicked} cancelAdd={this.switchAddOption}/>}
+            {this.state.productBoxOpen && <NewProduct onOkClicked={this.onOkClicked} cancelAdd={this.switchProductBox} items={this.state.items} hasEditIndex={this.state.hasEditIndex}/>}
             <table className="table table-striped">
                 <thead>
                 <tr>
@@ -172,7 +175,13 @@ class Stock extends Component {
                 </thead>
                 <tbody>
                 {this.state.itemsToShow.length > 0 && this.state.itemsToShow.map((item,index)=>{
-                    return <StockRow item={item} categories={this.state.categories} key={index} index={index} onDeleteClicked={this.onDeleteClicked} onOkClicked={this.onOkClicked}/>
+                    return <StockRow item={item}
+                                     categories={this.state.categories}
+                                     key={index}
+                                     index={index}
+                                     switchProductBox={this.switchProductBox}
+                                     productBoxOpen = {this.state.productBoxOpen}
+                                     onDeleteClicked={this.onDeleteClicked}/>
                 })}
                 </tbody>
             </table>
