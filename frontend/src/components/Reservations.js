@@ -144,7 +144,7 @@ class Reservations extends Component {
         };
         return (
             <div className="col">
-                {this.state.reservations.length &&
+                {this.state.reservations.length ?
                 <BootstrapTable
                     pagination={paginationOption}
                     keyField='reservationId'
@@ -152,7 +152,7 @@ class Reservations extends Component {
                     columns={ columns }
                     expandRow={ expandRow }
                     filter={ filterFactory() }
-                />
+                /> : ""
                 }
             </div>
         );
