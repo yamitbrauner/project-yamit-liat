@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Dropdown from 'react-bootstrap/DropdownButton'
 
 class NewProduct extends Component {
 
@@ -47,6 +46,7 @@ class NewProduct extends Component {
         });
     }
     onOkClicked = ()=>{
+        // eslint-disable-next-line
         if(this.state.categoryId =='' || this.state.prodName =='' || this.state.quantityInStock ==''
             || this.state.pricePerUnit =='' || this.state.description ==''|| this.state.picUrl ==''){
             this.setState({isError:true});
@@ -78,8 +78,12 @@ class NewProduct extends Component {
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <label htmlFor="categoryId">קטגוריה</label>
-                    <input type="text" className="form-control" id="categoryId" name="categoryId" placeholder="אנא הזן מס' קטגוריה"
-                           onChange={this.handleInputChange} value={this.state.categoryId}/>
+
+                    <select className="form-control" name="categoryId" id="categoryId" placeholder="אנא בחר קטגוריה" onChange={this.handleInputChange}>
+                        {Object.keys(this.props.categories).map((key)=>{
+                            return <option key={key} value={key}>{this.props.categories[key]}</option>
+                        })})
+                    </select>
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor="address">שם מוצר</label>

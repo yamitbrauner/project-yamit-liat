@@ -159,7 +159,14 @@ class Stock extends Component {
             {!this.state.productBoxOpen && <button className="btn btn-danger row" onClick={()=>this.switchProductBox(true,false)}>
                     הוספת מוצר
                 </button>}
-            {this.state.productBoxOpen && <NewProduct onOkClicked={this.onOkClicked} cancelAdd={this.switchProductBox} items={this.state.items} hasEditIndex={this.state.hasEditIndex}/>}
+            {this.state.productBoxOpen &&
+            <NewProduct
+                onOkClicked={this.onOkClicked}
+                cancelAdd={this.switchProductBox}
+                items={this.state.items}
+                categories={this.state.categories}
+                hasEditIndex={this.state.hasEditIndex}/>
+            }
             <table className="table table-striped">
                 <thead>
                 <tr>

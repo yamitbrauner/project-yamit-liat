@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import UserDetails from "./UserDetails";
 import Cart from "./Cart";
-import RowMenu from "./RowMenu";
 import moment from 'moment';
 import { PayPalButton } from "react-paypal-button-v2";
 
-let SHOP = 1;
 class Payment extends Component {
 
     state = {isFinish: false, showPaypal: false, reservationId:''};
