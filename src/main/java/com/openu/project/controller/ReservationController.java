@@ -1,12 +1,10 @@
 package com.openu.project.controller;
 
 import com.openu.project.business.domain.CreateNewReservation;
-import com.openu.project.business.domain.ProductsForCart;
+import com.openu.project.business.domain.FullReservation;
 import com.openu.project.business.service.ReservationService;
 import com.openu.project.data.entity.Product;
-import com.openu.project.data.entity.Purchase;
 import com.openu.project.data.entity.Reservation;
-import com.openu.project.exception.ReservationConfirmError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +54,9 @@ public class ReservationController {
     }
 
 
-
+    @GetMapping("/reservation/fullUserReservation/{userId}")
+    public ArrayList<FullReservation> getUserFullReservation(@PathVariable("userId") Integer userId) {
+        return this.reservationService.getFullReservation(userId);
+    }
 
 }

@@ -2,8 +2,8 @@ package com.openu.project.business.service;
 
 import com.openu.project.business.domain.CreateNewReservation;
 import com.openu.project.business.domain.ProductsForCart;
-import com.openu.project.business.domain.purchasedProducts;
-import com.openu.project.data.entity.Purchase;
+import com.openu.project.business.domain.FullReservation;
+import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.openu.project.data.entity.Users;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @Service
 public class ReservationService {
@@ -104,6 +105,27 @@ public class ReservationService {
         }
 
         return reservation;
+    }
+    
+    public ArrayList<FullReservation> getFullReservation(Integer userId)
+    {
+        ArrayList<FullReservation> fullReservationArrayList = new ArrayList<>();
+        Iterable<Reservation> userReservation = getReservationByUserId(userId);
+        Iterator<Reservation> reservationIterator = userReservation.iterator();
+
+        while (reservationIterator.hasNext())
+        {
+            Reservation reservation = reservationIterator.next();
+            ArrayList<ProductsForCart>  productsForCartArrayList =
+                    this.purchaseService.getProductsByReservation(reservation.getReservationId());
+
+            FullReservation fullReservation = new FullReservation();
+            fullReservation.setReservation(reservation);
+            fullReservation.setProductIterable(productsForCartArrayList);
+            fullReservationArrayList.add(fullReservation);
+        }
+
+        return fullReservationArrayList;
     }
 
 }

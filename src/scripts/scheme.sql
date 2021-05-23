@@ -55,6 +55,6 @@ prod_id integer,
 category_id integer,
 reservation_id integer,
 quantity integer,
-primary key (prod_id, reservation_id, category_id),
-foreign key (prod_id, category_id) references public.Product(prod_id, category_id),
+primary key (prod_id, reservation_id),
+foreign key (prod_id) references public.Product(prod_id),
 foreign key (reservation_id) references public.Reservation(reservation_id));
