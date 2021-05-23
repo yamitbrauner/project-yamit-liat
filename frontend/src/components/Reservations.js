@@ -4,7 +4,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
-import paginationFactory, {PaginationProvider} from 'react-bootstrap-table2-paginator';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import moment from "moment";
 const PER_PAGE = 5;
 let MANAGER_ROLE = 1;
@@ -25,7 +25,7 @@ class Reservations extends Component {
             .then(
                 (resReservations) => {
                     let usersOptions = {};
-                    resReservations.map((res) =>{
+                    resReservations.forEach((res) =>{
                         res.deliveryDate = res.deliveryDate ? moment(res.deliveryDate).format('DD/MM/yyyy'): "";
                         res.reservationDate = res.reservationDate ? moment(res.reservationDate).format('DD/MM/yyyy') : "";
                         usersOptions[res.userId] = res.userId;
@@ -49,7 +49,7 @@ class Reservations extends Component {
             .then(res => res.json())
             .then(
                 (resPurchase) => {
-                    let tempReservations = {... this.state.reservations};
+                    let tempReservations = {...this.state.reservations};
                     tempReservations[tempIndex].items = resPurchase;
                     this.setState({reservations:tempReservations});
                 },
@@ -68,7 +68,9 @@ class Reservations extends Component {
         });
         let columns = [{
             dataField: 'reservationId',
-            text: '#'
+            text: '#',
+            classes: 'small-col',
+            headerClasses:'small-col',
         },{
             dataField: 'reservationDate',
             text: 'תאריך הזמנה'
@@ -138,9 +140,7 @@ class Reservations extends Component {
                 }
             },
             showExpandColumn: true,
-            expandColumnPosition: 'right',
-            parentClassName: 'foo',
-            className: 'foo'
+            expandColumnPosition: 'right'
         };
         return (
             <div className="col">

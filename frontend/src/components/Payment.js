@@ -29,7 +29,7 @@ class Payment extends Component {
                 });
     }
     updateResProducts=(reservationData)=>{
-        Object.keys(this.props.itemsInCart).map((key,index)=>{
+        Object.keys(this.props.itemsInCart).forEach((key,index)=>{
             let item = this.props.itemsInCart[key];
             let data = {
                 prodId: item.prodId,

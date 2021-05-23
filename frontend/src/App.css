@@ -268,3 +268,12 @@
     border-radius: 5px;
     width:450px;
   }
+  .small-col{
+    width:70px;
+  }
+  .expand-cell-header{
+    width:70px !important;
+  }
+  .expand-cell{
+    width:70px !important;
+  }

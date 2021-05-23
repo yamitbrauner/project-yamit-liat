@@ -74,7 +74,7 @@ class NewProduct extends Component {
 
   render() {
     return (
-        <div className="col add-product">
+        <div className="col add-product margin-top-bottom">
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <label htmlFor="categoryId">קטגוריה</label>
@@ -124,7 +124,7 @@ class NewProduct extends Component {
             <div className="form-row">
                 <div className="form-group col-md-12">
                     <button className="btn btn-danger btn-save" onClick={()=>this.onOkClicked()}>שמור</button>
-                    <button className="btn btn-danger" onClick={()=>this.props.cancelAdd()}>ביטול</button>
+                    <button className="btn btn-danger" onClick={()=>this.props.cancelAdd(false,false)}>ביטול</button>
                 </div>
             </div>
         </div>

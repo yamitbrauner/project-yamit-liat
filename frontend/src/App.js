@@ -3,7 +3,6 @@ import './App.css';
 import AppHeader from './components/AppHeader';
 import Shop from './components/Shop';
 import Settings from './components/Settings';
-import Error from './components/Error';
 import Payment from "./components/Payment";
 import Popup from "./components/Popup";
 import cartImg from "./cart.svg";

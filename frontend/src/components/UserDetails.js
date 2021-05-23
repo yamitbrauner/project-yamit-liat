@@ -8,7 +8,7 @@ const disablePastDt = current => {
 };
 
 class UserDetails extends Component {
-    state = {isError:false,userInput:{}};
+    state = {isError:false,userInput:{firstName:'',lastName:'', address:'',phone:'',deliveryDate:'' }};
 
     constructor(props){
         super(props);

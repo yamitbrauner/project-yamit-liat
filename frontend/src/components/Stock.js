@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import StockRow from "./StockRow";
 import NewProduct from "./NewProduct";
-import ReactPaginate from 'react-paginate';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 const PER_PAGE = 5;
 
 class Stock extends Component {
@@ -12,7 +14,6 @@ class Stock extends Component {
         super(props);
         this.updateItem = this.updateItem.bind(this);
     }
-
     componentDidMount(){
         this.getProducts();
     }
@@ -86,10 +87,7 @@ class Stock extends Component {
             items: items
         },()=>this.updateItem());
     }
-    onDeleteClicked = (index)=>{
-        let tempIndex = index + this.state.offset;
-        this.deleteItem(tempIndex);
-    }
+
     updateItem= () =>{
         if(this.state.hasEditIndex === false){ //add
             const requestOptions = {
@@ -122,7 +120,8 @@ class Stock extends Component {
 
     }
     deleteItem= (index) =>{
-        let itemId = this.state.items[index].prodId;
+        let tempIndex = index + this.state.offset;
+        let itemId = this.state.items[tempIndex].prodId;
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
@@ -131,7 +130,7 @@ class Stock extends Component {
             .then(res => {
                 if(res.ok){
                     let items = [...this.state.items];
-                    items.splice(index,1);
+                    items.splice(tempIndex,1);
                     this.setState({ items: items},()=>this.handlePageClick());
 
                 }
@@ -152,11 +151,89 @@ class Stock extends Component {
             [name]: value
         });
     }
+    handlePageChange = (page,sizePerPage) => {
+        let offset = Math.ceil((page-1) * sizePerPage);
+        this.setState({ offset: offset});
+    };
 
     render() {
+        const paginationOption = paginationFactory({
+            sizePerPage: PER_PAGE,
+            hideSizePerPage:  true,
+            withFirstAndLast:true,
+            onPageChange: this.handlePageChange
+        });
+        let columns = [{
+            dataField: 'delete',
+            isDummyField:true,
+            text: '',
+            classes: 'small-col',
+            headerClasses:'small-col',
+            events: {
+                onClick: (e, column, columnIndex, row, rowIndex) => {
+                    if(!this.state.productBoxOpen){
+                        this.deleteItem(rowIndex);
+                    }
+                },
+            },
+            formatter: (cell,row,rowIndex,formatExtraData)=>{
+                return (
+                    <div className="col">
+                        <span className="glyphicon glyphicon-trash"/>
+                    </div>
+                    );
+            },
+        },{
+            dataField: 'edit',
+            isDummyField:true,
+            text: '',
+            classes: 'small-col',
+            headerClasses:'small-col',
+            events: {
+                onClick: (e, column, columnIndex, row, rowIndex) => {
+                    if(!this.state.productBoxOpen) {
+                        this.switchProductBox(true, rowIndex)
+                    }
+                },
+            },
+            formatter: (cell,row,rowIndex,formatExtraData)=>{
+                return (
+                    <div className="col">
+                        <span className="glyphicon glyphicon-pencil"/>
+                    </div>
+                    );
+            },
+        },{
+            dataField: 'prodId',
+            text: '#',
+            classes: 'small-col',
+            headerClasses:'small-col',
+        },{
+            dataField: 'categoryId',
+            text: 'מספר קטגוריה',
+            formatter: (cell,row,rowIndex,formatExtraData)=>{
+                return formatExtraData[cell];
+            },
+            formatExtraData:this.state.categories
+        },{
+            dataField: 'prodName',
+            text: 'שם מוצר'
+        }, {
+            dataField: 'quantityInStock',
+            text: 'כמות במלאי'
+        }, {
+            dataField: 'pricePerUnit',
+            text: 'מחיר',
+            formatter: (cell,row,rowIndex,formatExtraData)=>{
+                return "₪"+cell;
+            }
+        }, {
+            dataField: 'description',
+            text: 'תאור'
+        }];
     return (
         <div className="col">
-            {!this.state.productBoxOpen && <button className="btn btn-danger row" onClick={()=>this.switchProductBox(true,false)}>
+            {!this.state.productBoxOpen && <button className="margin-top-bottom btn btn-danger row" onClick={()=>this.switchProductBox(true,false)}>
                     הוספת מוצר
                 </button>}
             {this.state.productBoxOpen &&
@@ -167,44 +244,16 @@ class Stock extends Component {
                 categories={this.state.categories}
                 hasEditIndex={this.state.hasEditIndex}/>
             }
-            <table className="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col"/>
-                    <th scope="col"/>
-                    <th scope="col">#</th>
-                    <th scope="col">קטגוריה</th>
-                    <th scope="col">שם מוצר</th>
-                    <th scope="col">כמות במלאי</th>
-                    <th scope="col">מחיר</th>
-                    <th scope="col">תיאור</th>
-                 </tr>
-                </thead>
-                <tbody>
-                {this.state.itemsToShow.length > 0 && this.state.itemsToShow.map((item,index)=>{
-                    return <StockRow item={item}
-                                     categories={this.state.categories}
-                                     key={index}
-                                     index={index}
-                                     switchProductBox={this.switchProductBox}
-                                     productBoxOpen = {this.state.productBoxOpen}
-                                     onDeleteClicked={this.onDeleteClicked}/>
-                })}
-                </tbody>
-            </table>
-            <ReactPaginate
-                previousLabel={'הקודם'}
-                nextLabel={'הבא'}
-                breakLabel={'...'}
-                breakClassName={'break-me'}
-                pageCount={this.state.pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={this.handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
+            {this.state.items.length ?
+                <BootstrapTable
+                    pagination={paginationOption}
+                    keyField='prodId'
+                    data={ this.state.items }
+                    columns={ columns }
+                /> : ""
+            }
         </div>
+
     );
   }
 }
