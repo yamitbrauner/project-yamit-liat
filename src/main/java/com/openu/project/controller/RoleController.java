@@ -1,7 +1,7 @@
 package com.openu.project.controller;
 
 import com.openu.project.business.service.RoleService;
-import com.openu.project.business.service.payPalPayment.GetPayPalOrder;
+import com.openu.project.business.service.payPalPayment.GetPayPalOrderInfo;
 import com.openu.project.data.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +12,12 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
     @Autowired
-    private GetPayPalOrder getPayPalOrder;
+    private GetPayPalOrderInfo getPayPalOrderStatus;
 
     @GetMapping("/role")
     public Iterable<Role> getRole() {
         try {
-            this.getPayPalOrder.getOrder("5FJ16367U1292733B");
+            this.getPayPalOrderStatus.getOrder("3B964125DV6005529");
         }catch (Exception e)
         {
             System.out.println(e);

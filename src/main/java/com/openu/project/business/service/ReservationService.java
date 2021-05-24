@@ -1,7 +1,7 @@
 package com.openu.project.business.service;
 
 import com.openu.project.business.domain.*;
-import com.openu.project.data.entity.Product;
+import com.openu.project.business.service.payPalPayment.GetPayPalOrderInfo;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
@@ -25,6 +25,8 @@ public class ReservationService {
     private EmailService emailService;
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private GetPayPalOrderInfo getPayPalOrderStatus;
 
 
     public Iterable<Reservation> getReservation() {         return reservationRepository.findAll();
@@ -86,8 +88,26 @@ public class ReservationService {
         float totalReservationSum =  this.purchaseService.getProuductsSumByReservationId(reservationId);
         if (totalReservationSum != reservation.getTotal()) throw new ReservationConfirmError();
 
-        // TODO: Check real payment status with paypal service
-        reservation.setStatus("Approved");
+        // TODO: Need to add to crone
+        reservation.setStatus("Pending");
+        try {
+            if (this.reservationRepository.findByPaymentId(paymentId).size() != 0)
+            {
+                // Payment already exist on DB
+                reservation.setStatus("Rejected");
+                //TODO: Exception here
+            }
+            if (this.getPayPalOrderStatus.isCaptured(paymentId))
+            {
+                // Completed
+                reservation.setStatus("Approved");
+            }
+        }catch (Exception e)
+        {
+            // TODO: Handle exception
+            System.out.println(e);
+        }
+
         this.reservationRepository.save(reservation);
         String userMail = this.usersService.getMailByUserId(reservation.getUserId());
         String firstName = this.usersService.getFirstNameByUserId(reservation.getUserId());

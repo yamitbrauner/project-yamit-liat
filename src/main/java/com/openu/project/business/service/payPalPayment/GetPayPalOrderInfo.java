@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GetPayPalOrder{
+public class GetPayPalOrderInfo {
     @Autowired
     PayPalClient payPalClient;
 
@@ -25,4 +25,15 @@ public class GetPayPalOrder{
         System.out.println(new JSONObject(new Json().serialize(response.result())).toString(4));
     }
 
+    public boolean isCaptured(String orderId) throws IOException {
+        OrdersGetRequest request = new OrdersGetRequest(orderId);
+        HttpResponse<Order> response = payPalClient.client().execute(request);
+        JSONObject obj = new JSONObject(new Json().serialize(response.result()));
+
+        System.out.println("Full response body:");
+        System.out.println(new JSONObject(new Json().serialize(response.result())).toString(4));
+
+        String status = obj.getString("status");
+        return status.equalsIgnoreCase("COMPLETED");
+    }
 }
