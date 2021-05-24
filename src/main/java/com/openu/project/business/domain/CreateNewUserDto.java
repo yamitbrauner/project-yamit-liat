@@ -1,10 +1,5 @@
 package com.openu.project.business.domain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.SequenceGenerator;
-
 public class CreateNewUserDto {
 
     private String firstName;

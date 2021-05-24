@@ -2,6 +2,7 @@ package com.openu.project.controller;
 
 import com.openu.project.business.domain.CreateNewReservation;
 import com.openu.project.business.domain.FullReservation;
+import com.openu.project.business.domain.UserFullReservation;
 import com.openu.project.business.service.ReservationService;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Reservation;
@@ -59,4 +60,10 @@ public class ReservationController {
         return this.reservationService.getFullReservation(userId);
     }
 
+
+    @GetMapping("/admin/allUsersFullReservation")
+    public ArrayList<UserFullReservation> getAllUsersFullReservation()
+    {
+        return this.reservationService.getAllUsersFullReservation();
+    }
 }

@@ -96,6 +96,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/deleteProduct*").permitAll()
                 .antMatchers("/getProductsByReservation*").permitAll()
                 .antMatchers("/reservation/fullUserReservation/*").permitAll()
+                .antMatchers("/admin/allUsersFullReservation*").permitAll()
+
+
 
 
                 .antMatchers(HttpMethod.POST, "/users/{userId}/roles").permitAll()

@@ -1,8 +1,6 @@
 package com.openu.project.business.service;
 
-import com.openu.project.business.domain.CreateNewReservation;
-import com.openu.project.business.domain.ProductsForCart;
-import com.openu.project.business.domain.FullReservation;
+import com.openu.project.business.domain.*;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
@@ -106,13 +104,10 @@ public class ReservationService {
 
         return reservation;
     }
-    
-    public ArrayList<FullReservation> getFullReservation(Integer userId)
+
+    public ArrayList<FullReservation> getFullReservationDetails(Iterator<Reservation> reservationIterator)
     {
         ArrayList<FullReservation> fullReservationArrayList = new ArrayList<>();
-        Iterable<Reservation> userReservation = getReservationByUserId(userId);
-        Iterator<Reservation> reservationIterator = userReservation.iterator();
-
         while (reservationIterator.hasNext())
         {
             Reservation reservation = reservationIterator.next();
@@ -126,6 +121,47 @@ public class ReservationService {
         }
 
         return fullReservationArrayList;
+
+
     }
 
+    public ArrayList<FullReservation> getFullReservation(Integer userId)
+    {
+        Iterable<Reservation> userReservation = getReservationByUserId(userId);
+        Iterator<Reservation> reservationIterator = userReservation.iterator();
+        return getFullReservationDetails(reservationIterator);
+
+    }
+
+    public ArrayList<UserFullReservation> getAllUsersFullReservation() {
+
+        ArrayList<UserFullReservation> allUserFullReservation = new ArrayList<>();
+        Iterable<Users> usersIterable = this.userRepository.findAll();
+        Iterator<Users> usersIterator = usersIterable.iterator();
+
+        while (usersIterator.hasNext())
+        {
+            UserFullReservation userFullReservation = new UserFullReservation();
+
+            Users user = usersIterator.next();
+            // Set user details
+            UpdateUserDto userDetails = new UpdateUserDto();
+            userDetails.setFirstName(user.getFirstName());
+            userDetails.setLastName(user.getLastName());
+            userDetails.setAddress(user.getAddress());
+            userDetails.setPhone(user.getPhone());
+            userFullReservation.setUserDetails(userDetails);
+
+            // Set user cart
+            Iterable<Reservation> reservations =
+                    this.reservationRepository.findByUserId(user.getUserId());
+            ArrayList<FullReservation> fullReservations =
+                    getFullReservationDetails(reservations.iterator());
+            userFullReservation.setUserCart(fullReservations);
+
+            allUserFullReservation.add(userFullReservation);
+        }
+
+        return allUserFullReservation;
+    }
 }
