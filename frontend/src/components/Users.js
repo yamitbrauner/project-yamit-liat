@@ -24,13 +24,14 @@ class Users extends Component {
             method: 'GET',
             redirect: 'follow'
         };
-        let path = isManager ? "/admin/allUsersFullReservation" : "reservation/fullUserReservation/"+ this.props.userDetails.userId;
+        let path = isManager ? "/admin/allUsersFullReservation" : "/reservation/fullUserReservation/"+ this.props.userDetails.userId;
         fetch(path, requestOptions)
             .then(res => res.json())
             .then(
                 (res) => {
                     this.setState({
                         data: res,
+                        viewDetails: !isManager
                     });
                 }
             )
@@ -103,9 +104,19 @@ class Users extends Component {
             },
         }
         ];
+        let details ={};
+
+        if(this.state.data.length>0){
+            if(isManager){
+                details = this.state.detailsIndex ? this.state.data[this.state.detailsIndex].userCart : {};
+            }else {
+                details= this.state.data;
+            }
+        }
+
         return (
             <div className="col">
-                {this.state.data.length ?
+                {this.state.data.length>0 ?
                     this.state.viewDetails === false ?
                         <BootstrapTable
                             pagination={paginationOption}
@@ -117,9 +128,9 @@ class Users extends Component {
                         :
                         <div>
                             <div className="margin-top-bottom">
-                                <button className="btn btn-danger" onClick={()=>{this.setState({viewDetails: false, detailsIndex: false})}}>חזרה לטבלת המשתמשים</button>
+                                {isManager ? <button className="btn btn-danger" onClick={()=>{this.setState({viewDetails: false, detailsIndex: false})}}>חזרה לטבלת המשתמשים</button> : ""}
                             </div>
-                            <UserReservations details={this.state.data[this.state.detailsIndex].userCart}/>
+                            <UserReservations details={details}/>
                         </div>
                     : ""
                 }
