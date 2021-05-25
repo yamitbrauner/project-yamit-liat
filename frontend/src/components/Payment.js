@@ -3,6 +3,7 @@ import UserDetails from "./UserDetails";
 import Cart from "./Cart";
 import moment from 'moment';
 import { PayPalButton } from "react-paypal-button-v2";
+import finishedImg from "../orderFinished.png";
 
 class Payment extends Component {
 
@@ -110,7 +111,15 @@ class Payment extends Component {
                     </div>
                         :
                     <div className="col">
+                        <div className="row">
+                            <span className="col title">
                             ההזמנה הושלמה בהצלחה
+                            </span>
+                        </div>
+                        <div className="row">
+                            <img title="ההזמנה הושלמה בהצלחה" className="col symbol-height" alt="ההזמנה הושלמה בהצלחה" src={finishedImg}/>
+                        </div>
+
                     </div>
 
                     }
