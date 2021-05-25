@@ -31,16 +31,16 @@ class Stock extends Component {
                                     categories: this.organizeCategories(resCategories),
                                     pageCount: Math.ceil(resProducts.length / PER_PAGE)
                                 },()=>this.handlePageClick());
-                            },
-                            (error) => {
-                                this.props.onSelectPage(404);
                             }
                         )
-                },
-                (error) => {
-                    this.props.onSelectPage(404);
+                        .catch((error)=>{
+                            this.props.showPopup(4);
+                        })
                 }
             )
+            .catch((error)=>{
+                this.props.showPopup(4);
+            })
     }
     organizeCategories = (categories)=>{
         let tempCategories = {};
@@ -102,6 +102,9 @@ class Stock extends Component {
                         this.handlePageClick({selected:0});
                     }
                 })
+                .catch((error)=>{
+                    this.props.showPopup(4);
+                })
         }else{ // update
             let item = this.state.items[this.state.hasEditIndex];
             const requestOptions = {
@@ -116,6 +119,9 @@ class Stock extends Component {
                         this.handlePageClick();
                     }
                 })
+                .catch((error)=>{
+                this.props.showPopup(4);
+            })
         }
 
     }
@@ -134,6 +140,9 @@ class Stock extends Component {
                     this.setState({ items: items},()=>this.handlePageClick());
 
                 }
+            })
+            .catch((error)=>{
+                this.props.showPopup(4);
             })
     }
     switchProductBox = (val,index) =>{
@@ -238,6 +247,7 @@ class Stock extends Component {
                 </button>}
             {this.state.productBoxOpen &&
             <NewProduct
+                showPopup={(error)=>this.props.showPopup(error)}
                 onOkClicked={this.onOkClicked}
                 cancelAdd={this.switchProductBox}
                 items={this.state.items}

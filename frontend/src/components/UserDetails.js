@@ -64,6 +64,9 @@ class UserDetails extends Component {
                         }
                     }
                 )
+                .catch((error)=>{
+                    this.props.showPopup(4);
+                })
         }else{
             this.props.signUp(this.state.userInput);
         }

@@ -219,6 +219,14 @@
     height: 400px;
     z-index: 1500;
   }
+  .popup4{
+    position: fixed;
+    top: 25%;
+    left: 40%;
+    width: 25%;
+    height: 50%;
+    z-index: 1500;
+  }
   .modal-backdrop-login{
     z-index:1300;
   }
@@ -279,4 +287,7 @@
   }
   .list-style{
     text-align:right;
+  }
+  .error-popup{
+    z-index: 1500;
   }

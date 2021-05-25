@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Cart from "./Cart";
 import Login from "./Login";
 import Product from "./Product";
+import Error from "./Error";
 
 let CLOSE_POPUP = 0;
 let CART_POPUP = 1;
 let LOGIN_POPUP = 2;
 let PRODUCT_POPUP = 3;
+let ERROR_POPUP = 4;
 
 class Popup extends Component {
 
@@ -29,6 +31,9 @@ class Popup extends Component {
                         {this.props.popupType === PRODUCT_POPUP?
                             <Product productToShow={this.props.productToShow} handleCart={this.props.handleCart}
                                      itemsInCart={this.props.itemsInCart}/>
+                              :""}
+                        {this.props.popupType === ERROR_POPUP?
+                            <Error/>
                               :""}
                     </div>
                     <div className="modal-backdrop in" onClick={()=>this.props.showPopup(CLOSE_POPUP)}/>

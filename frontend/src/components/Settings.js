@@ -54,13 +54,13 @@ class Settings extends Component {
                                 // eslint-disable-next-line
                                 type && type === STOCK &&
                                 <div className="margin-top-bottom">
-                                    <Stock/>
+                                    <Stock showPopup={(error)=>this.props.showPopup(error)}/>
                                 </div>
                             }
                             {
                                 // eslint-disable-next-line
                                 type && type === DETAILS &&
-                                <UserDetails userDetails={this.props.userDetails} isUpdate={true}/>
+                                <UserDetails showPopup={(error)=>this.props.showPopup(error)} userDetails={this.props.userDetails} isUpdate={true}/>
                             }
                             {
                                 // eslint-disable-next-line

@@ -29,14 +29,14 @@ class Users extends Component {
             .then(res => res.json())
             .then(
                 (res) => {
-                    this.setState({
+                   this.setState({
                         data: res,
                         viewDetails: !isManager
                     });
                 }
             )
             .catch((error)=>{
-            this.props.showPopup(4);
+                this.props.showPopup(4);
             })
     }
 

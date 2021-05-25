@@ -66,6 +66,9 @@ class NewProduct extends Component {
                             this.props.onOkClicked(this.state);
                         }
                     })
+                    .catch((error)=>{
+                        this.props.showPopup(4);
+                    })
             }else{
                 this.props.onOkClicked(this.state);
             }

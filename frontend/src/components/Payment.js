@@ -26,7 +26,10 @@ class Payment extends Component {
             .then(
                 (reservationData) => {
                     this.updateResProducts(reservationData);
-                });
+                })
+            .catch((error)=>{
+                this.props.showPopup(4);
+            });
     }
     updateResProducts=(reservationData)=>{
         Object.keys(this.props.itemsInCart).forEach((key,index)=>{
@@ -49,7 +52,9 @@ class Payment extends Component {
                             this.setState({showPaypal:true, reservationId: reservationData.reservationId});
                         }
                     }
-                })
+                }).catch((error)=>{
+                this.props.showPopup(4);
+            })
         });
     }
 
@@ -65,6 +70,9 @@ class Payment extends Component {
                     this.setState({ isFinish:!this.state.isFinish},()=>this.props.setItemsInCart({}));
                 }
             })
+            .catch((error)=>{
+            this.props.showPopup(4);
+        })
     }
 
     render() {

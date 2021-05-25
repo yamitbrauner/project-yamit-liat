@@ -15,6 +15,7 @@ let CLOSE_POPUP = 0;
 let CART_POPUP = 1;
 let LOGIN_POPUP = 2;
 let PRODUCT_POPUP = 3;
+let ERROR_POPUP = 4;
 
 class App extends Component {
   state = {pageSelected:1, userDetails: {}, itemsInCart:{}, totalPrice:0, totalItems:0, productToShow:false};
@@ -46,6 +47,9 @@ class App extends Component {
                     }
                 }
             )
+            .catch((error)=>{
+                this.showPopup(ERROR_POPUP);
+            })
     }
 
     loginUser = (loginData)=>{
@@ -62,7 +66,10 @@ class App extends Component {
                     localStorage.setItem('token',data.token);
                     localStorage.setItem('userDetails',JSON.stringify(data));
                 }
-            )
+            ).catch(()=>{
+                this.showPopup(ERROR_POPUP);
+            }
+        )
 
     }
 
@@ -168,6 +175,7 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/shop">
                                 <Shop handleCart={this.handleCart}
+                                      showPopup={this.showPopup}
                                       showProduct={this.showProduct} itemsInCart={this.state.itemsInCart}/>
                             </Route>
 
@@ -184,6 +192,7 @@ class App extends Component {
                                                <Settings
                                                    {...matchProps}
                                                    {...this.props}
+                                                   showPopup={this.showPopup}
                                                    userDetails={this.state.userDetails}
                                                />
                                            }>
@@ -192,6 +201,7 @@ class App extends Component {
                                         <Payment userDetails={this.state.userDetails}
                                                  itemsInCart={this.state.itemsInCart}
                                                  totalPrice={this.state.totalPrice}
+                                                 showPopup={this.showPopup}
                                                  setItemsInCart={this.setItemsInCart}/>
                                     </Route>
                                 </>

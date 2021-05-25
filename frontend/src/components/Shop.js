@@ -19,11 +19,11 @@ class Shop extends Component {
                 this.setState({
                     categories: resCategories,
                 },()=>this.handleCategorySelection());
-            },
-            (error) => {
-
             }
         )
+        .catch((error)=>{
+          this.props.showPopup(4);
+        })
   }
 
     handleCategorySelection = (category) =>{
@@ -48,11 +48,11 @@ class Shop extends Component {
                           categorySelected : category,
                           searchInput:''
                       });
-                  },
-                  (error) => {
-
                   }
               )
+              .catch((error)=>{
+                  this.props.showPopup(4);
+              })
       }
 
     }
