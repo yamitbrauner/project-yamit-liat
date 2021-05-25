@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import UserDetails from "./UserDetails";
 import Stock from "./Stock";
-import Reservations from "./Reservations";
+import Users from "./Users";
 import {Link} from "react-router-dom";
 let STOCK = "2";
 let DETAILS = "3";
-let ORDERS = "4";
+let USERS = "4";
 let MANAGER_ROLE = 1;
 let isManager = false;
 
@@ -22,7 +22,7 @@ class Settings extends Component {
               categoryId : DETAILS,
               categoryName:"ניהול פרטים אישיים"
           },{
-              categoryId : ORDERS,
+              categoryId : USERS,
               categoryName:"ניהול הזמנות"
           }
       ];
@@ -64,9 +64,11 @@ class Settings extends Component {
                             }
                             {
                                 // eslint-disable-next-line
-                                type && type === ORDERS &&
+                                type && type === USERS &&
                                 <div className="margin-top-bottom">
-                                    <Reservations userDetails={this.props.userDetails}/>
+                                    <Users
+                                        showPopup={(error)=>this.props.showPopup(error)}
+                                        userDetails={this.props.userDetails}/>
                                 </div>
                             }
 

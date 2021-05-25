@@ -277,3 +277,6 @@
   .expand-cell{
     width:70px !important;
   }
+  .list-style{
+    text-align:right;
+  }
