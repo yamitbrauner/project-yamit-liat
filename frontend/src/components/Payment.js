@@ -85,6 +85,9 @@ class Payment extends Component {
                                             onSuccess={(details, data) => {
                                                 this.confirmReservation(data.orderID);
                                             }}
+                                            options={{
+                                                clientId: "AQ36x4JlXjfrvyB1kRLN9ep_28-ZFmgdkMJWLvvPsmdzqNJ9oAfJTacN5h6pbxMxSN8ukMPKkVIMya89"
+                                            }}
                                         />
                                     </div>
                                 </div>

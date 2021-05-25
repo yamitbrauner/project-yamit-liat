@@ -3,7 +3,7 @@ import UserDetails from "./UserDetails";
 
 class Login extends Component {
 
-    state = {isLoginPage: true, loginInput:{} };
+    state = {isLoginPage: true, loginInput:{mail:'', password:'',} };
 
     constructor(props){
         super(props);
