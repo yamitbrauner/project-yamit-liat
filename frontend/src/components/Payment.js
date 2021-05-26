@@ -117,7 +117,7 @@ class Payment extends Component {
                             </span>
                         </div>
                         <div className="row">
-                            <img title="ההזמנה הושלמה בהצלחה" className="col symbol-height" alt="ההזמנה הושלמה בהצלחה" src={finishedImg}/>
+                            <img title="ההזמנה הושלמה בהצלחה" className="col symbol-height finished-symbol margin-top-bottom" alt="ההזמנה הושלמה בהצלחה" src={finishedImg}/>
                         </div>
 
                     </div>

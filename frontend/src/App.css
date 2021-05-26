@@ -291,3 +291,6 @@
   .error-popup{
     z-index: 1500;
   }
+  .finished-symbol{
+    height:300px;
+  }
