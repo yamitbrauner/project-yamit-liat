@@ -94,7 +94,9 @@ class Payment extends Component {
                                             onSuccess={(details, data) => {
                                                 this.confirmReservation(data.orderID);
                                             }}
+                                            loacle= "he_IL"
                                             options={{
+                                                currency: "ILS",
                                                 clientId: window.PAYPAL_CLIENT_ID
                                             }}
                                         />
