@@ -72,7 +72,7 @@ class NewProduct extends Component {
                         }
                     })
                     .catch((error)=>{
-                        this.props.showPopup(4);
+                        this.props.showPopup(window.ERROR_POPUP);
                     })
             }else{
                 this.props.onOkClicked(this.state);

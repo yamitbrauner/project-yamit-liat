@@ -3,10 +3,6 @@ import UserDetails from "./UserDetails";
 import Stock from "./Stock";
 import Users from "./Users";
 import {Link} from "react-router-dom";
-let STOCK = "2";
-let DETAILS = "3";
-let USERS = "4";
-let MANAGER_ROLE = 1;
 let isManager = false;
 
 class Settings extends Component {
@@ -15,29 +11,28 @@ class Settings extends Component {
 
 
   componentDidMount(){
-      isManager = this.props.userDetails.roleId === MANAGER_ROLE;
-
+      isManager = this.props.userDetails.roleId === window.MANAGER_ROLE;
       let categories = [
           {
-              categoryId : DETAILS,
+              categoryId : window.DETAILS,
               categoryName:"ניהול פרטים אישיים"
           }
       ];
       if(isManager){
           categories.push(
               {
-                  categoryId : USERS,
+                  categoryId : window.USERS,
                   categoryName:"ניהול משתמשים והזמנות"
               });
           categories.push(
               {
-              categoryId : STOCK,
+              categoryId : window.STOCK,
               categoryName:"ניהול מלאי"
           });
       }else{
           categories.push(
               {
-                  categoryId : USERS,
+                  categoryId : window.USERS,
                   categoryName:"ניהול הזמנות"
               }
           )
@@ -62,19 +57,19 @@ class Settings extends Component {
                 <div className="col">
                             {
                                 // eslint-disable-next-line
-                                type && type === STOCK &&
+                                type && type === window.STOCK &&
                                 <div className="margin-top-bottom">
                                     <Stock showPopup={(error)=>this.props.showPopup(error)}/>
                                 </div>
                             }
                             {
                                 // eslint-disable-next-line
-                                type && type === DETAILS &&
+                                type && type === window.DETAILS &&
                                 <UserDetails showPopup={(error)=>this.props.showPopup(error)} userDetails={this.props.userDetails} isUpdate={true}/>
                             }
                             {
                                 // eslint-disable-next-line
-                                type && type === USERS &&
+                                type && type === window.USERS &&
                                 <div className="margin-top-bottom">
                                     <Users
                                         showPopup={(error)=>this.props.showPopup(error)}

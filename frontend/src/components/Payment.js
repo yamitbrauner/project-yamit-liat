@@ -29,7 +29,7 @@ class Payment extends Component {
                     this.updateResProducts(reservationData);
                 })
             .catch((error)=>{
-                this.props.showPopup(4);
+                this.props.showPopup(window.ERROR_POPUP);
             });
     }
     updateResProducts=(reservationData)=>{
@@ -54,7 +54,7 @@ class Payment extends Component {
                         }
                     }
                 }).catch((error)=>{
-                this.props.showPopup(4);
+                this.props.showPopup(window.ERROR_POPUP);
             })
         });
     }
@@ -72,7 +72,7 @@ class Payment extends Component {
                 }
             })
             .catch((error)=>{
-            this.props.showPopup(4);
+                this.props.showPopup(window.ERROR_POPUP);
         })
     }
 
@@ -95,7 +95,7 @@ class Payment extends Component {
                                                 this.confirmReservation(data.orderID);
                                             }}
                                             options={{
-                                                clientId: "AQ36x4JlXjfrvyB1kRLN9ep_28-ZFmgdkMJWLvvPsmdzqNJ9oAfJTacN5h6pbxMxSN8ukMPKkVIMya89"
+                                                clientId: window.PAYPAL_CLIENT_ID
                                             }}
                                         />
                                     </div>

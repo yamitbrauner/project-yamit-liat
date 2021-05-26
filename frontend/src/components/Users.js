@@ -6,8 +6,7 @@ import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.m
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import UserReservations from "./UserReservations";
-const PER_PAGE = 5;
-let MANAGER_ROLE = 1;
+
 let isManager = false;
 
 
@@ -17,7 +16,7 @@ class Users extends Component {
 
 
     componentDidMount(){
-        isManager = this.props.userDetails.roleId === MANAGER_ROLE;
+        isManager = this.props.userDetails.roleId === window.MANAGER_ROLE;
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -40,7 +39,7 @@ class Users extends Component {
                 }
             )
             .catch((error)=>{
-                this.props.showPopup(4);
+                this.props.showPopup(window.ERROR_POPUP);
             })
     }
 
@@ -60,7 +59,7 @@ class Users extends Component {
             order: 'asc' // desc or asc
         }];
         const paginationOption = paginationFactory({
-            sizePerPage: PER_PAGE,
+            sizePerPage: window.PER_PAGE,
             hideSizePerPage:  true,
             withFirstAndLast:true,
             onPageChange: this.handlePageChange

@@ -30,7 +30,7 @@ class UserDetails extends Component {
     finish = ()=>{
         if(this.props.isUpdate){
             if(this.state.userInput.firstName === '' || this.state.userInput.lastName === '' || this.state.userInput.address === ''
-                || this.state.userInput.phone === '' || this.state.userInput.phone.length !== 10){
+                || this.state.userInput.phone === '' || this.state.userInput.phone.length !== window.PHONE_LENGTH){
                 this.setState({isError:true});
             }else{
                 this.setState({isError:false});
@@ -77,7 +77,7 @@ class UserDetails extends Component {
                     }
                 )
                 .catch((error)=>{
-                    this.props.showPopup(4);
+                    this.props.showPopup(window.ERROR_POPUP);
                 })
         }else{
             this.props.signUp(this.state.userInput);
@@ -126,7 +126,7 @@ class UserDetails extends Component {
                           <div className="form-group col-md-6">
                               <label htmlFor="id">מספר טלפון</label>
                               <input type="text" className="form-control" id="phone" name="phone"  placeholder="אנא הזן טלפון"
-                                     maxLength={10} onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.phone}/>
+                                     maxLength={window.PHONE_LENGTH} onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.phone}/>
                           </div>
                       </div>
                       {this.state.isError && <div className="form-row">

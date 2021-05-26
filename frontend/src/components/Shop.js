@@ -22,7 +22,7 @@ class Shop extends Component {
             }
         )
         .catch((error)=>{
-          this.props.showPopup(4);
+          this.props.showPopup(window.ERROR_POPUP);
         })
   }
 
@@ -51,7 +51,7 @@ class Shop extends Component {
                   }
               )
               .catch((error)=>{
-                  this.props.showPopup(4);
+                  this.props.showPopup(window.ERROR_POPUP);
               })
       }
 

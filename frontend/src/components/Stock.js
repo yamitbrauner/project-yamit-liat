@@ -4,7 +4,6 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
-const PER_PAGE = 5;
 
 class Stock extends Component {
 
@@ -29,17 +28,17 @@ class Stock extends Component {
                                 this.setState({
                                     items: resProducts,
                                     categories: this.organizeCategories(resCategories),
-                                    pageCount: Math.ceil(resProducts.length / PER_PAGE)
+                                    pageCount: Math.ceil(resProducts.length / window.PER_PAGE)
                                 },()=>this.handlePageClick());
                             }
                         )
                         .catch((error)=>{
-                            this.props.showPopup(4);
+                            this.props.showPopup(window.ERROR_POPUP);
                         })
                 }
             )
             .catch((error)=>{
-                this.props.showPopup(4);
+                this.props.showPopup(window.ERROR_POPUP);
             })
     }
     organizeCategories = (categories)=>{
@@ -54,14 +53,14 @@ class Stock extends Component {
         let offset = 0;
         if(data){
             let selected = data.selected;
-            offset = Math.ceil(selected * PER_PAGE);
+            offset = Math.ceil(selected * window.PER_PAGE);
         }else{
             offset = this.state.offset;
         }
         this.setState({
             offset: offset,
-            itemsToShow : this.state.items.slice(offset, offset + PER_PAGE),
-            pageCount: Math.ceil(this.state.items.length / PER_PAGE)
+            itemsToShow : this.state.items.slice(offset, offset + window.PER_PAGE),
+            pageCount: Math.ceil(this.state.items.length / window.PER_PAGE)
         });
     };
     onOkClicked = (newItem)=>{
@@ -103,7 +102,7 @@ class Stock extends Component {
                     }
                 })
                 .catch((error)=>{
-                    this.props.showPopup(4);
+                    this.props.showPopup(window.ERROR_POPUP);
                 })
         }else{ // update
             let item = this.state.items[this.state.hasEditIndex];
@@ -120,7 +119,7 @@ class Stock extends Component {
                     }
                 })
                 .catch((error)=>{
-                this.props.showPopup(4);
+                    this.props.showPopup(window.ERROR_POPUP);
             })
         }
 
@@ -142,7 +141,7 @@ class Stock extends Component {
                 }
             })
             .catch((error)=>{
-                this.props.showPopup(4);
+                this.props.showPopup(window.ERROR_POPUP);
             })
     }
     switchProductBox = (val,index) =>{
@@ -167,7 +166,7 @@ class Stock extends Component {
 
     render() {
         const paginationOption = paginationFactory({
-            sizePerPage: PER_PAGE,
+            sizePerPage: window.PER_PAGE,
             hideSizePerPage:  true,
             withFirstAndLast:true,
             onPageChange: this.handlePageChange

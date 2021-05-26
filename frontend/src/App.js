@@ -11,14 +11,8 @@ import logoutImg from "./logout.svg";
 import userImg from "./user.svg";
 import { Route, Switch, Link, Redirect} from 'react-router-dom'
 
-let CLOSE_POPUP = 0;
-let CART_POPUP = 1;
-let LOGIN_POPUP = 2;
-let PRODUCT_POPUP = 3;
-let ERROR_POPUP = 4;
-
 class App extends Component {
-  state = {pageSelected:1, userDetails: {}, itemsInCart:{}, totalPrice:0, totalItems:0, productToShow:false};
+  state = {userDetails: {}, itemsInCart:{}, totalPrice:0, totalItems:0, productToShow:false};
 
     componentDidMount(){
         let tempUserDetails = localStorage.getItem('userDetails');
@@ -47,9 +41,9 @@ class App extends Component {
 
     handlePay = ()=>{
         if(Object.keys(this.state.userDetails).length === 0){
-            this.showPopup(LOGIN_POPUP);
+            this.showPopup(window.LOGIN_POPUP);
         }else{
-            this.showPopup(CLOSE_POPUP);
+            this.showPopup(window.CLOSE_POPUP);
         }
     }
     removeItemFromCart=(itemToRemove)=>{
@@ -71,7 +65,7 @@ class App extends Component {
                 itemIndex : itemIndex
             }
         }
-        this.setState({productToShow: productToShow },()=>this.showPopup(PRODUCT_POPUP));
+        this.setState({productToShow: productToShow },()=>this.showPopup(window.PRODUCT_POPUP));
     }
 
     handleCart = (itemIndex, selectedItem) =>{
@@ -85,7 +79,7 @@ class App extends Component {
         }
     }
     setUserDetails=(data)=>{
-        this.setState({userDetails : data},()=>this.showPopup(CLOSE_POPUP));
+        this.setState({userDetails : data},()=>this.showPopup(window.CLOSE_POPUP));
     }
 
 
@@ -104,7 +98,7 @@ class App extends Component {
                 <div className="container">
                     <div className="sticky-symbol">
                         <div className="symbol-cart">
-                            <img title="עגלה" className="symbol-height" alt="" src={cartImg} onClick={()=>this.showPopup(CART_POPUP)}/>
+                            <img title="עגלה" className="symbol-height" alt="" src={cartImg} onClick={()=>this.showPopup(window.CART_POPUP)}/>
                             <div className="cart-count">
                                 (
                                 <span>{this.state.totalItems}</span>
@@ -113,12 +107,12 @@ class App extends Component {
                         </div>
                         <div className="symbol-cart symbol-user">
                             {Object.keys(this.state.userDetails).length === 0 ?
-                                <img title="התחברות" className="symbol-height" alt="להתחברות" src={userImg} onClick={() => this.showPopup(LOGIN_POPUP)}/>
+                                <img title="התחברות" className="symbol-height" alt="להתחברות" src={userImg} onClick={() => this.showPopup(window.LOGIN_POPUP)}/>
                                 :
                                 <>
                                     <img title="התנתקות" className="symbol-height" alt="התנתקות" src={logoutImg} onClick={() => this.logout()}/>
 
-                                    <Link to="/settings/3"><img title="הגדרות" className="symbol-height" alt="הגדרות" src={settingImg}/></Link>
+                                    <Link to={"/settings/"+window.DETAILS}><img title="הגדרות" className="symbol-height" alt="הגדרות" src={settingImg}/></Link>
 
                                 </>
                             }
@@ -127,7 +121,7 @@ class App extends Component {
 
                     <div className="col-xs-12">
                         <div className="row">
-                            <AppHeader className="app-header" pageSelected={this.state.pageSelected}/>
+                            <AppHeader className="app-header"/>
                         </div>
                         <Switch>
                             <Route exact path="/shop">
