@@ -3,7 +3,7 @@ import UserDetails from "./UserDetails";
 
 class Login extends Component {
 
-    state = {isLoginPage: true, loginInput:{mail:'', password:''}, isError:false };
+    state = {isLoginPage: true, loginInput:{mail:'', password:''}, isError:false};
 
     constructor(props){
         super(props);
@@ -13,6 +13,56 @@ class Login extends Component {
     switchPage = (val)=>{
         this.setState({isLoginPage: val});
     }
+    goToFunction = (userInput, isLogin) =>{
+        if(isLogin){
+            this.loginUser(userInput);
+        }else{
+            this.signUp(userInput);
+        }
+    }
+    signUp = (userInput)=>{
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userInput)
+        };
+        fetch("/createUser",requestOptions)
+            .then(
+                (res) => {
+                    if(res.ok){
+                        alert("משתמש נוצר בהצלחה")
+                        this.loginUser({mail:userInput.mail, password:userInput.password});
+                    }else{
+                        this.setState({isError:true});
+                    }
+                },
+                (error) =>{
+                    this.setState({isError:true});
+                }
+            )
+    }
+
+    loginUser = (loginData)=>{
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(loginData)
+        };
+        fetch("/api/services/controller/user/login",requestOptions)
+            .then(res => res.json())
+            .then(
+                (data) => {
+                    this.props.setUserDetails(data);
+                    localStorage.setItem('token',data.token);
+                    localStorage.setItem('userDetails',JSON.stringify(data));
+                },
+                (error) =>{
+                    this.setState({isError:true});
+                }
+        )
+
+    }
+
     handleLog = (userInput)=>{
         if(this.state.loginInput.mail==='' || this.state.loginInput.password===''){
             this.setState({isError:true});
@@ -23,7 +73,7 @@ class Login extends Component {
                     return;
                 }
             let tempLoginInput = {...this.state.loginInput, ...userInput};
-            this.setState({isError:false, loginInput : tempLoginInput}, ()=>this.props.handleLog(this.state.loginInput, this.state.isLoginPage));
+            this.setState({isError:false, loginInput : tempLoginInput}, ()=>this.goToFunction(this.state.loginInput, this.state.isLoginPage));
         }
     }
     handleChange(event) {

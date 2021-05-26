@@ -30,7 +30,7 @@ class UserDetails extends Component {
     finish = ()=>{
         if(this.props.isUpdate){
             if(this.state.userInput.firstName === '' || this.state.userInput.lastName === '' || this.state.userInput.address === ''
-                || this.state.userInput.phone === '' ){
+                || this.state.userInput.phone === '' || this.state.userInput.phone.length !== 10){
                 this.setState({isError:true});
             }else{
                 this.setState({isError:false});
@@ -130,10 +130,10 @@ class UserDetails extends Component {
                           </div>
                       </div>
                       {this.state.isError && <div className="form-row">
-                          <div className="col error-txt">אנא הזן את כל הפרטים</div>
+                          <div className="col error-txt">אנא הזן את כל הפרטים באופן תקין</div>
                       </div>}
                               <button onClick={()=>this.finish()} className="btn btn-lg margin-top-bottom btn-danger">
-                                  {isUpdate ? "שמירה" : "למעבר לתשלום באמצעות Paypal"}</button>
+                                  {isUpdate ? "סיום" : "למעבר לתשלום באמצעות Paypal"}</button>
 
                   </div>
 

@@ -3,7 +3,7 @@ import UserDetails from "./UserDetails";
 import Cart from "./Cart";
 import moment from 'moment';
 import { PayPalButton } from "react-paypal-button-v2";
-import finishedImg from "../orderFinished.png";
+import finishedImg from "../orderFinished.svg";
 
 class Payment extends Component {
 
@@ -123,7 +123,7 @@ class Payment extends Component {
                     </div>
 
                     }
-                    <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>
+                    {!this.state.isFinish && <Cart itemsInCart={this.props.itemsInCart} totalPrice={this.props.totalPrice} isEditable={false}/>}
                 </div>
 
 

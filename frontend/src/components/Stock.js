@@ -213,13 +213,8 @@ class Stock extends Component {
                     );
             },
         },{
-            dataField: 'prodId',
-            text: '#',
-            classes: 'small-col',
-            headerClasses:'small-col',
-        },{
             dataField: 'categoryId',
-            text: 'מספר קטגוריה',
+            text: 'קטגוריה',
             formatter: (cell,row,rowIndex,formatExtraData)=>{
                 return formatExtraData[cell];
             },

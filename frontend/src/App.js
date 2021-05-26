@@ -26,52 +26,6 @@ class App extends Component {
             this.setState({userDetails: JSON.parse(tempUserDetails)});
         }
     }
-    handleLog = (userInput, isLogin) =>{
-        if(isLogin){
-            this.loginUser(userInput);
-        }else{
-            this.signUp(userInput);
-        }
-    }
-    signUp = (userInput)=>{
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userInput)
-        };
-        fetch("/createUser",requestOptions)
-            .then(
-                (res) => {
-                    if(res.ok){
-                        this.loginUser({mail:userInput.mail, password:userInput.password});
-                    }
-                }
-            )
-            .catch((error)=>{
-                this.showPopup(ERROR_POPUP);
-            })
-    }
-
-    loginUser = (loginData)=>{
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginData)
-        };
-        fetch("/api/services/controller/user/login",requestOptions)
-            .then(res => res.json())
-            .then(
-                (data) => {
-                    this.setState({userDetails : data},()=>this.showPopup(CLOSE_POPUP));
-                    localStorage.setItem('token',data.token);
-                    localStorage.setItem('userDetails',JSON.stringify(data));
-                }
-            ).catch(()=>{
-                this.showPopup(ERROR_POPUP);
-            }
-        )
-
-    }
 
     showPopup = (type) =>{
         this.setState({popupType : type});
@@ -130,6 +84,9 @@ class App extends Component {
             this.setItemsInCart(tempItemsInCart);
         }
     }
+    setUserDetails=(data)=>{
+        this.setState({userDetails : data},()=>this.showPopup(CLOSE_POPUP));
+    }
 
 
   render() {
@@ -137,9 +94,9 @@ class App extends Component {
     return (
         <div className="App">
             { this.state.popupType > 0 ?
-                <Popup popupType={this.state.popupType} showPopup={this.showPopup}
+                <Popup popupType={this.state.popupType} showPopup={this.showPopup} setUserDetails={this.setUserDetails}
                        itemsInCart={this.state.itemsInCart} totalPrice={this.state.totalPrice} setItemsInCart={this.setItemsInCart} isEditable={true}
-                       handleQuantity={this.handleQuantity} handlePay={this.handlePay} removeItemFromCart={this.removeItemFromCart} handleLog={this.handleLog}
+                       handleQuantity={this.handleQuantity} handlePay={this.handlePay} removeItemFromCart={this.removeItemFromCart}
                        userDetails={this.state.userDetails} productToShow={this.state.productToShow} handleCart={this.handleCart}
                 />
                 : ""
