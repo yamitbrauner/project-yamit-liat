@@ -7,9 +7,13 @@ class AppHeader extends Component {
     return (
         <div className="col">
             <div className="row">
-                <Link to="/shop" className="col black-font">
-                    <h1 className="header-title col">מתוק לי</h1>
-                </Link>
+            <h1 className="header-title col">
+                <span>
+                    <Link to="/shop" className="black-font">
+                        מתוק לי
+                    </Link>
+                </span>
+            </h1>
 
             </div>
             {this.props.pageSelected === 1 ?
