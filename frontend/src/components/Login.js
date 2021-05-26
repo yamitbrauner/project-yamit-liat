@@ -3,7 +3,7 @@ import UserDetails from "./UserDetails";
 
 class Login extends Component {
 
-    state = {isLoginPage: true, loginInput:{mail:'', password:'',} };
+    state = {isLoginPage: true, loginInput:{mail:'', password:''}, isError:false };
 
     constructor(props){
         super(props);
@@ -14,8 +14,17 @@ class Login extends Component {
         this.setState({isLoginPage: val});
     }
     handleLog = (userInput)=>{
-        var tempLoginInput = {...this.state.loginInput, ...userInput};
-        this.setState({loginInput : tempLoginInput}, ()=>this.props.handleLog(this.state.loginInput, this.state.isLoginPage));
+        if(this.state.loginInput.mail==='' || this.state.loginInput.password===''){
+            this.setState({isError:true});
+        }else{
+            let pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (!pattern.test(String(this.state.loginInput.mail).toLowerCase())) {
+                    this.setState({isError:true});
+                    return;
+                }
+            let tempLoginInput = {...this.state.loginInput, ...userInput};
+            this.setState({isError:false, loginInput : tempLoginInput}, ()=>this.props.handleLog(this.state.loginInput, this.state.isLoginPage));
+        }
     }
     handleChange(event) {
         let tempLoginInput = {...this.state.loginInput};
@@ -48,6 +57,10 @@ class Login extends Component {
                                                 <input type="password" className="form-control" id="password" name="password" placeholder="אנא הזן סיסמא" value={this.state.loginInput.password} onChange={this.handleChange}/>
                                             </div>
                                         </div>
+                                        {this.state.isError && <div className="form-row">
+                                            <div className="col error-txt">אנא הזן את כל הפרטים באופן תקין</div>
+                                        </div>}
+
                                         {!this.state.isLoginPage?
                                             <UserDetails userDetails={this.props.userDetails} signUp={this.handleLog} isUpdate={true}/>
                                         :""

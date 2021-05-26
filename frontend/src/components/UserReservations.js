@@ -39,7 +39,7 @@ class UserReservations extends Component {
                 return <ul>
                     {row.productIterable.map(item=>{
                         return <li className="list-style">
-                            {item.quantity + " x " +item.prodName +" (₪" + item.pricePerUnit+") - " + "₪" + item.totalPrice}
+                            {item.quantity + " x " +item.prodName +" (₪" + item.pricePerUnit+") - ₪" + item.totalPrice}
                         </li>})}
 
              </ul>

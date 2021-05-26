@@ -21,16 +21,26 @@ class Settings extends Component {
           {
               categoryId : DETAILS,
               categoryName:"ניהול פרטים אישיים"
-          },{
-              categoryId : USERS,
-              categoryName:"ניהול הזמנות"
           }
       ];
       if(isManager){
-          categories.push({
+          categories.push(
+              {
+                  categoryId : USERS,
+                  categoryName:"ניהול משתמשים והזמנות"
+              });
+          categories.push(
+              {
               categoryId : STOCK,
               categoryName:"ניהול מלאי"
           });
+      }else{
+          categories.push(
+              {
+                  categoryId : USERS,
+                  categoryName:"ניהול הזמנות"
+              }
+          )
       }
       this.setState({categories: categories});
   }
@@ -41,7 +51,7 @@ class Settings extends Component {
         <div className="col">
             <div className="row margin-top-bottom">
                 {this.state.categories.map((category,index) =>{
-                    let isSelected = type && type == category.categoryId;
+                    let isSelected = type && type === category.categoryId;
                     return <Link className={ isSelected ? "col category-name category-selected" :"col category-name black-font"} key={index} to={category.categoryId}>
                         {category.categoryName}
                     </Link>

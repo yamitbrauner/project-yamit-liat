@@ -3,11 +3,9 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
-import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
+import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import UserReservations from "./UserReservations";
-
-import moment from "moment";
 const PER_PAGE = 5;
 let MANAGER_ROLE = 1;
 let isManager = false;
@@ -15,7 +13,7 @@ let isManager = false;
 
 class Users extends Component {
 
-    state = {data:[], offset: 0, viewDetails: false, detailsIndex: false};
+    state = {data:[], offset: 0, viewDetails: false, resDetails: ''};
 
 
     componentDidMount(){
@@ -29,8 +27,14 @@ class Users extends Component {
             .then(res => res.json())
             .then(
                 (res) => {
+                    let tempData = [...res];
+                    if(isManager){
+                        tempData.forEach((obj,index) => {
+                            tempData[index]["userDetails"].numOfOrders = obj.userCart.length;
+                        })
+                    }
                    this.setState({
-                        data: res,
+                        data: tempData,
                         viewDetails: !isManager
                     });
                 }
@@ -46,12 +50,15 @@ class Users extends Component {
         this.setState({ offset: offset});
     };
 
-    viewReservations=(index)=>{
-        let tempIndex = index + this.state.offset;
-        this.setState({viewDetails: true, detailsIndex: tempIndex})
+    viewReservations=(details)=>{
+        this.setState({viewDetails: true, resDetails: details})
     }
 
     render() {
+        const defaultSorted = [{
+            dataField: 'userDetails.numOfOrders', // if dataField is not match to any column you defined, it will be ignored.
+            order: 'asc' // desc or asc
+        }];
         const paginationOption = paginationFactory({
             sizePerPage: PER_PAGE,
             hideSizePerPage:  true,
@@ -74,10 +81,14 @@ class Users extends Component {
             dataField: 'userDetails.phone',
             text: 'טלפון'
         }, {
-            dataField: 'orders',
+            dataField: 'userDetails.numOfOrders',
             text: 'כמות הזמנות',
-            formatter: (cell,row,rowIndex,formatExtraData)=>{
-                return row.userCart.length;
+            sort: true,
+            sortFunc: (a, b, order, dataField, rowA, rowB) => {
+                if (order === 'asc') {
+                    return b - a;
+                }
+                return a - b; // desc
             }
         }, {
 
@@ -87,7 +98,7 @@ class Users extends Component {
             events: {
                 onClick: (e, column, columnIndex, row, rowIndex) => {
                     if(row.userCart.length>0){
-                        this.viewReservations(rowIndex);
+                        this.viewReservations(row);
                     }
 
                 },
@@ -108,7 +119,7 @@ class Users extends Component {
 
         if(this.state.data.length>0){
             if(isManager){
-                details = this.state.detailsIndex ? this.state.data[this.state.detailsIndex].userCart : {};
+                details = this.state.resDetails ? this.state.resDetails.userCart : {};
             }else {
                 details= this.state.data;
             }
@@ -124,11 +135,12 @@ class Users extends Component {
                             data={ this.state.data }
                             columns={ columns }
                             filter={ filterFactory() }
+                            defaultSorted={defaultSorted}
                         />
                         :
                         <div>
                             <div className="margin-top-bottom">
-                                {isManager ? <button className="btn btn-danger" onClick={()=>{this.setState({viewDetails: false, detailsIndex: false})}}>חזרה לטבלת המשתמשים</button> : ""}
+                                {isManager ? <button className="btn btn-danger" onClick={()=>{this.setState({viewDetails: false, resDetails: ''})}}>חזרה לטבלת המשתמשים</button> : ""}
                             </div>
                             <UserReservations details={details}/>
                         </div>

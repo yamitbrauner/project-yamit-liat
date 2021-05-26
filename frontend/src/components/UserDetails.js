@@ -16,19 +16,26 @@ class UserDetails extends Component {
     }
     componentDidMount() {
         let userInput = {
-                firstName: this.props.userDetails.firstName,
-                lastName: this.props.userDetails.lastName,
-                address: this.props.userDetails.address,
-                phone: this.props.userDetails.phone,
-                deliveryDate: today.add('1','days')
-
-            };
+                firstName: this.props.userDetails.firstName ? this.props.userDetails.firstName :'',
+                lastName: this.props.userDetails.lastName ? this.props.userDetails.lastName : '',
+                address: this.props.userDetails.address ? this.props.userDetails.address : '',
+                phone: this.props.userDetails.phone ? this.props.userDetails.phone : ''
+        };
+        if(!this.props.isUpdate){
+            userInput["deliveryDate"] =today.add('1','days');
+        }
         this.setState({userInput : userInput});
     }
 
     finish = ()=>{
         if(this.props.isUpdate){
-            this.updateDetails()
+            if(this.state.userInput.firstName === '' || this.state.userInput.lastName === '' || this.state.userInput.address === ''
+                || this.state.userInput.phone === '' ){
+                this.setState({isError:true});
+            }else{
+                this.setState({isError:false});
+                this.updateDetails();
+            }
         }else{
             if(this.state.userInput.deliveryDate === null){
                 this.setState({isError:true});
@@ -43,6 +50,11 @@ class UserDetails extends Component {
             if(event._d){
                 tempUserInput["deliveryDate"] = event._d;
             }else{
+                if(event.target.name==="phone"){
+                    if (!Number(event.target.value) && event.target.value !=='') {
+                        return;
+                    }
+                }
                 tempUserInput[event.target.name] = event.target.value;
             }
             this.setState({userInput:tempUserInput,isError:false});
@@ -114,10 +126,12 @@ class UserDetails extends Component {
                           <div className="form-group col-md-6">
                               <label htmlFor="id">מספר טלפון</label>
                               <input type="text" className="form-control" id="phone" name="phone"  placeholder="אנא הזן טלפון"
-                                     onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.phone}/>
+                                     maxLength={10} onChange={this.handleChange} disabled={!isUpdate} value={this.state.userInput.phone}/>
                           </div>
                       </div>
-
+                      {this.state.isError && <div className="form-row">
+                          <div className="col error-txt">אנא הזן את כל הפרטים</div>
+                      </div>}
                               <button onClick={()=>this.finish()} className="btn btn-lg margin-top-bottom btn-danger">
                                   {isUpdate ? "שמירה" : "למעבר לתשלום באמצעות Paypal"}</button>
 

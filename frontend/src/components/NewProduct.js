@@ -39,6 +39,11 @@ class NewProduct extends Component {
         if(event.target.files && event.target.files.length){
             value = event.target.files[0];
         }else{
+            if(event.target.name==="pricePerUnit" || event.target.name==="quantityInStock"){
+                if (!Number(event.target.value) && event.target.value !=='') {
+                    return;
+                }
+            }
             value = event.target.value;
         }
         this.setState({
@@ -47,8 +52,8 @@ class NewProduct extends Component {
     }
     onOkClicked = ()=>{
         // eslint-disable-next-line
-        if(this.state.categoryId =='' || this.state.prodName =='' || this.state.quantityInStock ==''
-            || this.state.pricePerUnit =='' || this.state.description ==''|| this.state.picUrl ==''){
+        if(this.state.categoryId ==='' || this.state.prodName ==='' || this.state.quantityInStock ===''
+            || this.state.pricePerUnit ==='' || this.state.description ===''|| this.state.picUrl ===''){
             this.setState({isError:true});
         }else{
             let item = this.props.hasEditIndex!== false ? this.props.items[this.props.hasEditIndex] : {};
@@ -114,7 +119,13 @@ class NewProduct extends Component {
                 </div>
             </div>
             <div className="form-row">
-                <div className="form-group col-md-12">
+                <div className="form-group col-md-6">
+                    {this.state.picUrl !=='' && typeof this.state.picUrl !== 'object'?
+                        <div className="list-style">
+                            <label htmlFor="picUr"> תמונה קיימת: </label>
+                            <span>{" " + this.state.picUrl}</span>
+                        </div>
+                        : ""}
                     <input type="file"
                            name="picUrl"
                            onChange={this.handleInputChange}

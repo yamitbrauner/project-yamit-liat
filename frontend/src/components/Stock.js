@@ -239,7 +239,8 @@ class Stock extends Component {
         }, {
             dataField: 'description',
             text: 'תאור'
-        }];
+        }
+        ];
     return (
         <div className="col">
             {!this.state.productBoxOpen && <button className="margin-top-bottom btn btn-danger row" onClick={()=>this.switchProductBox(true,false)}>
