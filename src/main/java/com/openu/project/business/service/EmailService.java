@@ -109,14 +109,11 @@ public class EmailService {
         HashMap<String, Object> templateModel = new HashMap<String, Object>();
 
         templateModel.put("recipientName",firstName);
-//        templateModel.put("text","hellot there");
-//        templateModel.put("senderName","matoklililili");
-
         templateModel.put("products", products);
 
         Context thymeleafContext = new Context();
         thymeleafContext.setVariables(templateModel);
-        String htmlBody = springTemplateEngine.process("template-thymeleaf", thymeleafContext);
+        String htmlBody = springTemplateEngine.process("ReservationConfirmMailTemplate", thymeleafContext);
 
         sendConfirmationMailMime(to, htmlBody, reservationId);
     }
