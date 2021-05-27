@@ -27,7 +27,7 @@ public class ProductController {
         productService.createProduct(newProduct);
     }
 
-    @PostMapping("/admin/deleteProductById")
+    @DeleteMapping("/admin/deleteProductById")
     public void deleteProduct(@RequestParam Integer productId) {
         productService.deleteProduct(productId);
     }

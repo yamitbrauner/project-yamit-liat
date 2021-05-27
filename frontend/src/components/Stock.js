@@ -128,7 +128,7 @@ class Stock extends Component {
         let tempIndex = index + this.state.offset;
         let itemId = this.state.items[tempIndex].prodId;
         const requestOptions = {
-            method: 'POST',
+            method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         };
         fetch("/admin/deleteProductById?productId="+itemId,requestOptions)

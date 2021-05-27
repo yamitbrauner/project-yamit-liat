@@ -24,7 +24,7 @@ public class CategoryController {
     }
 
     // TODO: This is only for debug purpose
-    @PostMapping("/liat.arama1@gmail.com")
+    @PostMapping("/user/liat.arama1@gmail.com")
     public Iterable<Category> liatTest() {
         return this.categoryService.getCategory();
     }
