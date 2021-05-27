@@ -97,6 +97,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/getProductsByReservation*").permitAll()
                 .antMatchers("/reservation/fullUserReservation/*").permitAll()
                 .antMatchers("/admin/allUsersFullReservation").permitAll()
+                .antMatchers("/public/**").permitAll()
+                .antMatchers("/admin/**").permitAll()
 
 
 

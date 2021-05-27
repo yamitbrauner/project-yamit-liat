@@ -17,11 +17,11 @@ class Stock extends Component {
         this.getProducts();
     }
     getProducts(){
-        fetch("/category")
+        fetch("/public/getAllCategory")
             .then(res => res.json())
             .then(
                 (resCategories) => {
-                    fetch("/product")
+                    fetch("/public/getAllProducts")
                         .then(res => res.json())
                         .then(
                             (resProducts) => {
@@ -94,7 +94,7 @@ class Stock extends Component {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.state.items[0])
             };
-            fetch("/products",requestOptions)
+            fetch("/admin/createNewProduct",requestOptions)
                 .then(res => {
                     if(res.ok){
                         this.switchProductBox();
@@ -111,7 +111,7 @@ class Stock extends Component {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(item)
             };
-            fetch("/products/"+item.prodId,requestOptions)
+            fetch("/admin/updateProductById/"+item.prodId,requestOptions)
                 .then(res => {
                     if(res.ok){
                         this.switchProductBox();
@@ -131,7 +131,7 @@ class Stock extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         };
-        fetch("/deleteProduct?productId="+itemId,requestOptions)
+        fetch("/admin/deleteProductById?productId="+itemId,requestOptions)
             .then(res => {
                 if(res.ok){
                     let items = [...this.state.items];

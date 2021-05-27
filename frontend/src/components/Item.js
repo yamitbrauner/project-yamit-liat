@@ -15,7 +15,7 @@ class Item extends Component {
         <div className="col-3">
             <div className="row">
                 <img alt="" className="item-img col" onClick={()=>this.showProduct()}
-                     src={"/image?name=" + this.props.item.picUrl+"&&category="+this.props.item.categoryId}/>
+                     src={"/public/getImage?name=" + this.props.item.picUrl+"&&category="+this.props.item.categoryId}/>
             </div>
             <div className="row margin-top-bottom">
                 <span className="col product-name">

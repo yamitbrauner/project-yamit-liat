@@ -12,7 +12,7 @@ class Shop extends Component {
         this.search = this.search.bind(this);
     }
   componentDidMount(){
-      fetch("/category")
+      fetch("/public/getAllCategory")
         .then(res => res.json())
         .then(
             (resCategories) => {
@@ -37,7 +37,7 @@ class Shop extends Component {
               searchInput:''
           });
       }else{
-          fetch("/products/category/"+category.categoryId)
+          fetch("/public/getProductsByCategory/"+category.categoryId)
               .then(res => res.json())
               .then(
                   (resProducts) => {

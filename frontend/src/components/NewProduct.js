@@ -65,7 +65,7 @@ class NewProduct extends Component {
                     body: formData,
                     redirect: 'follow'
                 };
-                fetch("/saveImage?category="+this.state.categoryId,requestOptions)
+                fetch("/admin/saveImage?category="+this.state.categoryId,requestOptions)
                     .then(res => {
                         if(res.ok) {
                             this.props.onOkClicked(this.state);

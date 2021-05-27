@@ -30,7 +30,7 @@ class Product extends Component {
                             </div>
                             <div className="col">
                                 <img alt="" className="product-popup-img row"
-                                     src={"/image?name=" + item.picUrl+"&&category="+item.categoryId}/>
+                                     src={"/public/getImage?name=" + item.picUrl+"&&category="+item.categoryId}/>
                             </div>
                         </div>
                     </div>

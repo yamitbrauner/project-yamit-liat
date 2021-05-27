@@ -26,7 +26,7 @@ class Login extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userInput)
         };
-        fetch("/createUser",requestOptions)
+        fetch("/public/createNewUser",requestOptions)
             .then(
                 (res) => {
                     if(res.ok){

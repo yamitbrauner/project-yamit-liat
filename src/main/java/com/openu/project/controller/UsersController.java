@@ -5,7 +5,6 @@ import com.openu.project.business.domain.CreateNewUserResponse;
 import com.openu.project.business.domain.UpdateUserDto;
 import com.openu.project.business.domain.UpdateUserResponse;
 import com.openu.project.business.service.UsersService;
-import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Users;
 import com.openu.project.exception.UpdateTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +16,17 @@ public class UsersController {
     @Autowired
     private UsersService userService;
 
-    @GetMapping("/users")
+    @GetMapping("/admin/getAllUsers")
     public Iterable<Users> getUser() {
         return this.userService.getUsers();
     }
 
-    @PostMapping("/createUser")
+    @PostMapping("/public/createNewUser")
     public ResponseEntity<CreateNewUserResponse> createUser(@RequestBody CreateNewUserDto newUser) {
         return userService.createUser(newUser);
     }
 
+    // TODO: Update per user control
     @PutMapping("/users/{userId}")
     public ResponseEntity<UpdateUserResponse> updateUser(@RequestBody UpdateUserDto user,
                                                          @PathVariable("userId") Integer userId) throws UpdateTable {
