@@ -6,6 +6,7 @@ import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ReservationConfirmError;
+import com.openu.project.exception.exceptionsList.PaymentAlreadyCaptured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openu.project.data.entity.Users;
@@ -90,13 +91,16 @@ public class ReservationService {
 
         // TODO: Need to add to crone
         reservation.setStatus("Pending");
+
+        // Check if payment is a new payment.
+        if (this.reservationRepository.findByPaymentId(paymentId).size() != 0)
+        {
+            // Payment already exist on DB
+            reservation.setStatus("Rejected");
+            throw new PaymentAlreadyCaptured();
+        }
+
         try {
-            if (this.reservationRepository.findByPaymentId(paymentId).size() != 0)
-            {
-                // Payment already exist on DB
-                reservation.setStatus("Rejected");
-                //TODO: Exception here
-            }
             if (this.getPayPalOrderStatus.isCaptured(paymentId))
             {
                 // Completed
