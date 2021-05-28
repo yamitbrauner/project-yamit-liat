@@ -12,6 +12,8 @@ psql -U postgres -d dev -h localhost -p 5432 -f insert_Category.sql
 psql -U postgres -d dev -h localhost -p 5432 -f insert_Product.sql
 psql -U postgres -d dev -h localhost -p 5432 -f insert_Role.sql
 psql -U postgres -d dev -h localhost -p 5432 -f insert_Users.sql
+psql -U postgres -d dev -h localhost -p 5432 -f insert_Purchase.sql
 psql -U postgres -d dev -h localhost -p 5432 -f insert_Reservation.sql
+
 
 psql -U postgres -d dev -h localhost -p 5432 -f sequence.sql
