@@ -34,7 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String SIGN_UP_URL = "/api/services/controller/user";
 
-    //private static final String ENCODED_PASSWORD = "$2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2";
 
 
 //    private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(

@@ -20,7 +20,7 @@ public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
     public static final String HEADER_STRING = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String ADMIN_URL = "/admin/";
-    public static final String ADMIN_SECTION_NAME = "admin";
+    public static final String ADMIN_SECTION_URL_PREFIX = "admin";
     public static final int ADMIN_ROLE = 1;
     public static final String USER_URL = "/user/";
     public static final int USER_SECTION_IDX = 2;
@@ -46,7 +46,7 @@ public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
                 return;
             }
 
-            String userUrlSection = ADMIN_SECTION_NAME;
+            String userUrlSection = ADMIN_SECTION_URL_PREFIX;
             if (reqUrl.startsWith(USER_URL)) {
                 userUrlSection = reqUrl.split("/")[USER_SECTION_IDX];
             }
@@ -75,8 +75,9 @@ public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
             // Grant Authentication token if accessing user specific url and is the correct user
             // OR
             // Grant Authentication token if accessing admin url and user is admin
-            if ((userUrlSection.equals(ADMIN_SECTION_NAME) && isUserAdmin) ||
-                    tokenOwnerUserId.equals(Integer.parseInt(userUrlSection))) {
+            if (userUrlSection.equals(ADMIN_SECTION_URL_PREFIX) ?
+                    isUserAdmin :
+                    Integer.parseInt(userUrlSection) == tokenOwnerUserId) {
                 return new UsernamePasswordAuthenticationToken(tokenOwnerUserId, null, new ArrayList<>());
             }
 
