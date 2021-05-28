@@ -24,13 +24,13 @@ public class ReservationController {
 
 
     // TODO: User specific api
-    @PostMapping({"/createNewReservation", "/user/{userIdl}/createNewReservation"})
+    @PostMapping({"/createNewReservation", "/user/{userId}/createNewReservation"})
     public Reservation createNewReservation(@RequestBody CreateNewReservation newReservation) {
         return reservationService.createReservation(newReservation);
     }
 
     // TODO: User specific api
-    @PutMapping({"/confirmReservation", "/user/{userIdl}/confirmReservation"})
+    @PutMapping({"/confirmReservation", "/user/{userId}/confirmReservation"})
     public void confirmReservation(@RequestParam  Integer reservationId,
                                    @RequestParam String paymentId){
         reservationService.confirmReservation(reservationId, paymentId);
