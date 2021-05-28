@@ -1,7 +1,6 @@
 package com.openu.project.controller;
 
 import com.openu.project.business.domain.CreateNewUserDto;
-import com.openu.project.business.domain.CreateNewUserResponse;
 import com.openu.project.business.domain.UpdateUserDto;
 import com.openu.project.business.domain.UpdateUserResponse;
 import com.openu.project.business.service.UsersService;
@@ -22,8 +21,8 @@ public class UsersController {
     }
 
     @PostMapping("/public/createNewUser")
-    public ResponseEntity<CreateNewUserResponse> createUser(@RequestBody CreateNewUserDto newUser) {
-        return userService.createUser(newUser);
+    public void createUser(@RequestBody CreateNewUserDto newUser) {
+        userService.createUser(newUser);
     }
 
     // TODO: Update per user control

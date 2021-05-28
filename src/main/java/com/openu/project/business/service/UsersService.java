@@ -1,13 +1,13 @@
 package com.openu.project.business.service;
 
 import com.openu.project.business.domain.CreateNewUserDto;
-import com.openu.project.business.domain.CreateNewUserResponse;
 import com.openu.project.business.domain.UpdateUserDto;
 import com.openu.project.business.domain.UpdateUserResponse;
 import com.openu.project.data.entity.Users;
 import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ResourceNotFoundException;
 import com.openu.project.exception.UpdateTable;
+import com.openu.project.exception.exceptionsList.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,18 +28,13 @@ public class UsersService {
     public UsersService() {
     }
 
-    public ResponseEntity<CreateNewUserResponse> createUser(CreateNewUserDto newUserDto){
-
-        CreateNewUserResponse bodyResponse = new CreateNewUserResponse();
-        boolean fail = false;
+    public void createUser(CreateNewUserDto newUserDto){
 
         // Check if mail is in use
-        bodyResponse.setMailOk(true);
         Iterator<Users> usersIterator = this.userRepository.findByMail(newUserDto.getMail()).iterator();
         if (usersIterator.hasNext())
         {
-            bodyResponse.setMailOk(false);
-            fail = true;
+            throw new UserMailAlreadyExist();
         }
 
         // Check if mail format is crrect
@@ -47,36 +42,26 @@ public class UsersService {
             InternetAddress emailAddr = new InternetAddress(newUserDto.getMail());
             emailAddr.validate();
         } catch (AddressException ex) {
-            fail = true;
-            bodyResponse.setMailOk(false);
+            throw new WrongMailFormat();
         }
 
         // check Password isnt empty and at least 4 char
-        bodyResponse.setPasswordOk(true);
         if(newUserDto.getPassword().length() < 4)
         {
-            fail = true;
-            bodyResponse.setPasswordOk(false);
+            throw new WrongPasswordFormat();
         }
 
         // check firstname not null
-        bodyResponse.setFirstNameOk(true);
         if(newUserDto.getFirstName().length() <= 0)
         {
-            fail = true;
-            bodyResponse.setFirstNameOk(false);
+            throw new EmptyFirstName();
         }
 
         // check lastname not null
-        bodyResponse.setLastNameOk(true);
         if(newUserDto.getLastName().length()  <= 0)
         {
-            fail = true;
-            bodyResponse.setLastNameOk(false);
+            throw new EmptyLastName();
         }
-
-
-        if(fail) return ResponseEntity.badRequest().body(bodyResponse);
 
         Users newUser = new Users();
         newUser.setFirstName(newUserDto.getFirstName());
@@ -89,8 +74,7 @@ public class UsersService {
         String hashedPassword = passwordEncoder.encode(newUserDto.getPassword());
         newUser.setHashedPassword(hashedPassword);
         newUser.setToken("");
-            this.userRepository.save(newUser);
-        return ResponseEntity.ok().body(bodyResponse);
+        this.userRepository.save(newUser);
     }
 
     public Iterable<Users> getUsers() {         return userRepository.findAll();
