@@ -67,43 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, SIGN_UP_URL).permitAll()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                //.antMatchers(HttpMethod.PUT).permitAll()
-                .antMatchers("/category**").permitAll()
-                .antMatchers("/users**").permitAll()
-                .antMatchers("/users/**").permitAll()
-
-                .antMatchers("/createUser**").permitAll()
-
-                .antMatchers("/product**").permitAll()
-                .antMatchers("/products/**").permitAll() //put
-                .antMatchers("/products**").permitAll() //put
-                .antMatchers("/products/category/**").permitAll()
-                .antMatchers("/image**").permitAll()
-                .antMatchers("/purchase**").permitAll()
-                .antMatchers( "/reservation**").permitAll()
-                .antMatchers( "/reservation/**").permitAll() //put
-                .antMatchers( "/confirmReservation").permitAll() //put
-                .antMatchers( "/createPurchase").permitAll() //put
-                .antMatchers( "/createPurchase").permitAll() //put
-                .antMatchers( "/reservation/getById/**").permitAll()
-                .antMatchers( "/reservation/getByMail/**").permitAll()
-                .antMatchers("/createNewReservation*").permitAll()
-                .antMatchers("/role*").permitAll()
-                .antMatchers("/saveImage*").permitAll()
-                .antMatchers("/deleteProduct*").permitAll()
-                .antMatchers("/getProductsByReservation*").permitAll()
-                .antMatchers("/reservation/fullUserReservation/*").permitAll()
-                .antMatchers("/admin/allUsersFullReservation").permitAll()
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/admin/**").permitAll()
-                .antMatchers("/user/**").permitAll()
-
-
-
-
-                .antMatchers(HttpMethod.POST, "/users/{userId}/roles").permitAll()
-                .antMatchers(HttpMethod.POST, "/{userId}").fullyAuthenticated()
                 .anyRequest().authenticated()
                 .and()
                 // Authentication filter, this will intercept request path for login ("/login").
