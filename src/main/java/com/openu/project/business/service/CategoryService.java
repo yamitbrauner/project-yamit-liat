@@ -10,8 +10,6 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-
-
     public void createCategory(Category category) {
         if (category.getCategoryName().length() == 0) {
             // empty product name

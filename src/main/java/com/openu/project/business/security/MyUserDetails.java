@@ -1,6 +1,7 @@
 package com.openu.project.business.security;
 
 import com.openu.project.data.entity.Users;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,11 +11,9 @@ import java.util.Collection;
 
 public class MyUserDetails implements UserDetails {
 
-
     private Users user;
 
-    public MyUserDetails(Users user)
-    {
+    public MyUserDetails(Users user) {
         this.user = user;
     }
 

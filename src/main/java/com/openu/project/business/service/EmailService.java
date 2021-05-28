@@ -16,11 +16,10 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.criteria.CriteriaBuilder;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 @Service
@@ -41,7 +40,6 @@ public class EmailService {
         message.setText(text);
         emailSender.send(message);
     }
-
 
     public void sendSimpleConfirmationMail(
             String to, Integer reservationId) {
@@ -82,7 +80,6 @@ public class EmailService {
         return message;
     }
 
-
     //emailSender
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -117,8 +114,5 @@ public class EmailService {
 
         sendConfirmationMailMime(to, htmlBody, reservationId);
     }
-
-
-
 
 }

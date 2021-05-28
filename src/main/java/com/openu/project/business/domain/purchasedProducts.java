@@ -2,8 +2,6 @@ package com.openu.project.business.domain;
 
 public class purchasedProducts
 {
-
-
     String productName;
     Integer amount;
     Integer price;

@@ -1,6 +1,7 @@
 package com.openu.project.exception;
 
-public class ApiGatewayExceptionMessageCode {
+public class ApiGatewayExceptionMessageCode
+{
     public static final int emailAlreadyExist = 100;
 
     public static final int userMailAlreadyExist = 120;
@@ -12,7 +13,5 @@ public class ApiGatewayExceptionMessageCode {
 
     public static final int paymentAlreadyCaptured = 200;
     public static final int paymentIdDosentExist = 201;
-
-
 
 }

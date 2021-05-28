@@ -4,6 +4,7 @@ import com.openu.project.exception.UpdateTable;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.repository.CategoryRepository;
 import com.openu.project.data.repository.ProductRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class ProductService {
 
         return result;
     }
-    
+
     public Iterable<Product> getProductInStock(){
         return this.productRepository.findByQuantityInStockGreaterThan(0);
 //        Iterable<Product> allProducts = this.productRepository.findAll();

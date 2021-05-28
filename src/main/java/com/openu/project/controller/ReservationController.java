@@ -5,6 +5,7 @@ import com.openu.project.business.domain.FullReservation;
 import com.openu.project.business.domain.UserFullReservation;
 import com.openu.project.business.service.ReservationService;
 import com.openu.project.data.entity.Reservation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,6 @@ import java.util.ArrayList;
 public class ReservationController {
     @Autowired
     private ReservationService reservationService;
-
-
 
     @GetMapping("/admin/getAllReservations")
     public Iterable<Reservation> getReservation() {
@@ -69,6 +68,4 @@ public class ReservationController {
                                   @PathVariable("reservationId") Integer reservationId){
         reservationService.updateReservationId(reservation, reservationId);
     }
-
-
 }

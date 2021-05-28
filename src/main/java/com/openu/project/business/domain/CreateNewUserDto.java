@@ -9,7 +9,6 @@ public class CreateNewUserDto {
     private String mail;
     private String password;
 
-
     public String getFirstName() {
         return firstName;
     }

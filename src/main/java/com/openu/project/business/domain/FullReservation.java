@@ -1,6 +1,5 @@
 package com.openu.project.business.domain;
 
-import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Reservation;
 
 import java.util.ArrayList;

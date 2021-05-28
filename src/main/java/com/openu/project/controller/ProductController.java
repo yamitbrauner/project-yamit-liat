@@ -3,6 +3,7 @@ package com.openu.project.controller;
 import com.openu.project.business.service.ProductService;
 import com.openu.project.data.entity.Product;
 import com.openu.project.exception.UpdateTable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,8 @@ public class ProductController {
 
     @GetMapping("/public/getProductsByCategory/{categoryId}")
     public Iterable<Product> getProductByCategory(@PathVariable("categoryId") Integer categoryId){
-       return this.productService.getProductByCategory(categoryId);
-   }
+        return this.productService.getProductByCategory(categoryId);
+    }
 
     @PostMapping("/admin/createNewProduct")
     public void createProduct(@RequestBody Product newProduct) {
@@ -51,7 +52,7 @@ public class ProductController {
 
     @PutMapping("/admin/incProductQuantity/{productId}/{quantity}")
     public void incProductQuantity( @PathVariable("quantity") Integer quantity,
-                              @PathVariable("productId") Integer productId){
+                                    @PathVariable("productId") Integer productId){
         productService.incProductQuantity(productId, quantity);
     }
 

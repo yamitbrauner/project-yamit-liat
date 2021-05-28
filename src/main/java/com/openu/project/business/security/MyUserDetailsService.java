@@ -13,7 +13,6 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Iterable<Users>  matchUsers = userRepository.findByMail(s);

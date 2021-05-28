@@ -1,7 +1,7 @@
 package com.openu.project.exception;
 
 public class ApiGatewayExceptionMassage {
-    public static final String emailAlreadyExist = "Email already exist";
+    public static final String emailAlreadyExist    = "Email already exist";
 
     public static final String userMailAlreadyExist = "User mail already exist";
     public static final String wrongMailFormat      = "Wrong mail format";

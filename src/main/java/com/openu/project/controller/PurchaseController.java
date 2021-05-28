@@ -6,8 +6,6 @@ import com.openu.project.data.entity.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-
 @RestController
 public class PurchaseController {
     @Autowired
@@ -31,5 +29,4 @@ public class PurchaseController {
     public Iterable<Purchase> getPurchase() {
         return this.purchaseService.getPurchase();
     }
-
 }

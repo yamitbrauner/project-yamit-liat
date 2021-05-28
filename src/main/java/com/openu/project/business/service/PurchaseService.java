@@ -4,6 +4,7 @@ import com.openu.project.business.domain.ProductsForCart;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Purchase;
 import com.openu.project.data.repository.PurchaseRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +82,5 @@ public class PurchaseService {
         }
         return productsForCarts;
     }
-
 
 }

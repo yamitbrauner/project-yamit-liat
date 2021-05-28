@@ -7,6 +7,7 @@ import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ReservationConfirmError;
 import com.openu.project.exception.exceptionsList.PaymentAlreadyCaptured;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openu.project.data.entity.Users;
@@ -30,7 +31,8 @@ public class ReservationService {
     private GetPayPalOrderInfo getPayPalOrderStatus;
 
 
-    public Iterable<Reservation> getReservation() {         return reservationRepository.findAll();
+    public Iterable<Reservation> getReservation() {
+        return reservationRepository.findAll();
     }
 
 
@@ -144,10 +146,7 @@ public class ReservationService {
             fullReservation.setProductIterable(productsForCartArrayList);
             fullReservationArrayList.add(fullReservation);
         }
-
         return fullReservationArrayList;
-
-
     }
 
     public ArrayList<FullReservation> getFullReservation(Integer userId)
@@ -186,7 +185,6 @@ public class ReservationService {
 
             allUserFullReservation.add(userFullReservation);
         }
-
         return allUserFullReservation;
     }
 }

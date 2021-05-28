@@ -1,6 +1,5 @@
 package com.openu.project.data.entity;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import javax.persistence.*;
 
 @Entity
