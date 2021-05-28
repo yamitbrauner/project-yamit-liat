@@ -77,8 +77,8 @@ public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
             // Grant Authentication token if accessing user specific url and is the correct user
             // OR
             // Grant Authentication token if accessing admin url and user is admin
-            if (tokenOwnerUserId.equals(Integer.parseInt(userUrlSection)) ||
-                    (userUrlSection.equals(ADMIN_SECTION_NAME) && isUserAdmin)) {
+            if ((userUrlSection.equals(ADMIN_SECTION_NAME) && isUserAdmin) ||
+                    tokenOwnerUserId.equals(Integer.parseInt(userUrlSection))) {
                 return new UsernamePasswordAuthenticationToken(tokenOwnerUserId, null, new ArrayList<>());
             }
 
