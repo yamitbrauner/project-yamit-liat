@@ -17,6 +17,7 @@ window.STOCK = "2";
 window.DETAILS = "3";
 window.USERS = "4";
 window.PAYPAL_CLIENT_ID = "AQ36x4JlXjfrvyB1kRLN9ep_28-ZFmgdkMJWLvvPsmdzqNJ9oAfJTacN5h6pbxMxSN8ukMPKkVIMya89";
+window.AUTH_TYPE = "Bearer";
 
 ReactDOM.render(
     <BrowserRouter>

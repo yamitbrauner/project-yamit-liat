@@ -53,7 +53,7 @@ class App extends Component {
     }
 
     logout = ()=>{
-        this.setState({userDetails:{}});
+        this.setState({userDetails:{}, itemsInCart:{},totalPrice:0, totalItems:0});
         localStorage.removeItem('token');
         localStorage.removeItem('userDetails');
     }

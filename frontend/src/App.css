@@ -9,7 +9,8 @@
   }
   .header-title{
     font-size: 90px;
-    z-index:1000;
+    z-index:500;
+    margin-top:25px;
     cursor:pointer;
   }
   .description{
@@ -293,4 +294,7 @@
   }
   .finished-symbol{
     height:300px;
+  }
+  .color-black{
+    color: black;
   }

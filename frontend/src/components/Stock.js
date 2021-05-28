@@ -4,6 +4,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+import { getHeaders } from './GlobalFunc'
 
 class Stock extends Component {
 
@@ -91,7 +92,7 @@ class Stock extends Component {
         if(this.state.hasEditIndex === false){ //add
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(this.state.items[0])
             };
             fetch("/admin/createNewProduct",requestOptions)
@@ -108,7 +109,7 @@ class Stock extends Component {
             let item = this.state.items[this.state.hasEditIndex];
             const requestOptions = {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(item)
             };
             fetch("/admin/updateProductById/"+item.prodId,requestOptions)
@@ -129,7 +130,7 @@ class Stock extends Component {
         let itemId = this.state.items[tempIndex].prodId;
         const requestOptions = {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
+            headers: getHeaders(),
         };
         fetch("/admin/deleteProductById?productId="+itemId,requestOptions)
             .then(res => {
@@ -138,6 +139,8 @@ class Stock extends Component {
                     items.splice(tempIndex,1);
                     this.setState({ items: items},()=>this.handlePageClick());
 
+                }else{
+                    alert("לא ניתן למחוק, קיימת הזמנה עבוד מוצר זה");
                 }
             })
             .catch((error)=>{
@@ -187,7 +190,7 @@ class Stock extends Component {
             formatter: (cell,row,rowIndex,formatExtraData)=>{
                 return (
                     <div className="col">
-                        <span className="glyphicon glyphicon-trash"/>
+                        <a className="glyphicon glyphicon-trash color-black"/>
                     </div>
                     );
             },
@@ -207,7 +210,7 @@ class Stock extends Component {
             formatter: (cell,row,rowIndex,formatExtraData)=>{
                 return (
                     <div className="col">
-                        <span className="glyphicon glyphicon-pencil"/>
+                        <a className="glyphicon glyphicon-pencil color-black"/>
                     </div>
                     );
             },

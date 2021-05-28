@@ -4,6 +4,7 @@ import Cart from "./Cart";
 import moment from 'moment';
 import { PayPalButton } from "react-paypal-button-v2";
 import finishedImg from "../orderFinished.svg";
+import { getHeaders } from './GlobalFunc'
 
 class Payment extends Component {
 
@@ -19,10 +20,10 @@ class Payment extends Component {
     }
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: getHeaders(),
             body: JSON.stringify(data)
         };
-        fetch("/createNewReservation",requestOptions)
+        fetch("/user/"+this.props.userDetails.userId+"/createNewReservation",requestOptions)
             .then(res => res.json())
             .then(
                 (reservationData) => {
@@ -43,10 +44,10 @@ class Payment extends Component {
             }
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data)
             };
-            fetch("/createPurchase",requestOptions)
+            fetch("/user/"+this.props.userDetails.userId+"/createPurchase",requestOptions)
                 .then(res => {
                     if(res.ok){
                         if(Object.keys(this.props.itemsInCart).length === index+1){
@@ -63,9 +64,9 @@ class Payment extends Component {
         var paymentId = orderId;
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: getHeaders(),
         };
-        fetch("/confirmReservation?reservationId="+this.state.reservationId + "&paymentId=" + paymentId,requestOptions)
+        fetch("/user/"+this.props.userDetails.userId+"/confirmReservation?reservationId="+this.state.reservationId + "&paymentId=" + paymentId,requestOptions)
             .then(res => {
                 if(res.ok){
                     this.setState({ isFinish:!this.state.isFinish},()=>this.props.setItemsInCart({}));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datetime';
 import moment from 'moment';
 import 'react-datetime/css/react-datetime.css'
+import { getHeaders } from './GlobalFunc'
 const today = moment();
 const disablePastDt = current => {
     return current.isAfter(today);
@@ -65,10 +66,10 @@ class UserDetails extends Component {
         if(Object.keys(this.props.userDetails).length > 0){
             const requestOptions = {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(this.state.userInput)
             };
-            fetch("/users/"+this.props.userDetails.userId,requestOptions)
+            fetch("/user/"+this.props.userDetails.userId+"/updateUserDetail",requestOptions)
                 .then(
                     (res) => {
                         if(res.ok){

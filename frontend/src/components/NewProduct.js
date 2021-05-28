@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+let headers = new Headers();
 
 class NewProduct extends Component {
 
@@ -17,6 +18,7 @@ class NewProduct extends Component {
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onOkClicked = this.onOkClicked.bind(this);
+        headers.append("Authorization", window.AUTH_TYPE + " " + localStorage.getItem('token'));
     }
     componentDidMount() {
         let item = this.props.hasEditIndex!== false ? this.props.items[this.props.hasEditIndex] : {};
@@ -63,7 +65,8 @@ class NewProduct extends Component {
                 const requestOptions = {
                     method: 'POST',
                     body: formData,
-                    redirect: 'follow'
+                    redirect: 'follow',
+                    headers: headers
                 };
                 fetch("/admin/saveImage?category="+this.state.categoryId,requestOptions)
                     .then(res => {
@@ -87,7 +90,10 @@ class NewProduct extends Component {
                 <div className="form-group col-md-6">
                     <label htmlFor="categoryId">קטגוריה</label>
 
-                    <select className="form-control" name="categoryId" id="categoryId" placeholder="אנא בחר קטגוריה" onChange={this.handleInputChange}>
+                    <select className="form-control" name="categoryId"
+                            id="categoryId" value={this.state.categoryId}
+                            placeholder="אנא בחר קטגוריה" onChange={this.handleInputChange}>
+                        <option disabled={true} selected={true} value>אנא בחר קטגוריה</option>
                         {Object.keys(this.props.categories).map((key)=>{
                             return <option key={key} value={key}>{this.props.categories[key]}</option>
                         })})

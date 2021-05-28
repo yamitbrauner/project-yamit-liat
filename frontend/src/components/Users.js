@@ -6,6 +6,7 @@ import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.m
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import UserReservations from "./UserReservations";
+import { getHeaders } from './GlobalFunc'
 
 let isManager = false;
 
@@ -19,9 +20,10 @@ class Users extends Component {
         isManager = this.props.userDetails.roleId === window.MANAGER_ROLE;
         var requestOptions = {
             method: 'GET',
-            redirect: 'follow'
+            redirect: 'follow',
+            headers: getHeaders()
         };
-        let path = isManager ? "/admin/allUsersFullReservation" : "/reservation/fullUserReservation/"+ this.props.userDetails.userId;
+        let path = isManager ? "/admin/allUsersFullReservation" : "/user/"+ this.props.userDetails.userId+"/getFullUserReservation";
         fetch(path, requestOptions)
             .then(res => res.json())
             .then(
