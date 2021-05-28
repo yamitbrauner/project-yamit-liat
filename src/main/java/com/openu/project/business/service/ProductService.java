@@ -91,10 +91,15 @@ public class ProductService {
         //productOld.setQuantityOrdered(product.getQuantityOrdered());
     }
 
-    public void updateProductQuantity(Integer quantity, Integer productId) {
+    public void updateProductQuantity(Integer productId, Product product) {
+        productRepository.save(product);
+    }
+
+    public void incProductQuantity(Integer productId, Integer quantity) {
         Product productOld = productRepository.findByProdId(productId);
         int quantityInStock = productOld.getQuantityInStock();
-        productOld.setQuantityInStock(quantityInStock - quantity);
+        int newQuantity = quantityInStock + quantity;
+        productOld.setQuantityInStock(newQuantity);
         productRepository.save(productOld);
     }
 

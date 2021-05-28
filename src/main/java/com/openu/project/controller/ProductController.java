@@ -35,6 +35,7 @@ public class ProductController {
     @PutMapping("/admin/updateProductById/{productId}")
     public void updateProduct(@RequestBody Product product,
                               @PathVariable("productId") Integer productId) throws UpdateTable {
+        productService.updateProductQuantity(productId, product);
     }
 
     // The following services currently not in use
@@ -48,10 +49,10 @@ public class ProductController {
         return  this.productService.getProductByProduct(productId);
     }
 
-    @PutMapping("/admin/updateProductQuantity/{productId}/{quantity}")
-    public void updateProductQuantity( @PathVariable("quantity") Integer quantity,
+    @PutMapping("/admin/incProductQuantity/{productId}/{quantity}")
+    public void incProductQuantity( @PathVariable("quantity") Integer quantity,
                               @PathVariable("productId") Integer productId){
-        productService.updateProductQuantity(quantity, productId);
+        productService.incProductQuantity(productId, quantity);
     }
 
     @GetMapping("/public/isProductInStockById")

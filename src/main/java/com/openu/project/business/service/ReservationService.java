@@ -85,7 +85,7 @@ public class ReservationService {
         reservation.setPaymentId(paymentId);
 
         // TODO: Send mail
-        float totalReservationSum =  this.purchaseService.getProuductsSumByReservationId(reservationId);
+        float totalReservationSum =  this.purchaseService.getProductsSumByReservationId(reservationId);
         if (totalReservationSum != reservation.getTotal()) throw new ReservationConfirmError();
 
         // TODO: Need to add to crone
@@ -108,6 +108,7 @@ public class ReservationService {
             System.out.println(e);
         }
 
+        this.purchaseService.updatePurchasedProductsInStock(reservationId);
         this.reservationRepository.save(reservation);
         String userMail = this.usersService.getMailByUserId(reservation.getUserId());
         String firstName = this.usersService.getFirstNameByUserId(reservation.getUserId());

@@ -21,7 +21,7 @@ public class PurchaseService {
         return purchaseRepository.findAll();
     }
 
-    public float getProuductsSumByReservationId(int reservationId) {
+    public float getProductsSumByReservationId(int reservationId) {
 
         Iterable<Purchase> purchases = this.purchaseRepository.findByReservationId(reservationId);
         Iterator<Purchase> purchaseIterator =  purchases.iterator();
@@ -36,6 +36,21 @@ public class PurchaseService {
 
         }
         return totalSum;
+    }
+
+
+    public void updatePurchasedProductsInStock(int reservationId)
+    {
+        Iterable<Purchase> purchases = this.purchaseRepository.findByReservationId(reservationId);
+        Iterator<Purchase> purchaseIterator =  purchases.iterator();
+
+        Purchase currPurchase;
+        while (purchaseIterator.hasNext())
+        {
+            currPurchase = purchaseIterator.next();
+            this.productService.incProductQuantity(currPurchase.getProdId(),
+                    -1 * currPurchase.getQuantity());
+        }
     }
 
     public void addNewPurchase(Purchase newPurchase) {
