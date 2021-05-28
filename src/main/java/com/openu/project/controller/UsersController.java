@@ -27,7 +27,7 @@ public class UsersController {
     }
 
     // TODO: Update per user control
-    @PutMapping("/users/{userId}")
+    @PutMapping({"/users/{userId}", "/user/{userMail}/getUserDetail"})
     public ResponseEntity<UpdateUserResponse> updateUser(@RequestBody UpdateUserDto user,
                                                          @PathVariable("userId") Integer userId) throws UpdateTable {
         return userService.updateUser(user, userId);

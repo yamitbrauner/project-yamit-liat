@@ -61,8 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
         http
                 .cors().and().csrf().disable()
                 .headers().frameOptions().disable()
@@ -99,6 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/allUsersFullReservation").permitAll()
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/admin/**").permitAll()
+                .antMatchers("/user/**").permitAll()
 
 
 

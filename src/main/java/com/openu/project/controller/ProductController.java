@@ -12,7 +12,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/public/getAllProducts")
+    @GetMapping({"/public/getAllProducts"})
     public Iterable<Product> getProducts() {
         return this.productService.getProducts();
     }

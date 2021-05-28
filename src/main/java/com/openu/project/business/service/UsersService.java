@@ -123,19 +123,13 @@ public class UsersService {
         return user.getFirstName();
     }
 
-    public String getUserNameByToken(String token)
+    public Users getUserDetailsByToken(String token)
     {
         // Todo: Fix names as we actually look for email
         Iterable<Users> users = userRepository.findByToken(token);
+        if(!users.iterator().hasNext()) return null;
         Users user = users.iterator().next();
-        String tempToken = user.getToken();
-        String userName = user.getMail();
-        if (tempToken.equals(token)) {
-            return userName;
-        }
-        else {
-            return null;
-        }
+        return user;
     }
 
     public ResponseEntity<UpdateUserResponse> updateUser(UpdateUserDto user, Integer userId) throws UpdateTable {
