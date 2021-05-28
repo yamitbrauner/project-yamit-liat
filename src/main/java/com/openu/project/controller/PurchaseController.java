@@ -15,7 +15,7 @@ public class PurchaseController {
 
 
     // TODO: should be user secured
-    @PostMapping({"/createPurchase", "/user/{userMail}/createPurchase"})
+    @PostMapping({"/createPurchase", "/user/{userId}/createPurchase"})
     public void createProduct(@RequestBody Purchase newPurchase) {
         this.purchaseService.addNewPurchase(newPurchase);
     }

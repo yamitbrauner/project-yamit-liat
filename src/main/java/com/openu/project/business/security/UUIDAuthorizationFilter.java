@@ -71,15 +71,15 @@ public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
             // If no user have this token.
             if (null == userEntry) return null;
 
-            String tokenOwnerUser = userEntry.getMail();
+            Integer tokenOwnerUserId = userEntry.getUserId();
             boolean isUserAdmin = userEntry.getRoleId() == ADMIN_ROLE;
 
             // Grant Authentication token if accessing user specific url and is the correct user
             // OR
             // Grant Authentication token if accessing admin url and user is admin
-            if (tokenOwnerUser.equals(userUrlSection) ||
+            if (tokenOwnerUserId.equals(Integer.parseInt(userUrlSection)) ||
                     (userUrlSection.equals(ADMIN_SECTION_NAME) && isUserAdmin)) {
-                return new UsernamePasswordAuthenticationToken(tokenOwnerUser, null, new ArrayList<>());
+                return new UsernamePasswordAuthenticationToken(tokenOwnerUserId, null, new ArrayList<>());
             }
 
             return null;
