@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 @Getter
-public class EmptyFirstName extends ApiGatewayException {
-    public EmptyFirstName() {
-        super(ApiGatewayExceptionMessageCode.emptyFirstName, ApiGatewayExceptionMassage.emptyFirstName);
+public class BadFirstName extends ApiGatewayException {
+    public BadFirstName() {
+        super(ApiGatewayExceptionMessageCode.BadFirstName, ApiGatewayExceptionMassage.BadFirstName);
     }
 }

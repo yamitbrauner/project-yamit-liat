@@ -9,8 +9,8 @@ package com.openu.project.exception.exceptionsList;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 @Getter
-public class EmptyLastName extends ApiGatewayException {
-    public EmptyLastName() {
-        super(ApiGatewayExceptionMessageCode.emptyLastName, ApiGatewayExceptionMassage.emptyLastName);
+public class BadLastName extends ApiGatewayException {
+    public BadLastName() {
+        super(ApiGatewayExceptionMessageCode.BadLastName, ApiGatewayExceptionMassage.BadLastName);
     }
 }
