@@ -1,9 +1,12 @@
 package com.openu.project.business.service.payPalPayment;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import com.paypal.http.HttpResponse;
 import com.paypal.http.serializer.Json;
+import com.paypal.http.Encoder;
 
 import org.json.JSONObject;
 
@@ -18,6 +21,8 @@ public class GetPayPalOrderInfo {
     @Autowired
     PayPalClient payPalClient;
 
+    private static final Encoder encoder = new Encoder();
+
     public void getOrder(String orderId) throws IOException {
         OrdersGetRequest request = new OrdersGetRequest(orderId);
         //3. Call PayPal to get the transaction
@@ -27,15 +32,44 @@ public class GetPayPalOrderInfo {
         System.out.println(new JSONObject(new Json().serialize(response.result())).toString(4));
     }
 
-    public boolean isCaptured(String orderId) throws IOException {
+    public ReservationStatusEnum getOrderStatus(String orderId) throws IOException{
         OrdersGetRequest request = new OrdersGetRequest(orderId);
-        HttpResponse<Order> response = payPalClient.client().execute(request);
-        JSONObject obj = new JSONObject(new Json().serialize(response.result()));
 
+        HttpResponse<Order> response;
+        try {
+            response = payPalClient.client().execute(request);
+        } catch (com.paypal.http.exceptions.HttpException e)
+        {
+            //return e.getMessage().equals("test");
+            String error = e.getMessage();
+            PayoutError payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), PayoutError.class, e.headers());
+            //if payoutError.name().equals("INVALID_RES");
+            if (payoutError.name().equals("RESOURCE_NOT_FOUND")) {
+                return ReservationStatusEnum.PAYMENT_ID_NOT_FOUND;
+            }
+            return ReservationStatusEnum.UNKNOWN;
+        } catch (IOException e) {
+            return ReservationStatusEnum.CONNECTION_ISSUE;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ReservationStatusEnum.UNKNOWN;
+        }
+
+        // CASE : We managed to get the transaction details
+        JSONObject obj = new JSONObject(new Json().serialize(response.result()));
         System.out.println("Full response body:");
         System.out.println(new JSONObject(new Json().serialize(response.result())).toString(4));
 
         String status = obj.getString("status");
-        return status.equalsIgnoreCase("COMPLETED");
+
+        if (status.equalsIgnoreCase("COMPLETED")) {
+            // CASE : If the transaction was completed.
+            return ReservationStatusEnum.PAYMENT_APPROVED;
+        }
+        else
+        {
+            // CASE : If the transaction was not completed.
+            return ReservationStatusEnum.ALREADY_CAPTURED;
+        }
     }
 }

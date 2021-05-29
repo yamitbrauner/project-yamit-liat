@@ -10,6 +10,8 @@ public class ApiGatewayExceptionMassage {
     public static final String emptyLastName        = "Empty last name";
 
     public static final String paymentAlreadyCaptured = "Payment already captured";
+    public static final String paymentIdDosentExist = "Payment id dosent Exist";
+
 
 }
 

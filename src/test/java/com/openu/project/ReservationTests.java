@@ -1,8 +1,15 @@
 package com.openu.project;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.jayway.jsonpath.JsonPath;
 
+import com.openu.project.business.service.payPalPayment.PayoutError;
+import com.openu.project.exception.ApiGatewayException;
+import net.bytebuddy.utility.RandomString;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,6 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -116,8 +126,8 @@ public class ReservationTests {
     }
 
     @Test
-    public void createFullReservation() throws Exception {
-        final String USERNAME = "liat.arama1@gmail.com";
+    public void createFullReservationWithAlreadyCapturedPayment() throws Exception {
+        final String USERNAME = "matokli.matok@gmail.com";
         final String PASSWORD = "1234";
         Integer cakePrice = 95;
         Integer cakeQuantity = 2;
@@ -137,4 +147,47 @@ public class ReservationTests {
         confirmReservationWithPaymentOnDb(loginResponse.token, loginResponse.userId, reservationId, alreadyInTablePaymentId);
 
     }
+
+    void confirmReservationWithPaymentNotInPaypal(String token, String userId, Integer reservationId, String paymentId) throws Exception
+    {
+        final String CONFIRM_RESERVATION_URL = "/user/" + userId + "/confirmReservation" +
+                "?reservationId=" + reservationId +
+                "&paymentId="+paymentId;
+        MvcResult resultConfirmReservation = mvc.perform(put(CONFIRM_RESERVATION_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token))
+                .andExpect(status().isPaymentRequired()).andReturn();
+
+        System.out.println(resultConfirmReservation.getResolvedException());
+    }
+
+    @Test
+    public void createFullReservationWithDosentExistPaymentId() throws Exception {
+        final String USERNAME = "matokli.matok@gmail.com";
+        final String PASSWORD = "1234";
+        Integer cakePrice = 95;
+        Integer cakeQuantity = 2;
+        Integer cakeId = 1;
+        String alreadyInTablePaymentId = "152315789";
+
+        loginResponseDto loginResponse = getUserToken(USERNAME, PASSWORD);
+
+        float totalSum = (float)(cakeQuantity * cakePrice);
+
+        Integer reservationId =
+                createNewReservation(loginResponse.token,Integer.parseInt(loginResponse.userId),totalSum);
+
+        // Product id #1 cost 95
+        CreateNewPurchase(loginResponse.token,loginResponse.userId, reservationId);
+
+        int length = 10;
+        String generatedString = RandomString.make(length);
+
+        confirmReservationWithPaymentOnDb(loginResponse.token, loginResponse.userId, reservationId, generatedString);
+
+    }
+
+
+
+
 }

@@ -2,16 +2,20 @@ package com.openu.project.business.service;
 
 import com.openu.project.business.domain.*;
 import com.openu.project.business.service.payPalPayment.GetPayPalOrderInfo;
+import com.openu.project.business.service.payPalPayment.ReservationStatusEnum;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ReservationConfirmError;
 import com.openu.project.exception.exceptionsList.PaymentAlreadyCaptured;
 
+import com.openu.project.exception.exceptionsList.PaymentIdDosentExist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import com.openu.project.data.entity.Users;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -29,6 +33,8 @@ public class ReservationService {
     private UsersService usersService;
     @Autowired
     private GetPayPalOrderInfo getPayPalOrderStatus;
+
+
 
 
     public Iterable<Reservation> getReservation() {
@@ -87,47 +93,47 @@ public class ReservationService {
         Reservation reservation = this.reservationRepository.findByReservationId(reservationId);
         reservation.setPaymentId(paymentId);
 
-        // TODO: Send mail
         float totalReservationSum =  this.purchaseService.getProductsSumByReservationId(reservationId);
         if (totalReservationSum != reservation.getTotal()) throw new ReservationConfirmError();
 
-        // TODO: Need to add to crone
-        reservation.setStatus("Pending");
-
+        reservation.setStatus(ReservationStatusEnum.PENDING.getMessage());
         // Check if payment is a new payment.
         if (this.reservationRepository.findByPaymentId(paymentId).size() != 0)
         {
             // Payment already exist on DB
-            reservation.setStatus("Rejected");
+            reservation.setStatus(ReservationStatusEnum.REJECTED.getMessage());
+            this.reservationRepository.save(reservation);
             throw new PaymentAlreadyCaptured();
         }
 
-        try {
-            if (this.getPayPalOrderStatus.isCaptured(paymentId))
-            {
-                // Completed
-                reservation.setStatus("Approved");
-            }
-        }catch (Exception e)
+        try
         {
-            // TODO: Handle exception
-            System.out.println(e);
+            ReservationStatusEnum reservationStatusEnum = this.getPayPalOrderStatus.getOrderStatus(paymentId);
+            reservation.setStatus(reservationStatusEnum.getMessage());
+
+            this.reservationRepository.save(reservation);
+
+            // Fail when:
+            // 1. If we know for sure that there is a problem with the payment
+            // Dont fail:
+            // Connection issue from our side, leave pending.
+            if (!reservationStatusEnum.isApprove()) {
+                if (reservationStatusEnum.equals(ReservationStatusEnum.ALREADY_CAPTURED)) {
+                    throw new PaymentAlreadyCaptured();
+                }
+
+                if (reservationStatusEnum.equals(ReservationStatusEnum.PAYMENT_ID_NOT_FOUND)) {
+                    throw new PaymentIdDosentExist();
+                }
+            }
+        } catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+            // Still in pending
+            return reservation;
         }
 
         this.purchaseService.updatePurchasedProductsInStock(reservationId);
-        this.reservationRepository.save(reservation);
-        String userMail = this.usersService.getMailByUserId(reservation.getUserId());
-        String firstName = this.usersService.getFirstNameByUserId(reservation.getUserId());
-
-        ArrayList<ProductsForCart> purchases = this.purchaseService.getProductsByReservation(reservationId);
-
-        try{
-            emailService.sendMessageUsingThymeleafTemplate(userMail, purchases, firstName,reservationId);
-        } catch (Exception e)
-        {
-            // TODO: Fix mailing!
-            System.out.println("what??");
-        }
 
         return reservation;
     }
@@ -186,5 +192,32 @@ public class ReservationService {
             allUserFullReservation.add(userFullReservation);
         }
         return allUserFullReservation;
+    }
+
+    public void sendMailToApprovedOrder()
+    {
+
+        ArrayList<Reservation> reservations =
+                this.reservationRepository.findByStatus(ReservationStatusEnum.PAYMENT_APPROVED.getMessage());
+
+        Iterator<Reservation> reservationIterator = reservations.iterator();
+        while (reservationIterator.hasNext())
+        {
+            Reservation reservation = reservationIterator.next();
+            String userMail = this.usersService.getMailByUserId(reservation.getUserId());
+            String firstName = this.usersService.getFirstNameByUserId(reservation.getUserId());
+
+            ArrayList<ProductsForCart> purchases = this.purchaseService.getProductsByReservation(reservation.getReservationId());
+
+            try{
+                emailService.sendMessageUsingThymeleafTemplate(userMail, purchases, firstName,reservation.getReservationId());
+                reservation.setStatus(ReservationStatusEnum.PROCESSING_ORDER.getMessage());
+                this.reservationRepository.save(reservation);
+            } catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
+
     }
 }

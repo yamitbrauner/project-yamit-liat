@@ -12,4 +12,5 @@ public interface ReservationRepository extends CrudRepository<Reservation,Intege
     Iterable<Reservation> findByUserId(int userId);
     Reservation findByReservationId(Integer reservationId);
     ArrayList<Reservation> findByPaymentId(String paymentId);
+    ArrayList<Reservation> findByStatus(String status);
 }
