@@ -19,6 +19,10 @@ class App extends Component {
         if(tempUserDetails && tempUserDetails.length > 0){
             this.setState({userDetails: JSON.parse(tempUserDetails)});
         }
+        let tempCart = JSON.parse(localStorage.getItem('itemsInCart'));
+        if(tempCart && Object.keys(tempCart).length > 0){
+            this.setItemsInCart(tempCart);
+        }
     }
 
     showPopup = (type) =>{
@@ -26,6 +30,7 @@ class App extends Component {
     }
 
     setItemsInCart = (tempItems) =>{
+        localStorage.setItem('itemsInCart', JSON.stringify(tempItems));
         this.setState({itemsInCart: tempItems},()=>this.updateTotalPrice());
     }
     updateTotalPrice=()=>{

@@ -54,7 +54,7 @@ class Cart extends Component {
                             <div className="row">
                                 <div className="col">
                                     <button className="btn-default btn margin-top-bottom" onClick={this.handlePay}>
-                                        <Link to="payment" className="category-name">לתשלום</Link>
+                                        <Link to="/payment/" className="category-name">לתשלום</Link>
                                     </button>
                                 </div>
                             </div>
