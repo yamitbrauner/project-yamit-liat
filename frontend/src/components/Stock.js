@@ -168,12 +168,12 @@ class Stock extends Component {
     };
 
     render() {
-        const paginationOption = paginationFactory({
+        const paginationOption = {
             sizePerPage: window.PER_PAGE,
             hideSizePerPage:  true,
             withFirstAndLast:true,
             onPageChange: this.handlePageChange
-        });
+        };
         let columns = [{
             dataField: 'delete',
             isDummyField:true,
@@ -254,7 +254,7 @@ class Stock extends Component {
             }
             {this.state.items.length ?
                 <BootstrapTable
-                    pagination={paginationOption}
+                    pagination={paginationFactory(paginationOption)}
                     keyField='prodId'
                     data={ this.state.items }
                     columns={ columns }

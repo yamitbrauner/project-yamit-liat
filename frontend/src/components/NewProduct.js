@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-let headers = new Headers();
 
 class NewProduct extends Component {
 
@@ -18,7 +17,6 @@ class NewProduct extends Component {
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onOkClicked = this.onOkClicked.bind(this);
-        headers.append("Authorization", window.AUTH_TYPE + " " + localStorage.getItem('token'));
     }
     componentDidMount() {
         let item = this.props.hasEditIndex!== false ? this.props.items[this.props.hasEditIndex] : {};
@@ -66,7 +64,7 @@ class NewProduct extends Component {
                     method: 'POST',
                     body: formData,
                     redirect: 'follow',
-                    headers: headers
+                    headers: {"Authorization": window.AUTH_TYPE + " " + localStorage.getItem('token')}
                 };
                 fetch("/admin/saveImage?category="+this.state.categoryId,requestOptions)
                     .then(res => {
@@ -91,7 +89,7 @@ class NewProduct extends Component {
                     <label htmlFor="categoryId">קטגוריה</label>
 
                     <select className="form-control" name="categoryId"
-                            id="categoryId" value={this.state.categoryId}
+                            id="categoryId" value={this.state.categoryId ? this.state.categoryId : null}
                             placeholder="אנא בחר קטגוריה" onChange={this.handleInputChange}>
                         <option disabled={true} selected={true} value>אנא בחר קטגוריה</option>
                         {Object.keys(this.props.categories).map((key)=>{

@@ -31,6 +31,7 @@ class Users extends Component {
                     let tempData = [...res];
                     if(isManager){
                         tempData.forEach((obj,index) => {
+                            tempData[index]["userDetails"].rowIndex = index;
                             tempData[index]["userDetails"].numOfOrders = obj.userCart.length;
                         })
                     }
@@ -57,15 +58,14 @@ class Users extends Component {
 
     render() {
         const defaultSorted = [{
-            dataField: 'userDetails.numOfOrders', // if dataField is not match to any column you defined, it will be ignored.
-            order: 'asc' // desc or asc
+            dataField: 'userDetails.numOfOrders',
+            order: 'asc'
         }];
         const paginationOption = paginationFactory({
             sizePerPage: window.PER_PAGE,
             hideSizePerPage:  true,
             withFirstAndLast:true,
             onPageChange: this.handlePageChange
-
         });
         let columns = [{
             dataField: 'userDetails.firstName',
@@ -131,6 +131,7 @@ class Users extends Component {
                 {this.state.data.length>0 ?
                     this.state.viewDetails === false ?
                         <BootstrapTable
+                            bootstrap4
                             pagination={paginationOption}
                             keyField='rowIndex'
                             data={ this.state.data }
