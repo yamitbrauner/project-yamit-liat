@@ -103,8 +103,8 @@ class SecurityTests {
 	// Login with simple user and trying the token on ADMIN url (return 403 status)
 	@Test
 	void userAttemptingAccessAdminUrl() throws Exception {
-		final String USERNAME = "noga1212@gmail.com";
-		final String PASSWORD = "1234";
+		final String USERNAME = "noyamit1212@walla.com";
+		final String PASSWORD = "654321";
 		// Login
 		loginResponseDto loginResponse = getUserToken(USERNAME, PASSWORD);
 
@@ -123,8 +123,8 @@ class SecurityTests {
 	// Login with one user and trying the token on other user url (return 403 status)
 	@Test
 	void userAttemptingAccessOtherUserUrl() throws Exception {
-		final String USERNAME = "noga1212@gmail.com";
-		final String PASSWORD = "1234";
+		final String USERNAME = "noyamit1212@walla.com";
+		final String PASSWORD = "654321";
 
 		// Login
 		loginResponseDto loginResponse = getUserToken(USERNAME, PASSWORD);

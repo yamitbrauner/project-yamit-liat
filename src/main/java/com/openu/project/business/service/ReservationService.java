@@ -6,12 +6,12 @@ import com.openu.project.business.service.payPalPayment.ReservationStatusEnum;
 import com.openu.project.data.entity.Reservation;
 import com.openu.project.data.repository.ReservationRepository;
 import com.openu.project.data.repository.UserRepository;
-import com.openu.project.exception.ReservationConfirmError;
+import com.openu.project.exception.ApiGatewayException;
 import com.openu.project.exception.exceptionsList.PaymentAlreadyCaptured;
 
 import com.openu.project.exception.exceptionsList.PaymentIdDosentExist;
+import com.openu.project.exception.exceptionsList.ReservationConfirmError;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import com.openu.project.data.entity.Users;
 
@@ -86,7 +86,7 @@ public class ReservationService {
         return dbReservation;
     }
 
-    public Reservation confirmReservation(int reservationId, String paymentId) throws ReservationConfirmError{
+    public Reservation confirmReservation(int reservationId, String paymentId) throws ApiGatewayException {
 
         // TODO: Add checkers
         // 1. dates, user id, total prince?!

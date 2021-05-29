@@ -37,29 +37,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String SIGN_UP_URL = "/api/services/controller/user";
 
-
-
-//    private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-//            new AntPathRequestMatcher("/category/**")
-//    );
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/category").hasAnyRole("ADMIN" , "USER")
-//                .antMatchers("/products").hasAnyRole("ADMIN" , "USER")
-//                .antMatchers("/*").permitAll()
-//                .and().formLogin();
-//    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,57 +58,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Authentication filter, this will intercept request path for login ("/login").
                 .addFilter(new UUIDAuthenticationFilter(authenticationManager(), userService))
                 .addFilter(new UUIDAuthorizationFilter(authenticationManager(), userService))
-                // Authorization filter to check jwt validity.
                 // This disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-//        http.cors().and()
-//                .authorizeRequests().antMatchers("/category/**").permitAll().anyRequest().authenticated()
-//                .and()
-//                .authorizeRequests()
-//                //.antMatchers("/**").permitAll()
-//                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService))
-//                // this disables session creation on Spring Security
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-//        http
-//                .sessionManagement()
-//                .sessionCreationPolicy(STATELESS)
-//                .and()
-//                .exceptionHandling()
-//                .defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
-//                .and()
-//                .authorizeRequests()
-//                .requestMatchers(PROTECTED_URLS)
-//                .authenticated()
-//                .and()
-//                .csrf().disable()
-//                .httpBasic().disable()
-//                .logout().disable()
-//                .formLogin();//.disable();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 
 
     @Bean
@@ -137,6 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+
 
         CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
         source.registerCorsConfiguration("/**", corsConfiguration);

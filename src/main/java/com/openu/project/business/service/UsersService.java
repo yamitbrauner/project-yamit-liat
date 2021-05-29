@@ -4,8 +4,7 @@ import com.openu.project.business.domain.CreateNewUserDto;
 import com.openu.project.business.domain.UpdateUserDto;
 import com.openu.project.data.entity.Users;
 import com.openu.project.data.repository.UserRepository;
-import com.openu.project.exception.ResourceNotFoundException;
-import com.openu.project.exception.UpdateTable;
+import com.openu.project.exception.ApiGatewayException;
 import com.openu.project.exception.exceptionsList.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +75,7 @@ public class UsersService {
         this.userRepository.save(newUser);
     }
 
-    public Iterable<Users> getUsers() {         return userRepository.findAll();
-    }
+    public Iterable<Users> getUsers() { return userRepository.findAll(); }
 
     public void updateUserAutoKey(String email, String autoKey)
     {
@@ -92,17 +90,17 @@ public class UsersService {
         return userRepository.findByMail(mail).iterator().next();
     }
 
-    public String getMailByUserId(Integer userId)
+    public String getMailByUserId(Integer userId) throws ApiGatewayException
     {
         Users user =  userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException());
+                () -> new NoSuchUser());
         return user.getMail();
     }
 
-    public String getFirstNameByUserId(Integer userId)
+    public String getFirstNameByUserId(Integer userId) throws ApiGatewayException
     {
         Users user =  userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException());
+                () -> new NoSuchUser());
         return user.getFirstName();
     }
 
@@ -115,14 +113,14 @@ public class UsersService {
         return user;
     }
 
-    public void updateUser(UpdateUserDto user, Integer userId) throws UpdateTable {
+    public void updateUser(UpdateUserDto user, Integer userId) throws ApiGatewayException {
         Users userOld = userRepository.findByUserId(userId);
-        if (userOld == null) throw new UpdateTable();
+        if (userOld == null) throw new NoSuchUser();
         fillNewUserToOld(userOld, user);
         userRepository.save(userOld);
     }
 
-    private void fillNewUserToOld(Users userOld, UpdateUserDto userNew) {
+    private void fillNewUserToOld(Users userOld, UpdateUserDto userNew) throws ApiGatewayException {
 
         if(userNew.getFirstName().length()  <= 0)
         {

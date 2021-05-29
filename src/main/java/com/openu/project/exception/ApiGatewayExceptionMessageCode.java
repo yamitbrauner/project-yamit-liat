@@ -12,6 +12,10 @@ public class ApiGatewayExceptionMessageCode
     public static final int  BadPhoneNumber = 125;
     public static final int  BadAddress = 126;
 
+    public static final int NoSuchUser = 130;
+    public static final int NoSuchProduct = 131;
+
+    public static final int reservationConfirmError = 140;
 
     public static final int paymentAlreadyCaptured = 200;
     public static final int paymentIdDosentExist = 201;

@@ -11,9 +11,13 @@ public class ApiGatewayExceptionMassage {
     public static final String BadPhoneNumber = "Bad phone number";
     public static final String BadAddress     = "Bad address";
 
+    public static final String NoSuchUser     = "No such user";
+    public static final String NoSuchProduct = "No such product";
+
+    public static final String reservationConfirmError = "Reservation confirm error";
+
     public static final String paymentAlreadyCaptured = "Payment already captured";
     public static final String paymentIdDosentExist = "Payment id dosent Exist";
-
 
 }
 
