@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 @Getter
-public class BadPhoneNumber extends ApiGatewayException {
-    public BadPhoneNumber() {
-        super(ApiGatewayExceptionMessageCode.BadPhoneNumber, ApiGatewayExceptionMassage.BadPhoneNumber);
+public class ProductDosentExistOrInUse extends ApiGatewayException {
+    public ProductDosentExistOrInUse() {
+        super(ApiGatewayExceptionMessageCode.productDosentExistOrInUse, ApiGatewayExceptionMassage.productDosentExistOrInUse);
     }
 }

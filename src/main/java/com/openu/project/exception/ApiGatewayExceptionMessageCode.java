@@ -12,14 +12,21 @@ public class ApiGatewayExceptionMessageCode
     public static final int  BadPhoneNumber = 125;
     public static final int  BadAddress = 126;
 
-    public static final int NoSuchUser = 130;
-    public static final int NoSuchProduct = 131;
+    public static final int badProductName = 130;
 
-    public static final int reservationConfirmError = 140;
+    public static final int NoSuchUser = 140;
+    public static final int NoSuchProduct = 141;
 
-    public static final int fileAlreadyExists = 150;
+    public static final int noSuchCategory = 150;
+
+    public static final int reservationConfirmError = 170;
+
+    public static final int fileAlreadyExists = 180;
+
 
     public static final int paymentAlreadyCaptured = 200;
     public static final int paymentIdDosentExist = 201;
+
+    public static final int productDosentExistOrInUse = 210;
 
 }

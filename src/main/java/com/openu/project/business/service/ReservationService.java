@@ -76,8 +76,6 @@ public class ReservationService {
         // TODO: Add checkers
         // 1. dates, user id, total prince?!
         Reservation dbReservation = new Reservation();
-        // TODO: set payment id in confirm
-        //dbReservation.setPaymentId(newReservation.getPaymentId());
         dbReservation.setTotal(newReservation.getTotalPrice());
         dbReservation.setReservationDate(newReservation.getReservationDate());
         dbReservation.setDeliveryDate(newReservation.getDeliveryDate());

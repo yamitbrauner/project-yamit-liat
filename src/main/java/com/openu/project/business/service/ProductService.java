@@ -1,11 +1,13 @@
 package com.openu.project.business.service;
 
+import com.openu.project.data.entity.Category;
+import com.openu.project.data.entity.Users;
 import com.openu.project.exception.ApiGatewayException;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.repository.CategoryRepository;
 import com.openu.project.data.repository.ProductRepository;
 
-import com.openu.project.exception.exceptionsList.NoSuchProduct;
+import com.openu.project.exception.exceptionsList.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,10 +71,21 @@ public class ProductService {
     // TODO: add check for product post
     public void createProduct(Product product) {
         if (product.getProdName().length() == 0) {
-            // empty product name
-            return;
+            throw new BadProductName();
         }
-        this.productRepository.save(product);
+
+        this.categoryRepository.findById(product.getCategoryId())
+                .orElseThrow(
+                        () -> new NoSuchCategory());
+
+        try {
+            this.productRepository.save(product);
+        }
+        catch (Exception e)
+        {
+
+        }
+
     }
 
 
@@ -111,7 +124,11 @@ public class ProductService {
     }
 
     public void deleteProduct(Integer productId) {
-        this.productRepository.deleteById(productId);
-        // Todo: return error when fail
+        try{
+            this.productRepository.deleteById(productId);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            throw new ProductDosentExistOrInUse();
+        }
     }
 }

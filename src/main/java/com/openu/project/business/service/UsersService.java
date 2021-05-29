@@ -106,7 +106,6 @@ public class UsersService {
 
     public Users getUserDetailsByToken(String token)
     {
-        // Todo: Fix names as we actually look for email
         Iterable<Users> users = userRepository.findByToken(token);
         if(!users.iterator().hasNext()) return null;
         Users user = users.iterator().next();

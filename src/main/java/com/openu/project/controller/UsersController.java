@@ -24,7 +24,6 @@ public class UsersController {
         userService.createUser(newUser);
     }
 
-    // TODO: Update per user control
     @PutMapping("/user/{userId}/updateUserDetail")
     public void updateUser(@RequestBody UpdateUserDto user,
                                                          @PathVariable("userId") Integer userId) throws ApiGatewayException {

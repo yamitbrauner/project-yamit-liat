@@ -20,6 +20,6 @@ public class CronTasks {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date now = new Date();
         String strDate = sdf.format(now);
-        System.out.println("Java cron job expression:: " + strDate);
+        System.out.println("Mailing cron job :: " + strDate);
     }
 }
