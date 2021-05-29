@@ -19,14 +19,6 @@ import java.util.ArrayList;
 
 public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public static final String HEADER_STRING = "Authorization";
-    public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String ADMIN_URL = "/admin/";
-    public static final String ADMIN_SECTION_URL_PREFIX = "admin";
-    public static final int ADMIN_ROLE = 1;
-    public static final String USER_URL = "/user/";
-    public static final int USER_SECTION_IDX = 2;
-
     private UsersService userService;
 
     @Autowired
@@ -39,18 +31,18 @@ public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(HEADER_STRING);
+        String header = req.getHeader(SecurityUrls.HEADER_STRING);
 
         String reqUrl = req.getRequestURI().toString();
-        if (reqUrl.startsWith(USER_URL) || reqUrl.startsWith(ADMIN_URL) ) {
-            if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+        if (reqUrl.startsWith(SecurityUrls.USER_URL) || reqUrl.startsWith(SecurityUrls.ADMIN_URL) ) {
+            if (header == null || !header.startsWith(SecurityUrls.TOKEN_PREFIX)) {
                 chain.doFilter(req, res);
                 return;
             }
 
-            String userUrlSection = ADMIN_SECTION_URL_PREFIX;
-            if (reqUrl.startsWith(USER_URL)) {
-                userUrlSection = reqUrl.split("/")[USER_SECTION_IDX];
+            String userUrlSection = SecurityUrls.ADMIN_SECTION_URL_PREFIX;
+            if (reqUrl.startsWith(SecurityUrls.USER_URL)) {
+                userUrlSection = reqUrl.split("/")[SecurityUrls.USER_SECTION_IDX];
             }
 
             UsernamePasswordAuthenticationToken authentication = getAuthentication(req, userUrlSection);
@@ -64,20 +56,21 @@ public class UUIDAuthorizationFilter extends BasicAuthenticationFilter {
     // Token owner is admin and trying to access admin zone
     // Token owner is trying to access his own user section
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String userUrlSection) {
-        String token = request.getHeader(HEADER_STRING);
+        String token = request.getHeader(SecurityUrls.HEADER_STRING);
 
         if (token != null) {
-            Users userEntry = userService.getUserDetailsByToken(token.replace(TOKEN_PREFIX, ""));
+            Users userEntry = userService.getUserDetailsByToken(token.replace(SecurityUrls.TOKEN_PREFIX, ""));
             // If no user have this token.
             if (null == userEntry) return null;
 
             Integer tokenOwnerUserId = userEntry.getUserId();
-            boolean isUserAdmin = userEntry.getRoleId() == ADMIN_ROLE;
+            boolean isUserAdmin = userEntry.getRoleId() == SecurityUrls.ADMIN_ROLE;
 
             // Grant Authentication token if accessing user specific url and is the correct user
             // OR
             // Grant Authentication token if accessing admin url and user is admin
-            if (userUrlSection.equals(ADMIN_SECTION_URL_PREFIX) ?
+            if (userUrlSection.equals(SecurityUrls.
+                    ADMIN_SECTION_URL_PREFIX) ?
                     isUserAdmin :
                     Integer.parseInt(userUrlSection) == tokenOwnerUserId) {
                 return new UsernamePasswordAuthenticationToken(tokenOwnerUserId, null, new ArrayList<>());

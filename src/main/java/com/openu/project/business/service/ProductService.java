@@ -1,10 +1,11 @@
 package com.openu.project.business.service;
 
-import com.openu.project.exception.UpdateTable;
+import com.openu.project.exception.ApiGatewayException;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.repository.CategoryRepository;
 import com.openu.project.data.repository.ProductRepository;
 
+import com.openu.project.exception.exceptionsList.NoSuchProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,9 +76,9 @@ public class ProductService {
     }
 
 
-    public void updateProduct(Product product, Integer productId) throws UpdateTable {
+    public void updateProduct(Product product, Integer productId) throws ApiGatewayException {
         Product productOld = productRepository.findByProdId(productId);
-        if (productOld == null) throw new UpdateTable();
+        if (productOld == null) throw new NoSuchProduct();
         fillNewProductToOld(productOld, product);
         productRepository.save(productOld);
     }
