@@ -16,6 +16,7 @@ public class ApiGatewayExceptionMassage {
 
     public static final String reservationConfirmError = "Reservation confirm error";
 
+    public static final String fileAlreadyExists = "File already exists";
     public static final String paymentAlreadyCaptured = "Payment already captured";
     public static final String paymentIdDosentExist = "Payment id dosent Exist";
 
