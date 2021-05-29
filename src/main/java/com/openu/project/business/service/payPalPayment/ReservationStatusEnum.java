@@ -1,8 +1,8 @@
 package com.openu.project.business.service.payPalPayment;
 
 public enum ReservationStatusEnum {
-    ALREADY_CAPTURED(false, "REJECTED"),
-    PAYMENT_ID_NOT_FOUND(false, "REJECTED"),
+    ALREADY_CAPTURED(false, "REJECTED_CAPTURED"),
+    PAYMENT_ID_NOT_FOUND(false, "REJECTED_NOT_FOUND"),
     REJECTED(false, "REJECTED"),
     CONNECTION_ISSUE(false, "PENDING"),
     PENDING(false, "PENDING"),

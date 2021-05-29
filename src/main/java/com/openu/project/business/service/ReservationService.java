@@ -101,7 +101,7 @@ public class ReservationService {
         if (this.reservationRepository.findByPaymentId(paymentId).size() != 0)
         {
             // Payment already exist on DB
-            reservation.setStatus(ReservationStatusEnum.REJECTED.getMessage());
+            reservation.setStatus(ReservationStatusEnum.ALREADY_CAPTURED.getMessage());
             this.reservationRepository.save(reservation);
             throw new PaymentAlreadyCaptured();
         }
