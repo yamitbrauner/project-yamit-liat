@@ -15,19 +15,12 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/public/getAllCategory")
-    public Iterable<Category> getCategory() {
+    public Iterable<Category> getAllCategory() {
         return this.categoryService.getCategory();
     }
 
-    @PostMapping("/admin/category")
+    @PostMapping("/admin/createCategory")
     public void createCategory(@RequestBody Category newCategory) {
         categoryService.createCategory(newCategory);
     }
-
-    // TODO: This is only for debug purpose
-    @PostMapping("/user/liat.arama1@gmail.com")
-    public Iterable<Category> liatTest() {
-        return this.categoryService.getCategory();
-    }
-
 }

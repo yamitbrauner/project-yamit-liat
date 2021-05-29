@@ -21,7 +21,6 @@ public class ImageController {
     public void saveImage(@RequestParam MultipartFile multipartImage, @RequestParam Integer category) throws IOException {
         multipartImage.getName();
         String originalFilename = multipartImage.getOriginalFilename();
-        // Todo: check return value
         this.imageService.savePhotoService(multipartImage.getBytes(), originalFilename, category.toString());
     }
 }

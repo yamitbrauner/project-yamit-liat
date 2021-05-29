@@ -17,6 +17,8 @@ public class ApiGatewayExceptionMessageCode
 
     public static final int reservationConfirmError = 140;
 
+    public static final int fileAlreadyExists = 150;
+
     public static final int paymentAlreadyCaptured = 200;
     public static final int paymentIdDosentExist = 201;
 
