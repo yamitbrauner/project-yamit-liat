@@ -1,6 +1,6 @@
 package com.openu.project.business.domain;
 
-public class ProductInStock {
+public class ProductInStockDto {
     private int prodId;
     private int categoryId;
     private String prodName;

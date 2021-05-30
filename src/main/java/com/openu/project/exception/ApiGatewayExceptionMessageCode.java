@@ -26,6 +26,7 @@ public class ApiGatewayExceptionMessageCode
 
     public static final int paymentAlreadyCaptured = 200;
     public static final int paymentIdDosentExist = 201;
+    public static final int paymentConflictSum = 202;
 
     public static final int productDosentExistOrInUse = 210;
 

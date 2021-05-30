@@ -61,7 +61,6 @@ public class UUIDAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         String username = userDetails.getUsername();
 
         // ADD here token service.
-        // TODO: UPDATE EXPIRE DATE
         userService.updateUserAutoKey(username,uuid);
 
         Users user = userService.getUserByMail(username);

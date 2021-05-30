@@ -9,6 +9,7 @@ import com.openu.project.data.repository.UserRepository;
 import com.openu.project.exception.ApiGatewayException;
 import com.openu.project.exception.exceptionsList.PaymentAlreadyCaptured;
 
+import com.openu.project.exception.exceptionsList.PaymentConflictSum;
 import com.openu.project.exception.exceptionsList.PaymentIdDosentExist;
 import com.openu.project.exception.exceptionsList.ReservationConfirmError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ import java.util.Iterator;
 @Service
 public class ReservationService {
     @Autowired
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    PurchaseService purchaseService;
+    private PurchaseService purchaseService;
     @Autowired
     private EmailService emailService;
     @Autowired
@@ -59,11 +60,6 @@ public class ReservationService {
     }
 
     private void fillNewReservationToOld(Reservation reservationOld, Reservation reservation) {
-//        SimpleDateFormat format = new SimpleDateFormat("DD/MM/YYYY");
-//        Date newReservationDate = format.parse(reservation.getReservationDate());
-//        Date newDeliveryDate = format.parse("20110210");
-//        java.sql.Date sql = new java.sql.Date(parsed.getTime());
-
         reservationOld.setTotal(reservation.getTotal());
         reservationOld.setPaymentId(reservation.getPaymentId());
         reservationOld.setReservationDate(reservation.getReservationDate());
@@ -71,10 +67,8 @@ public class ReservationService {
         reservationOld.setStatus(reservation.getStatus());
     }
 
-    public Reservation createReservation(CreateNewReservation newReservation) {
+    public Reservation createReservation(CreateNewReservationDto newReservation) {
 
-        // TODO: Add checkers
-        // 1. dates, user id, total prince?!
         Reservation dbReservation = new Reservation();
         dbReservation.setTotal(newReservation.getTotalPrice());
         dbReservation.setReservationDate(newReservation.getReservationDate());
@@ -86,8 +80,6 @@ public class ReservationService {
 
     public Reservation confirmReservation(int reservationId, String paymentId) throws ApiGatewayException {
 
-        // TODO: Add checkers
-        // 1. dates, user id, total prince?!
         Reservation reservation = this.reservationRepository.findByReservationId(reservationId);
         reservation.setPaymentId(paymentId);
 
@@ -106,7 +98,7 @@ public class ReservationService {
 
         try
         {
-            ReservationStatusEnum reservationStatusEnum = this.getPayPalOrderStatus.getOrderStatus(paymentId);
+            ReservationStatusEnum reservationStatusEnum = this.getPayPalOrderStatus.getOrderStatus(paymentId, totalReservationSum);
             reservation.setStatus(reservationStatusEnum.getMessage());
 
             this.reservationRepository.save(reservation);
@@ -123,6 +115,10 @@ public class ReservationService {
                 if (reservationStatusEnum.equals(ReservationStatusEnum.PAYMENT_ID_NOT_FOUND)) {
                     throw new PaymentIdDosentExist();
                 }
+
+                if (reservationStatusEnum.equals(ReservationStatusEnum.CONFLICT_SUM)) {
+                    throw new PaymentConflictSum();
+                }
             }
         } catch (IOException e)
         {
@@ -136,16 +132,16 @@ public class ReservationService {
         return reservation;
     }
 
-    public ArrayList<FullReservation> getFullReservationDetails(Iterator<Reservation> reservationIterator)
+    public ArrayList<FullReservationDto> getFullReservationDetails(Iterator<Reservation> reservationIterator)
     {
-        ArrayList<FullReservation> fullReservationArrayList = new ArrayList<>();
+        ArrayList<FullReservationDto> fullReservationArrayList = new ArrayList<>();
         while (reservationIterator.hasNext())
         {
             Reservation reservation = reservationIterator.next();
-            ArrayList<ProductsForCart>  productsForCartArrayList =
+            ArrayList<ProductsForCartDto>  productsForCartArrayList =
                     this.purchaseService.getProductsByReservation(reservation.getReservationId());
 
-            FullReservation fullReservation = new FullReservation();
+            FullReservationDto fullReservation = new FullReservationDto();
             fullReservation.setReservation(reservation);
             fullReservation.setProductIterable(productsForCartArrayList);
             fullReservationArrayList.add(fullReservation);
@@ -153,7 +149,7 @@ public class ReservationService {
         return fullReservationArrayList;
     }
 
-    public ArrayList<FullReservation> getFullReservation(Integer userId)
+    public ArrayList<FullReservationDto> getFullReservation(Integer userId)
     {
         Iterable<Reservation> userReservation = getReservationByUserId(userId);
         Iterator<Reservation> reservationIterator = userReservation.iterator();
@@ -161,15 +157,15 @@ public class ReservationService {
 
     }
 
-    public ArrayList<UserFullReservation> getAllUsersFullReservation() {
+    public ArrayList<UserFullReservationDto> getAllUsersFullReservation() {
 
-        ArrayList<UserFullReservation> allUserFullReservation = new ArrayList<>();
+        ArrayList<UserFullReservationDto> allUserFullReservation = new ArrayList<>();
         Iterable<Users> usersIterable = this.userRepository.findAll();
         Iterator<Users> usersIterator = usersIterable.iterator();
 
         while (usersIterator.hasNext())
         {
-            UserFullReservation userFullReservation = new UserFullReservation();
+            UserFullReservationDto userFullReservation = new UserFullReservationDto();
 
             Users user = usersIterator.next();
             // Set user details
@@ -183,7 +179,7 @@ public class ReservationService {
             // Set user cart
             Iterable<Reservation> reservations =
                     this.reservationRepository.findByUserId(user.getUserId());
-            ArrayList<FullReservation> fullReservations =
+            ArrayList<FullReservationDto> fullReservations =
                     getFullReservationDetails(reservations.iterator());
             userFullReservation.setUserCart(fullReservations);
 
@@ -205,7 +201,7 @@ public class ReservationService {
             String userMail = this.usersService.getMailByUserId(reservation.getUserId());
             String firstName = this.usersService.getFirstNameByUserId(reservation.getUserId());
 
-            ArrayList<ProductsForCart> purchases = this.purchaseService.getProductsByReservation(reservation.getReservationId());
+            ArrayList<ProductsForCartDto> purchases = this.purchaseService.getProductsByReservation(reservation.getReservationId());
 
             try{
                 emailService.sendMessageUsingThymeleafTemplate(userMail, purchases, firstName,reservation.getReservationId());

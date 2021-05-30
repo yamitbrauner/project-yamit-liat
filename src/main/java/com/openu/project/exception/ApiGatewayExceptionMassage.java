@@ -23,6 +23,7 @@ public class ApiGatewayExceptionMassage {
     public static final String fileAlreadyExists = "File already exists";
     public static final String paymentAlreadyCaptured = "Payment already captured";
     public static final String paymentIdDosentExist = "Payment id dosent Exist";
+    public static final String paymentConflictSum = "Payment total sum is not the same as reported on paypal payment";
 
 
     public static final String productDosentExistOrInUse = "Product dosent exist or in use";

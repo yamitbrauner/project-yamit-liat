@@ -1,8 +1,8 @@
 package com.openu.project.controller;
 
-import com.openu.project.business.domain.CreateNewReservation;
-import com.openu.project.business.domain.FullReservation;
-import com.openu.project.business.domain.UserFullReservation;
+import com.openu.project.business.domain.CreateNewReservationDto;
+import com.openu.project.business.domain.FullReservationDto;
+import com.openu.project.business.domain.UserFullReservationDto;
 import com.openu.project.business.service.ReservationService;
 import com.openu.project.data.entity.Reservation;
 
@@ -23,7 +23,7 @@ public class ReservationController {
 
 
     @PostMapping("/user/{userId}/createNewReservation")
-    public Reservation createNewReservation(@RequestBody CreateNewReservation newReservation) {
+    public Reservation createNewReservation(@RequestBody CreateNewReservationDto newReservation) {
         return reservationService.createReservation(newReservation);
     }
 
@@ -35,31 +35,28 @@ public class ReservationController {
 
 
     @GetMapping("/user/{userId}/getFullUserReservation")
-    public ArrayList<FullReservation> getUserFullReservation(@PathVariable("userId") Integer userId) {
+    public ArrayList<FullReservationDto> getUserFullReservation(@PathVariable("userId") Integer userId) {
         return this.reservationService.getFullReservation(userId);
     }
 
 
     @GetMapping("/admin/allUsersFullReservation")
-    public ArrayList<UserFullReservation> getAllUsersFullReservation()
+    public ArrayList<UserFullReservationDto> getAllUsersFullReservation()
     {
         return this.reservationService.getAllUsersFullReservation();
     }
 
-    // The following services currently not in use
-    // TODO: User specific api
+    // The following services currently not in use, with no access (filter by authorization)
     @GetMapping("/reservation/getById/{userId}")
     public Iterable<Reservation> getReservationByUserId(@PathVariable("userId") Integer userId){
         return this.reservationService.getReservationByUserId(userId);
     }
 
-    // TODO: User specific api
     @GetMapping("/reservation/getByMail/{mail}")
     public Iterable<Reservation> getReservationByMail(@PathVariable("mail") String mail){
         return this.reservationService.getReservationByMail(mail);
     }
 
-    // TODO: User specific api
     @PutMapping("/reservation/{reservationId}")
     public void updateReservation(@RequestBody Reservation reservation,
                                   @PathVariable("reservationId") Integer reservationId){

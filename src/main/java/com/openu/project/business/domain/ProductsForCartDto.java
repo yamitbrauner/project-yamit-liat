@@ -1,6 +1,6 @@
 package com.openu.project.business.domain;
 
-public class ProductsForCart {
+public class ProductsForCartDto {
 
     private String prodName;
     private float pricePerUnit;

@@ -20,9 +20,6 @@ class SecurityTests {
 	@Autowired
 	private MockMvc mvc;
 
-//	@Autowired
-//	private TestRestTemplate restTemplate;
-
 	public loginResponseDto getUserToken(String username, String password) throws Exception {
 		final String SIGN_IN_URL = "/api/services/controller/user/login";
 
@@ -40,9 +37,10 @@ class SecurityTests {
 		String response = result.getResponse().getContentAsString();
 		//System.out.println(result.getResponse().getContentAsString());
 
-		loginResponseDto loginResponse = new loginResponseDto();
 		String userId = JsonPath.parse(response).read("userId").toString();
 		String token = JsonPath.parse(response).read("token").toString();
+
+		loginResponseDto loginResponse = new loginResponseDto();
 		loginResponse.setToken(token);
 		loginResponse.setUserId(userId);
 		return loginResponse;
@@ -102,7 +100,7 @@ class SecurityTests {
 
 	// Login with simple user and trying the token on ADMIN url (return 403 status)
 	@Test
-	void userAttemptingAccessAdminUrl() throws Exception {
+	void userAttemptingAccessAdminUrlTest() throws Exception {
 		final String USERNAME = "noyamit1212@walla.com";
 		final String PASSWORD = "654321";
 		// Login
@@ -122,14 +120,14 @@ class SecurityTests {
 
 	// Login with one user and trying the token on other user url (return 403 status)
 	@Test
-	void userAttemptingAccessOtherUserUrl() throws Exception {
+	void userAttemptingAccessOtherUserUrlTest() throws Exception {
 		final String USERNAME = "noyamit1212@walla.com";
 		final String PASSWORD = "654321";
 
 		// Login
 		loginResponseDto loginResponse = getUserToken(USERNAME, PASSWORD);
 
-		String otherUserId = loginResponse.userId.equals("1") ? "2" : "1";
+		String otherUserId = loginResponse.userId.equals("4") ? "3" : "4";
 
 		// 2nd test phase, Authorize User specific zone
 		final String USER_RESERVATION_URL = "/user/" + otherUserId + "" + "/getFullUserReservation";

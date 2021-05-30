@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// Default DB token 152315789
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ReservationTests {
@@ -74,6 +73,7 @@ public class ReservationTests {
         Gson gson = new Gson();
         String reservationJson = gson.toJson(newReservation);
 
+        // Sending reservation details as part of the body
         MvcResult result = mvc.perform(post(NEW_RESERVATION_URL)
                 .contentType(MediaType.APPLICATION_JSON).content(reservationJson)
                 .header("Authorization", "Bearer " + token))
@@ -132,7 +132,7 @@ public class ReservationTests {
         Integer cakePrice = 95;
         Integer cakeQuantity = 2;
         Integer cakeId = 1;
-        String alreadyInTablePaymentId = "152315789";
+        String alreadyInTablePaymentId = "79U68038JT782880L";
 
         loginResponseDto loginResponse = getUserToken(USERNAME, PASSWORD);
 
@@ -168,7 +168,6 @@ public class ReservationTests {
         Integer cakePrice = 95;
         Integer cakeQuantity = 2;
         Integer cakeId = 1;
-        String alreadyInTablePaymentId = "152315789";
 
         loginResponseDto loginResponse = getUserToken(USERNAME, PASSWORD);
 
@@ -180,7 +179,7 @@ public class ReservationTests {
         // Product id #1 cost 95
         CreateNewPurchase(loginResponse.token,loginResponse.userId, reservationId);
 
-        int length = 10;
+        int length = 17;
         String generatedString = RandomString.make(length);
 
         confirmReservationWithPaymentOnDb(loginResponse.token, loginResponse.userId, reservationId, generatedString);

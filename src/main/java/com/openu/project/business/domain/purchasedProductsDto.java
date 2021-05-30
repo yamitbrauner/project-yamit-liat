@@ -1,6 +1,6 @@
 package com.openu.project.business.domain;
 
-public class purchasedProducts
+public class purchasedProductsDto
 {
     String productName;
     Integer amount;

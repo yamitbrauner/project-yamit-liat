@@ -38,13 +38,13 @@ public class ProductController {
         productService.updateProductQuantity(productId, product);
     }
 
-    // The following services currently not in use
-    @GetMapping("/public/getAllProductInStock")
+    // The following services currently not in use, with no access (filter by authorization)
+    @GetMapping("/admin/getAllProductInStock")
     public Iterable<Product> getProductInStock() {
         return this.productService.getProductInStock();
     }
 
-    @GetMapping("/public/getProductByProdId")
+    @GetMapping("/admin/getProductByProdId")
     public Product getProductByProductId(@RequestParam Integer productId){
         return  this.productService.getProductByProduct(productId);
     }
@@ -55,7 +55,7 @@ public class ProductController {
         productService.incProductQuantity(productId, quantity);
     }
 
-    @GetMapping("/public/isProductInStockById")
+    @GetMapping("/admin/isProductInStockById")
     public Boolean isProductInStock(@RequestParam Integer productId){
         return this.productService.isProductInStock(productId);
     }

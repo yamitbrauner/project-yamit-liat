@@ -45,18 +45,6 @@ public class ProductService {
 
     public Iterable<Product> getProductInStock(){
         return this.productRepository.findByQuantityInStockGreaterThan(0);
-//        Iterable<Product> allProducts = this.productRepository.findAll();
-//        ArrayList<Product> productsInStock =  new ArrayList<Product>();
-//
-//        Iterator<Product> iter = allProducts.iterator();
-//
-//        while (iter.hasNext()) {
-//            Product currProd = iter.next();
-//            if (currProd.getQuantityInStock() > 0) {
-//                productsInStock.add(currProd);
-//            }
-//        }
-//        return productsInStock;
     }
 
 
@@ -68,7 +56,6 @@ public class ProductService {
         return this.productRepository.findByProdId(productId);
     }
 
-    // TODO: add check for product post
     public void createProduct(Product product) {
         if (product.getProdName().length() == 0) {
             throw new BadProductName();
@@ -83,7 +70,8 @@ public class ProductService {
         }
         catch (Exception e)
         {
-
+            System.out.println(e.getMessage());
+            throw e;
         }
 
     }

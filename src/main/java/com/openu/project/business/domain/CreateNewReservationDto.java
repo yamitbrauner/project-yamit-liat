@@ -2,7 +2,7 @@ package com.openu.project.business.domain;
 
 import java.util.Date;
 
-public class CreateNewReservation {
+public class CreateNewReservationDto {
     private int userId;
     private float totalPrice;
     private String paymentId;

@@ -35,7 +35,7 @@ public class UsersService {
             throw new UserMailAlreadyExist();
         }
 
-        // Check if mail format is crrect
+        // Check if mail format is correct
         try {
             InternetAddress emailAddr = new InternetAddress(newUserDto.getMail());
             emailAddr.validate();

@@ -4,9 +4,9 @@ import com.openu.project.data.entity.Reservation;
 
 import java.util.ArrayList;
 
-public class FullReservation {
+public class FullReservationDto {
     Reservation reservation;
-    ArrayList<ProductsForCart> productIterable;
+    ArrayList<ProductsForCartDto> productIterable;
 
     public Reservation getReservation() {
         return reservation;
@@ -16,11 +16,11 @@ public class FullReservation {
         this.reservation = reservation;
     }
 
-    public ArrayList<ProductsForCart> getProductIterable() {
+    public ArrayList<ProductsForCartDto> getProductIterable() {
         return productIterable;
     }
 
-    public void setProductIterable(ArrayList<ProductsForCart> productIterable) {
+    public void setProductIterable(ArrayList<ProductsForCartDto> productIterable) {
         this.productIterable = productIterable;
     }
 }

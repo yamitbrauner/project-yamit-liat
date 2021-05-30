@@ -1,9 +1,8 @@
 package com.openu.project.business.service;
 
-import com.openu.project.business.domain.ProductsForCart;
+import com.openu.project.business.domain.ProductsForCartDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -11,8 +10,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -70,7 +67,7 @@ public class EmailService {
         emailSender.send(message);
     }
 
-    //template
+    //simple template
     @Bean
     public SimpleMailMessage templateReservation() {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -100,7 +97,7 @@ public class EmailService {
     }
 
     public void sendMessageUsingThymeleafTemplate(
-            String to, ArrayList<ProductsForCart> products, String firstName, Integer reservationId)
+            String to, ArrayList<ProductsForCartDto> products, String firstName, Integer reservationId)
             throws MessagingException {
 
         HashMap<String, Object> templateModel = new HashMap<String, Object>();

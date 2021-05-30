@@ -1,6 +1,6 @@
 package com.openu.project.business.service;
 
-import com.openu.project.business.domain.ProductsForCart;
+import com.openu.project.business.domain.ProductsForCartDto;
 import com.openu.project.data.entity.Product;
 import com.openu.project.data.entity.Purchase;
 import com.openu.project.data.repository.PurchaseRepository;
@@ -55,24 +55,19 @@ public class PurchaseService {
     }
 
     public void addNewPurchase(Purchase newPurchase) {
-        // TODO: Add checkers
-        //newPurchase.setPurchaseId();
-//        Purchase dupPurchase = new Purchase();
-//        dupPurchase.setReservationId(newPurchase.getReservationId());
-//        dupPurchase.setQuantity(newPurchase.getQuantity());
         this.purchaseRepository.save(newPurchase);
     }
 
 
-    public ArrayList<ProductsForCart> getProductsByReservation(int reservationId) {
+    public ArrayList<ProductsForCartDto> getProductsByReservation(int reservationId) {
         Iterable<Purchase> purchases = this.purchaseRepository.findByReservationId(reservationId);
-        ArrayList<ProductsForCart> productsForCarts = new ArrayList<ProductsForCart>();
+        ArrayList<ProductsForCartDto> productsForCarts = new ArrayList<ProductsForCartDto>();
 
         Iterator<Purchase> purchaseIterator = purchases.iterator();
         while (purchaseIterator.hasNext())
         {
             Purchase currPurchase = purchaseIterator.next();
-            ProductsForCart currProduct = new ProductsForCart();
+            ProductsForCartDto currProduct = new ProductsForCartDto();
             Product product = this.productService.getProductByProduct(currPurchase.getProdId());
             currProduct.setProdName(product.getProdName());
             currProduct.setPricePerUnit(product.getPricePerUnit());
